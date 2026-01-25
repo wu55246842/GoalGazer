@@ -1,0 +1,11 @@
+[
+  {
+    "title": "EPL Tactical Review: City 2-1 United",
+    "description": "A data-backed breakdown of how City controlled central zones and created higher quality shots.",
+    "date": "2024-01-20T18:00:00Z",
+    "matchId": "12345",
+    "slug": "2024-01-20_12345",
+    "teams": ["City", "United"],
+    "league": "epl"
+  }
+]

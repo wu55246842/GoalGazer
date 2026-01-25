@@ -1,0 +1,115 @@
+from __future__ import annotations
+
+from typing import List, Optional
+from pydantic import BaseModel, Field
+
+
+class MatchInfo(BaseModel):
+    id: str
+    date_utc: str
+    league: str
+    season: str
+    round: str
+    homeTeam: str
+    awayTeam: str
+    score: str
+    venue: str
+
+
+class TeamInfo(BaseModel):
+    id: str
+    name: str
+    side: str
+
+
+class PlayerStats(BaseModel):
+    passes_completed: Optional[int] = None
+    progressive_passes: Optional[int] = None
+    shots: Optional[int] = None
+    touches: Optional[int] = None
+
+
+class PlayerInfo(BaseModel):
+    id: str
+    name: str
+    teamId: str
+    position: str
+    minutes: int
+    stats: PlayerStats
+
+
+class EventQualifier(BaseModel):
+    bodyPart: Optional[str] = None
+    shotType: Optional[str] = None
+
+
+class Event(BaseModel):
+    type: str
+    teamId: str
+    playerId: Optional[str] = None
+    minute: int
+    second: int
+    x: float
+    y: float
+    endX: Optional[float] = None
+    endY: Optional[float] = None
+    outcome: Optional[str] = None
+    qualifiers: Optional[EventQualifier] = None
+
+
+class Aggregates(BaseModel):
+    possession: Optional[dict] = None
+    shots: Optional[dict] = None
+    shotsOnTarget: Optional[dict] = None
+    xG: Optional[dict] = None
+    passing: Optional[dict] = None
+    pressure: Optional[dict] = None
+
+
+class MatchData(BaseModel):
+    match: MatchInfo
+    teams: List[TeamInfo]
+    players: List[PlayerInfo]
+    events: List[Event]
+    aggregates: Aggregates
+
+
+class FigureMeta(BaseModel):
+    src_relative: str
+    alt: str
+    caption: str
+    width: int
+    height: int
+
+
+class LLMClaim(BaseModel):
+    claim: str
+    evidence: List[str]
+    confidence: float
+
+
+class LLMSection(BaseModel):
+    heading: str
+    bullets: List[str]
+    paragraphs: List[str]
+    claims: List[LLMClaim]
+
+
+class LLMPlayerNote(BaseModel):
+    player: str
+    team: str
+    summary: str
+    evidence: List[str]
+    rating: str
+
+
+class LLMOutput(BaseModel):
+    language: str = Field(default="en")
+    title: str
+    meta_description: str
+    tags: List[str]
+    thesis: str
+    sections: List[LLMSection]
+    player_notes: List[LLMPlayerNote]
+    data_limitations: List[str]
+    cta: str
