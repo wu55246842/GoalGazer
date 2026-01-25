@@ -1,0 +1,91 @@
+{
+  "frontmatter": {
+    "title": "EPL Tactical Review: City 2-1 United",
+    "description": "A data-backed breakdown of how City controlled central zones and created higher quality shots.",
+    "date": "2024-01-20T18:00:00Z",
+    "matchId": "12345",
+    "league": "epl",
+    "teams": ["City", "United"],
+    "tags": ["tactical-analysis", "pass-network", "shot-map"],
+    "heroImage": "/generated/matches/12345/shot_map.png"
+  },
+  "match": {
+    "id": "12345",
+    "date_utc": "2024-01-20T18:00:00Z",
+    "league": "EPL",
+    "season": "2023/24",
+    "round": "Round 20",
+    "homeTeam": "City",
+    "awayTeam": "United",
+    "score": "2-1",
+    "venue": "Example Stadium"
+  },
+  "sections": [
+    {
+      "heading": "Tactical Overview",
+      "paragraphs": [
+        "City built through a narrow midfield box, keeping possession in central zones and forcing United into a compact 4-4-2 mid-block.",
+        "United relied on direct transitions, but their shot quality came mostly from low xG attempts outside the box."
+      ],
+      "figures": [
+        {
+          "src": "/generated/matches/12345/pass_network_home.png",
+          "alt": "Pass network for City showing a dense midfield cluster.",
+          "caption": "City pass network (successful passes only).",
+          "width": 1600,
+          "height": 1000
+        }
+      ],
+      "bullets": [
+        "Possession: City 62%, United 38%",
+        "Shots: City 14, United 8",
+        "Shots on target: City 6, United 3"
+      ],
+      "claims": [
+        {
+          "claim": "City sustained possession through central triangles that limited United pressing outlets.",
+          "evidence": ["possession=62%", "passes_completed=510", "pass_network_dense_in_zone_14=true"],
+          "confidence": 0.78
+        }
+      ]
+    },
+    {
+      "heading": "Shot Selection",
+      "paragraphs": [
+        "City generated six shots from inside the box, including the two goals, while United attempted three long-range efforts without a goal.",
+        "The shot map shows City concentrating attempts in the right half-space, aligning with their primary overload lane."
+      ],
+      "figures": [
+        {
+          "src": "/generated/matches/12345/shot_map.png",
+          "alt": "Shot map showing City attempts clustered inside the box.",
+          "caption": "Shot map with goal outcomes highlighted.",
+          "width": 1600,
+          "height": 1000
+        }
+      ]
+    }
+  ],
+  "player_notes": [
+    {
+      "player": "Alex Midfielder",
+      "team": "City",
+      "summary": "Dictated tempo with frequent progressive passes into the final third.",
+      "evidence": ["progressive_passes=9", "touches=82"],
+      "rating": "A"
+    },
+    {
+      "player": "Jordan Forward",
+      "team": "United",
+      "summary": "Led United's counters but lacked support in the box.",
+      "evidence": ["shots=3", "touches_in_box=2"],
+      "rating": "B"
+    }
+  ],
+  "data_limitations": [
+    "xG not available from source; shot markers sized by distance only.",
+    "Defensive pressure events not provided in mock data."
+  ],
+  "data_citations": ["API-Football fixtures", "API-Football events", "Derived metrics: pass network"],
+  "cta": "Read more automated match reviews daily on GoalGazer."
+}

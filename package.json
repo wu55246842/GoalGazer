@@ -1,0 +1,14 @@
+{
+  "name": "goalgazer",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "pipeline": "tsx tools/pipeline/node/run_pipeline.ts",
+    "web:dev": "npm --prefix apps/web run dev",
+    "web:build": "npm --prefix apps/web run build"
+  },
+  "devDependencies": {
+    "tsx": "4.16.2",
+    "typescript": "5.5.4"
+  }
+}

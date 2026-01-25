@@ -1,0 +1,105 @@
+{
+  "match": {
+    "id": "12345",
+    "date_utc": "2024-01-20T18:00:00Z",
+    "league": "EPL",
+    "season": "2023/24",
+    "round": "Round 20",
+    "homeTeam": "City",
+    "awayTeam": "United",
+    "score": "2-1",
+    "venue": "Example Stadium"
+  },
+  "teams": [
+    {"id": "1", "name": "City", "side": "home"},
+    {"id": "2", "name": "United", "side": "away"}
+  ],
+  "players": [
+    {
+      "id": "p1",
+      "name": "Alex Midfielder",
+      "teamId": "1",
+      "position": "MF",
+      "minutes": 90,
+      "stats": {"passes_completed": 85, "progressive_passes": 9, "shots": 1, "touches": 82}
+    },
+    {
+      "id": "p2",
+      "name": "Chris Forward",
+      "teamId": "1",
+      "position": "FW",
+      "minutes": 90,
+      "stats": {"passes_completed": 18, "progressive_passes": 3, "shots": 4, "touches": 42}
+    },
+    {
+      "id": "p3",
+      "name": "Jordan Forward",
+      "teamId": "2",
+      "position": "FW",
+      "minutes": 90,
+      "stats": {"passes_completed": 12, "progressive_passes": 2, "shots": 3, "touches": 35}
+    }
+  ],
+  "events": [
+    {
+      "type": "Pass",
+      "teamId": "1",
+      "playerId": "p1",
+      "minute": 10,
+      "second": 15,
+      "x": 52,
+      "y": 44,
+      "endX": 64,
+      "endY": 40,
+      "outcome": "Complete",
+      "qualifiers": {"bodyPart": "foot"}
+    },
+    {
+      "type": "Pass",
+      "teamId": "1",
+      "playerId": "p2",
+      "minute": 12,
+      "second": 30,
+      "x": 70,
+      "y": 32,
+      "endX": 82,
+      "endY": 28,
+      "outcome": "Complete",
+      "qualifiers": {"bodyPart": "foot"}
+    },
+    {
+      "type": "Shot",
+      "teamId": "1",
+      "playerId": "p2",
+      "minute": 23,
+      "second": 10,
+      "x": 88,
+      "y": 38,
+      "endX": null,
+      "endY": null,
+      "outcome": "Goal",
+      "qualifiers": {"shotType": "open_play"}
+    },
+    {
+      "type": "Shot",
+      "teamId": "2",
+      "playerId": "p3",
+      "minute": 67,
+      "second": 5,
+      "x": 78,
+      "y": 50,
+      "endX": null,
+      "endY": null,
+      "outcome": "Miss",
+      "qualifiers": {"shotType": "open_play"}
+    }
+  ],
+  "aggregates": {
+    "possession": {"home": 62, "away": 38},
+    "shots": {"home": 14, "away": 8},
+    "shotsOnTarget": {"home": 6, "away": 3},
+    "xG": null,
+    "passing": {"home_completed": 510, "away_completed": 310},
+    "pressure": null
+  }
+}
