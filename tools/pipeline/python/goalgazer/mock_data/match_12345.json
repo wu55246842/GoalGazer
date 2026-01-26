@@ -1,105 +1,251 @@
 {
   "match": {
     "id": "12345",
-    "date_utc": "2024-01-20T18:00:00Z",
-    "league": "EPL",
-    "season": "2023/24",
-    "round": "Round 20",
-    "homeTeam": "City",
-    "awayTeam": "United",
-    "score": "2-1",
-    "venue": "Example Stadium"
+    "date_utc": "2024-08-17T14:00:00Z",
+    "league": "Premier League",
+    "season": "2024",
+    "round": "Regular Season - 1",
+    "homeTeam": "Manchester City",
+    "awayTeam": "Chelsea",
+    "score": "2-0",
+    "venue": "Etihad Stadium"
   },
   "teams": [
-    {"id": "1", "name": "City", "side": "home"},
-    {"id": "2", "name": "United", "side": "away"}
+    {
+      "id": "50",
+      "name": "Manchester City",
+      "side": "home"
+    },
+    {
+      "id": "49",
+      "name": "Chelsea",
+      "side": "away"
+    }
   ],
   "players": [
     {
-      "id": "p1",
-      "name": "Alex Midfielder",
-      "teamId": "1",
-      "position": "MF",
+      "id": "1",
+      "name": "Ederson",
+      "teamId": "50",
+      "position": "G",
       "minutes": 90,
-      "stats": {"passes_completed": 85, "progressive_passes": 9, "shots": 1, "touches": 82}
+      "stats": {}
     },
     {
-      "id": "p2",
-      "name": "Chris Forward",
-      "teamId": "1",
-      "position": "FW",
+      "id": "2",
+      "name": "Kyle Walker",
+      "teamId": "50",
+      "position": "D",
       "minutes": 90,
-      "stats": {"passes_completed": 18, "progressive_passes": 3, "shots": 4, "touches": 42}
+      "stats": {}
     },
     {
-      "id": "p3",
-      "name": "Jordan Forward",
-      "teamId": "2",
-      "position": "FW",
+      "id": "3",
+      "name": "Ruben Dias",
+      "teamId": "50",
+      "position": "D",
       "minutes": 90,
-      "stats": {"passes_completed": 12, "progressive_passes": 2, "shots": 3, "touches": 35}
+      "stats": {}
+    },
+    {
+      "id": "4",
+      "name": "Nathan Ake",
+      "teamId": "50",
+      "position": "D",
+      "minutes": 90,
+      "stats": {}
+    },
+    {
+      "id": "5",
+      "name": "Josko Gvardiol",
+      "teamId": "50",
+      "position": "D",
+      "minutes": 90,
+      "stats": {}
+    },
+    {
+      "id": "6",
+      "name": "Rodri",
+      "teamId": "50",
+      "position": "M",
+      "minutes": 90,
+      "stats": {}
+    },
+    {
+      "id": "7",
+      "name": "Bernardo Silva",
+      "teamId": "50",
+      "position": "M",
+      "minutes": 90,
+      "stats": {}
+    },
+    {
+      "id": "8",
+      "name": "Kevin De Bruyne",
+      "teamId": "50",
+      "position": "M",
+      "minutes": 75,
+      "stats": {}
+    },
+    {
+      "id": "9",
+      "name": "Phil Foden",
+      "teamId": "50",
+      "position": "M",
+      "minutes": 90,
+      "stats": {}
+    },
+    {
+      "id": "10",
+      "name": "Erling Haaland",
+      "teamId": "50",
+      "position": "F",
+      "minutes": 90,
+      "stats": {}
+    },
+    {
+      "id": "11",
+      "name": "Jeremy Doku",
+      "teamId": "50",
+      "position": "F",
+      "minutes": 90,
+      "stats": {}
     }
   ],
   "events": [
     {
-      "type": "Pass",
-      "teamId": "1",
-      "playerId": "p1",
-      "minute": 10,
-      "second": 15,
-      "x": 52,
-      "y": 44,
-      "endX": 64,
-      "endY": 40,
-      "outcome": "Complete",
-      "qualifiers": {"bodyPart": "foot"}
-    },
-    {
-      "type": "Pass",
-      "teamId": "1",
-      "playerId": "p2",
-      "minute": 12,
-      "second": 30,
-      "x": 70,
-      "y": 32,
-      "endX": 82,
-      "endY": 28,
-      "outcome": "Complete",
-      "qualifiers": {"bodyPart": "foot"}
-    },
-    {
       "type": "Shot",
-      "teamId": "1",
-      "playerId": "p2",
-      "minute": 23,
-      "second": 10,
-      "x": 88,
-      "y": 38,
+      "teamId": "50",
+      "playerId": "10",
+      "minute": 18,
+      "second": 0,
+      "x": 88.0,
+      "y": 52.0,
       "endX": null,
       "endY": null,
       "outcome": "Goal",
-      "qualifiers": {"shotType": "open_play"}
+      "qualifiers": {}
     },
     {
       "type": "Shot",
-      "teamId": "2",
-      "playerId": "p3",
-      "minute": 67,
-      "second": 5,
-      "x": 78,
-      "y": 50,
+      "teamId": "50",
+      "playerId": "7",
+      "minute": 23,
+      "second": 0,
+      "x": 82.0,
+      "y": 45.0,
       "endX": null,
       "endY": null,
-      "outcome": "Miss",
-      "qualifiers": {"shotType": "open_play"}
+      "outcome": "Saved",
+      "qualifiers": {}
+    },
+    {
+      "type": "Shot",
+      "teamId": "49",
+      "playerId": null,
+      "minute": 31,
+      "second": 0,
+      "x": 85.0,
+      "y": 48.0,
+      "endX": null,
+      "endY": null,
+      "outcome": "Off Target",
+      "qualifiers": {}
+    },
+    {
+      "type": "Shot",
+      "teamId": "50",
+      "playerId": "10",
+      "minute": 38,
+      "second": 0,
+      "x": 90.0,
+      "y": 50.0,
+      "endX": null,
+      "endY": null,
+      "outcome": "Saved",
+      "qualifiers": {}
+    },
+    {
+      "type": "Shot",
+      "teamId": "50",
+      "playerId": "9",
+      "minute": 51,
+      "second": 0,
+      "x": 78.0,
+      "y": 42.0,
+      "endX": null,
+      "endY": null,
+      "outcome": "Blocked",
+      "qualifiers": {}
+    },
+    {
+      "type": "Shot",
+      "teamId": "50",
+      "playerId": "10",
+      "minute": 68,
+      "second": 0,
+      "x": 87.0,
+      "y": 51.0,
+      "endX": null,
+      "endY": null,
+      "outcome": "Goal",
+      "qualifiers": {}
+    },
+    {
+      "type": "Shot",
+      "teamId": "49",
+      "playerId": null,
+      "minute": 72,
+      "second": 0,
+      "x": 83.0,
+      "y": 55.0,
+      "endX": null,
+      "endY": null,
+      "outcome": "Saved",
+      "qualifiers": {}
+    },
+    {
+      "type": "Shot",
+      "teamId": "50",
+      "playerId": "7",
+      "minute": 81,
+      "second": 0,
+      "x": 75.0,
+      "y": 38.0,
+      "endX": null,
+      "endY": null,
+      "outcome": "Off Target",
+      "qualifiers": {}
+    },
+    {
+      "type": "Shot",
+      "teamId": "49",
+      "playerId": null,
+      "minute": 89,
+      "second": 0,
+      "x": 80.0,
+      "y": 60.0,
+      "endX": null,
+      "endY": null,
+      "outcome": "Blocked",
+      "qualifiers": {}
     }
   ],
   "aggregates": {
-    "possession": {"home": 62, "away": 38},
-    "shots": {"home": 14, "away": 8},
-    "shotsOnTarget": {"home": 6, "away": 3},
+    "possession": {
+      "home": 62,
+      "away": 38
+    },
+    "shots": {
+      "home": 16,
+      "away": 7
+    },
+    "shotsOnTarget": {
+      "home": 8,
+      "away": 3
+    },
     "xG": null,
-    "passing": {"home_completed": 510, "away_completed": 310},
+    "passing": null,
     "pressure": null
   }
 }

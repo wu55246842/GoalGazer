@@ -27,7 +27,7 @@ def render_touch_heatmap(match: MatchData, team_side: str, out_path: Path) -> Fi
     plt.close(fig)
 
     return FigureMeta(
-        src_relative=str(out_path).split("public")[1],
+        src_relative=str(out_path).split("public")[1].replace("\\", "/"),
         alt=f"Touch heatmap for {team.name}.",
         caption=f"Touch heatmap for {team.name} across all events.",
         width=1600,

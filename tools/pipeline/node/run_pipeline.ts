@@ -1,55 +1,28 @@
-import { spawnSync } from "child_process";
-import path from "path";
+#!/usr/bin/env node
+import { spawn } from 'child_process';
+import { resolve } from 'path';
 
-interface Args {
-  matchId?: string;
-  league?: string;
-  date?: string;
-  mode?: string;
-}
+const args = process.argv.slice(2);
+const pythonScript = resolve(__dirname, '../python/goalgazer/__main__.py');
 
-function parseArgs(argv: string[]): Args {
-  const args: Args = {};
-  for (let i = 0; i < argv.length; i += 1) {
-    const value = argv[i];
-    if (!value.startsWith("--")) continue;
-    const key = value.replace("--", "");
-    const next = argv[i + 1];
-    if (next && !next.startsWith("--")) {
-      args[key as keyof Args] = next;
-      i += 1;
-    } else {
-      args[key as keyof Args] = "true";
-    }
+console.log('🚀 GoalGazer Pipeline Runner');
+console.log('================================\n');
+
+const pythonProcess = spawn('python', [pythonScript, ...args], {
+  stdio: 'inherit',
+  cwd: resolve(__dirname, '../python'),
+});
+
+pythonProcess.on('error', (error) => {
+  console.error('❌ Failed to start Python process:', error.message);
+  process.exit(1);
+});
+
+pythonProcess.on('close', (code) => {
+  if (code === 0) {
+    console.log('\n✅ Pipeline completed successfully');
+  } else {
+    console.error(`\n❌ Pipeline failed with exit code ${code}`);
+    process.exit(code || 1);
   }
-  return args;
-}
-
-const args = parseArgs(process.argv.slice(2));
-const pythonModule = "goalgazer";
-const projectRoot = path.resolve(__dirname, "..", "..", "..");
-const pythonPath = path.join(projectRoot, "tools", "pipeline", "python");
-
-const result = spawnSync(
-  "python",
-  [
-    "-m",
-    pythonModule,
-    "--matchId",
-    args.matchId ?? "12345",
-    "--mode",
-    args.mode ?? "single",
-    "--league",
-    args.league ?? "epl",
-    "--date",
-    args.date ?? new Date().toISOString().slice(0, 10),
-  ],
-  {
-    stdio: "inherit",
-    cwd: pythonPath,
-  }
-);
-
-if (result.status !== 0) {
-  process.exit(result.status ?? 1);
-}
+});

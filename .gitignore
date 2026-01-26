@@ -7,3 +7,11 @@ __pycache__
 *.pyc
 .DS_Store
 tools/pipeline/.cache
+venv/
+tools/pipeline/python/test_llm.py
+tools/pipeline/python/test_llm_detailed.py
+tools/pipeline/python/fetch_fixtures_temp.py
+build/
+dist/
+*.egg-info/
+.pytest_cache/

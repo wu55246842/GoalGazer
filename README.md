@@ -36,8 +36,7 @@ Copy `.env.example` to `.env` and populate credentials when available:
 cp .env.example .env
 ```
 
-### 3) Generate content (mock data)
-
+### 3) Generate content 
 If `API_FOOTBALL_KEY` is not set, the pipeline uses `tools/pipeline/python/goalgazer/mock_data/match_12345.json`.
 
 ```bash
@@ -57,6 +56,44 @@ npm run web:dev
 ```
 
 Visit `http://localhost:3000` and open the generated match page.
+
+## Data Pipeline Logic
+
+The GoalGazer pipeline follows a robust **ETL + Intelligent Analysis** workflow, transforming raw football data into structured web content with HD visualizations and AI-driven tactical insights.
+
+### 1. Data Extraction
+Handled by `fetch_api_football.py`:
+- **Trigger**: CLI execution with a specific `matchId`.
+- **Source**: API-FOOTBALL (v3) core endpoints (`/fixtures`, `/fixtures/statistics`, `/fixtures/events`, `/fixtures/lineups`).
+- **Caching**: Local caching in `tools/pipeline/.cache` to optimize API usage and speed.
+
+### 2. Normalization & Transformation
+Handled by `normalize.py`:
+- **Unified Model**: Maps diverse API responses to a standardized `MatchData` model.
+- **Pitch Mapping**: Converts raw location data to 0-100 standard pitch coordinates.
+- **Derived Metrics**: Calculates advanced indicators (e.g., shot tempo, danger zones) in `compose_article.py`.
+
+### 3. HD Visualizations
+Handled by `plots_*.py` modules using `mplsoccer` + `matplotlib`:
+- **Shot Map**: Visualize all attempts with outcome color-coding.
+- **Pass Network & Formation**: Calculate average player positions and passing frequency links.
+- **Production**: Renders high-resolution PNGs (1600px width, 200 DPI) to `apps/web/public/generated/`.
+
+### 4. AI Tactical Analysis
+Handled by `llm_generate.py`:
+- **Context Construction**: Combines normalized data and metrics into a comprehensive "Fact Pack" for the LLM.
+- **Strict Prompting**: Enforces high-fidelity analysis based *only* on provided facts (No hallucinations).
+- **Validation**: Strict JSON schema checks ensure high output quality.
+
+### 5. Content Publishing
+Finalized by `compose_article.py`:
+- **Synthesis**: Merges AI text, chart paths, and match metadata into a final JSON article.
+- **Persistence**: Writes content to `apps/web/content/matches/` and updates the global `index.json`.
+
+#### Core Principles
+- **Offline Generation**: Real-time rendering is offloaded to pre-generation, ensuring lightning-fast site performance.
+- **Evidence-Based**: Every AI claim is backed by data evidence to minimize hallucinations.
+- **Graceful Degradation**: System falls back to data-only summaries if LLM or API services are unreachable.
 
 ## Chart Generation Notes
 
@@ -101,3 +138,7 @@ Deploy `apps/web` to Vercel. The site is static/ISR-ready and can render JSON co
 ## Compliance Pages
 
 The site ships with About, Privacy, Contact, Data Sources, and Editorial Policy pages to support SEO and advertising compliance.
+
+
+
+## https://allsportsapi.com/soccer-football-api-documentation

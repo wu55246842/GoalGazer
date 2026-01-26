@@ -1,11 +1,38 @@
 [
   {
-    "title": "EPL Tactical Review: City 2-1 United",
-    "description": "A data-backed breakdown of how City controlled central zones and created higher quality shots.",
-    "date": "2024-01-20T18:00:00Z",
-    "matchId": "12345",
-    "slug": "2024-01-20_12345",
-    "teams": ["City", "United"],
-    "league": "epl"
+    "title": "Bournemouth vs Everton Match Analysis - Premier League 2024",
+    "description": "A detailed analysis of the Bournemouth vs Everton match in the Premier League 2024 season, highlighting key events and player performances.",
+    "date": "2025-01-04T15:00:00+00:00",
+    "matchId": "1208213",
+    "slug": "2025-01-04_1208213",
+    "teams": [
+      "Bournemouth",
+      "Everton"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Match Analysis: Tottenham vs Newcastle - Premier League 2024",
+    "description": "A detailed analysis of the Premier League match between Tottenham and Newcastle, highlighting key events and player performances.",
+    "date": "2025-01-04T12:30:00+00:00",
+    "matchId": "1208221",
+    "slug": "2025-01-04_1208221",
+    "teams": [
+      "Tottenham",
+      "Newcastle"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Brentford vs Arsenal Match Analysis - Premier League 2024",
+    "description": "A detailed analysis of the Premier League match between Brentford and Arsenal, highlighting key events, player performances, and tactical insights.",
+    "date": "2025-01-01T17:30:00+00:00",
+    "matchId": "1208204",
+    "slug": "2025-01-01_1208204",
+    "teams": [
+      "Brentford",
+      "Arsenal"
+    ],
+    "league": "premier-league"
   }
 ]

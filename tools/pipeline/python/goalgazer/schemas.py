@@ -33,7 +33,7 @@ class PlayerInfo(BaseModel):
     id: str
     name: str
     teamId: str
-    position: str
+    position: Optional[str] = ""
     minutes: int
     stats: PlayerStats
 

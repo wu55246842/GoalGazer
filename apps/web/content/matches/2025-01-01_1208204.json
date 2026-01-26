@@ -1,0 +1,91 @@
+{
+  "frontmatter": {
+    "title": "Brentford vs Arsenal Match Analysis - Premier League 2024",
+    "description": "A detailed analysis of the Premier League match between Brentford and Arsenal, highlighting key events, player performances, and tactical insights.",
+    "date": "2025-01-01T17:30:00+00:00",
+    "matchId": "1208204",
+    "league": "premier-league",
+    "teams": [
+      "Brentford",
+      "Arsenal"
+    ],
+    "tags": [
+      "Brentford",
+      "Arsenal",
+      "Premier League",
+      "Match Analysis"
+    ],
+    "heroImage": "/generated/matches/1208204/pass_network_home.png"
+  },
+  "match": {
+    "id": "1208204",
+    "date_utc": "2025-01-01T17:30:00+00:00",
+    "league": "Premier League",
+    "season": "2024",
+    "round": "Regular Season - 19",
+    "homeTeam": "Brentford",
+    "awayTeam": "Arsenal",
+    "score": "1-3",
+    "venue": "Gtech Community Stadium"
+  },
+  "sections": [
+    {
+      "heading": "Match Overview",
+      "paragraphs": [
+        "The match took place at the Gtech Community Stadium, where Brentford hosted Arsenal. Despite having a slight edge in possession, Brentford struggled to convert their chances, while Arsenal capitalized effectively on their opportunities."
+      ],
+      "bullets": [
+        "Brentford scored 1 goal while Arsenal scored 3.",
+        "Possession was slightly in favor of Brentford at 51%.",
+        "Arsenal had a higher shot count with 14 shots compared to Brentford's 5."
+      ],
+      "figures": [
+        {
+          "src": "/generated/matches/1208204/pass_network_home.png",
+          "alt": "Pass network and formation for Brentford showing player positions and passing connections.",
+          "caption": "Brentford pass network with average player positions and key passing links.",
+          "width": 1600,
+          "height": 1000
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Arsenal's offensive efficiency was superior to Brentford's.",
+          "evidence": [
+            "shots_away=14",
+            "shots_home=5"
+          ],
+          "confidence": 0.9
+        }
+      ]
+    }
+  ],
+  "player_notes": [
+    {
+      "player": "B. Mbeumo",
+      "team": "Brentford",
+      "summary": "Scored Brentford's only goal in the match.",
+      "evidence": [
+        "goal=1"
+      ],
+      "rating": "7.5"
+    },
+    {
+      "player": "Gabriel Jesus",
+      "team": "Arsenal",
+      "summary": "Contributed significantly to Arsenal's attacking play.",
+      "evidence": [
+        "shots_away=14"
+      ],
+      "rating": "8.0"
+    }
+  ],
+  "data_limitations": [
+    "Insufficient detailed player statistics available for comprehensive analysis."
+  ],
+  "data_citations": [
+    "API-Football fixtures",
+    "API-Football events"
+  ],
+  "cta": "Explore more match analyses and player insights on our platform."
+}
