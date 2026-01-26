@@ -1,0 +1,96 @@
+api_name: API-Football
+version: v3
+base_url: https://v3.football.api-sports.io/
+authentication:
+  header_key: x-apisports-key
+  method: API Key Header
+  getting_started: You must subscribe to a plan on Dashboard or RapidAPI to get an API Key.
+
+rate_limits:
+  free_tier:
+    requests_per_day: 100
+    requests_per_minute: 10
+  pro_tiers: Vary by subscription level.
+
+main_categories:
+  - name: General
+    description: Global configurations and metadata.
+    endpoints:
+      - path: /timezone
+        description: List of available timezones.
+      - path: /countries
+        description: List of countries with their names, codes, and flags.
+
+  - name: Seasons & Leagues
+    description: Structure of competitions.
+    endpoints:
+      - path: /leagues
+        description: Search leagues by id, name, country, season, type.
+        params: [id, name, country, code, season, type, current, last, next]
+      - path: /leagues/seasons
+        description: List all available years for all leagues.
+
+  - name: Teams
+    description: Team profiles and seasonal stats.
+    endpoints:
+      - path: /teams
+        description: Information about teams (stadium, founder, etc.).
+        params: [id, name, league, season, country, code, venue, search]
+      - path: /teams/statistics
+        description: Detailed performance metrics for a team in a league/season.
+        params: [league, season, team, date]
+
+  - name: Standings
+    description: League tables.
+    endpoints:
+      - path: /standings
+        description: Current or historical league table for a competition.
+        params: [league, season, team]
+
+  - name: Fixtures (Matches)
+    description: Core match data, live scores, and events.
+    endpoints:
+      - path: /fixtures
+        description: Get matches by date, status, league, or team.
+        params: [id, live, date, league, season, team, last, next, from, to]
+      - path: /fixtures/statistics
+        description: Team-level match stats (possession, shots, etc.).
+        params: [fixture, team]
+      - path: /fixtures/events
+        description: Match timeline (Goals, Cards, Subs, VAR).
+        params: [fixture, team, player, type]
+      - path: /fixtures/lineups
+        description: Squad for the match, formations, and player positions.
+        params: [fixture, team, player, type]
+      - path: /fixtures/players
+        description: Statistical performance for every player in the match.
+        params: [fixture, team]
+
+  - name: Players
+    description: Profiles and yearly statistics.
+    endpoints:
+      - path: /players
+        description: Search players and get their stats by season/league/team.
+        params: [id, team, league, season, search, page]
+      - path: /players/topscorers
+        description: Best scorers for a specific league and season.
+        params: [league, season]
+
+  - name: Predictions
+    description: Analysis for upcoming fixtures.
+    endpoints:
+      - path: /predictions
+        description: Winner probability, H2H, and statistical comparisons.
+        params: [fixture]
+
+  - name: Odds
+    description: Pre-match and live betting lines.
+    endpoints:
+      - path: /odds
+        description: Available odds from bookmakers.
+        params: [fixture, league, season, date, bookmaker, bet]
+
+usage_notes:
+  - Date format: YYYY-MM-DD
+  - Timezone: Default is UTC. Use /timezone to adjust.
+  - Caching: Recommend 24h for static data (teams, leagues) and shorter for fixtures.
