@@ -1,7 +1,7 @@
 {
   "frontmatter": {
-    "title": "Brentford vs Arsenal Match Analysis - Premier League 2024",
-    "description": "A detailed analysis of the Premier League match between Brentford and Arsenal, highlighting key events, player performances, and tactical insights.",
+    "title": "Brentford vs Arsenal - Premier League Match Analysis",
+    "description": "A detailed tactical analysis of the Premier League match between Brentford and Arsenal on January 1, 2025.",
     "date": "2025-01-01T17:30:00+00:00",
     "matchId": "1208204",
     "league": "premier-league",
@@ -10,9 +10,9 @@
       "Arsenal"
     ],
     "tags": [
+      "Premier League",
       "Brentford",
       "Arsenal",
-      "Premier League",
       "Match Analysis"
     ],
     "heroImage": "/generated/matches/1208204/pass_network_home.png"
@@ -28,16 +28,299 @@
     "score": "1-3",
     "venue": "Gtech Community Stadium"
   },
+  "timeline": [
+    {
+      "minute": 13,
+      "type": "goal",
+      "teamId": "55",
+      "playerId": "20589",
+      "playerName": "B. Mbeumo",
+      "assistId": "15908",
+      "assistName": "M. Damsgaard",
+      "detail": "Normal Goal",
+      "score_after": null
+    },
+    {
+      "minute": 17,
+      "type": "card",
+      "teamId": "42",
+      "playerId": "38746",
+      "playerName": "Jurri\u00ebn Timber",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 26,
+      "type": "card",
+      "teamId": "55",
+      "playerId": "30407",
+      "playerName": "Christian N\u00f8rgaard",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 29,
+      "type": "goal",
+      "teamId": "42",
+      "playerId": "643",
+      "playerName": "Gabriel Jesus",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Normal Goal",
+      "score_after": null
+    },
+    {
+      "minute": 50,
+      "type": "goal",
+      "teamId": "42",
+      "playerId": "47311",
+      "playerName": "Mikel Merino",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Normal Goal",
+      "score_after": null
+    },
+    {
+      "minute": 53,
+      "type": "goal",
+      "teamId": "42",
+      "playerId": "127769",
+      "playerName": "Gabriel Martinelli",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Normal Goal",
+      "score_after": null
+    },
+    {
+      "minute": 57,
+      "type": "card",
+      "teamId": "42",
+      "playerId": "157052",
+      "playerName": "Riccardo Calafiori",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 75,
+      "type": "subst",
+      "teamId": "55",
+      "playerId": "36922",
+      "playerName": "S. van den Berg",
+      "assistId": "356237",
+      "assistName": "Kim Ji-Soo",
+      "detail": "Substitution 1",
+      "score_after": null
+    },
+    {
+      "minute": 75,
+      "type": "subst",
+      "teamId": "55",
+      "playerId": "30407",
+      "playerName": "C. N\u00f8rgaard",
+      "assistId": "47438",
+      "assistName": "M. Jensen",
+      "detail": "Substitution 2",
+      "score_after": null
+    },
+    {
+      "minute": 75,
+      "type": "subst",
+      "teamId": "55",
+      "playerId": "20649",
+      "playerName": "Y. Wissa",
+      "assistId": "178077",
+      "assistName": "K. Schade",
+      "detail": "Substitution 3",
+      "score_after": null
+    },
+    {
+      "minute": 75,
+      "type": "subst",
+      "teamId": "55",
+      "playerId": "15908",
+      "playerName": "M. Damsgaard",
+      "assistId": "162075",
+      "assistName": "P. Maghoma",
+      "detail": "Substitution 4",
+      "score_after": null
+    },
+    {
+      "minute": 78,
+      "type": "subst",
+      "teamId": "42",
+      "playerId": "313236",
+      "playerName": "E. Nwaneri",
+      "assistId": "1946",
+      "assistName": "L. Trossard",
+      "detail": "Substitution 1",
+      "score_after": null
+    },
+    {
+      "minute": 78,
+      "type": "subst",
+      "teamId": "42",
+      "playerId": "157052",
+      "playerName": "R. Calafiori",
+      "assistId": "313245",
+      "assistName": "M. Lewis-Skelly",
+      "detail": "Substitution 2",
+      "score_after": null
+    },
+    {
+      "minute": 78,
+      "type": "subst",
+      "teamId": "42",
+      "playerId": "47311",
+      "playerName": "Mikel Merino",
+      "assistId": "2937",
+      "assistName": "D. Rice",
+      "detail": "Substitution 3",
+      "score_after": null
+    },
+    {
+      "minute": 88,
+      "type": "subst",
+      "teamId": "42",
+      "playerId": "37127",
+      "playerName": "M. \u00d8degaard",
+      "assistId": "2289",
+      "assistName": "Jorginho",
+      "detail": "Substitution 4",
+      "score_after": null
+    },
+    {
+      "minute": 91,
+      "type": "subst",
+      "teamId": "42",
+      "playerId": "643",
+      "playerName": "Gabriel Jesus",
+      "assistId": "641",
+      "assistName": "O. Zinchenko",
+      "detail": "Substitution 5",
+      "score_after": null
+    }
+  ],
+  "normalized_stats": {
+    "55": {
+      "possession": 51,
+      "total_shots": 5,
+      "shots_on_target": 2,
+      "corners": 4,
+      "fouls": 6,
+      "yellow_cards": 1,
+      "red_cards": null,
+      "offsides": 0,
+      "passes_total": 485,
+      "pass_accuracy": 82
+    },
+    "42": {
+      "possession": 49,
+      "total_shots": 14,
+      "shots_on_target": 5,
+      "corners": 3,
+      "fouls": 8,
+      "yellow_cards": 2,
+      "red_cards": null,
+      "offsides": 6,
+      "passes_total": 465,
+      "pass_accuracy": 83
+    }
+  },
   "sections": [
     {
       "heading": "Match Overview",
       "paragraphs": [
-        "The match took place at the Gtech Community Stadium, where Brentford hosted Arsenal. Despite having a slight edge in possession, Brentford struggled to convert their chances, while Arsenal capitalized effectively on their opportunities."
+        "The match between Brentford and Arsenal on January 1, 2025, ended with a score of 3-1 in favor of Arsenal. Brentford started strong, taking an early lead with a goal from B. Mbeumo in the 13th minute, assisted by M. Damsgaard. However, Arsenal quickly responded, equalizing just minutes later with a goal from Gabriel Jesus in the 29th minute. The match showcased a competitive atmosphere, with both teams displaying moments of skill and intensity. Ultimately, Arsenal's ability to capitalize on their chances proved decisive in the outcome of the match.",
+        "Throughout the match, Arsenal demonstrated their attacking prowess, registering a total of 14 shots, with 5 on target. In contrast, Brentford managed only 5 shots, with 2 on target, indicating a significant disparity in offensive effectiveness. The possession statistics were relatively balanced, with Brentford holding 51% and Arsenal 49%. However, the quality of Arsenal's chances was markedly higher, reflected in their expected goals (xG) of 1.91 compared to Brentford's 0.32. This match not only highlighted Arsenal's attacking capabilities but also their ability to adapt and respond under pressure."
       ],
       "bullets": [
-        "Brentford scored 1 goal while Arsenal scored 3.",
-        "Possession was slightly in favor of Brentford at 51%.",
-        "Arsenal had a higher shot count with 14 shots compared to Brentford's 5."
+        "Arsenal secured a 3-1 victory against Brentford.",
+        "Brentford scored first but could not maintain their lead.",
+        "Arsenal's performance highlighted their attacking efficiency."
+      ],
+      "figures": [
+        {
+          "src": "/generated/matches/1208204/stats_comparison.png",
+          "alt": "Statistical comparison between Brentford and Arsenal.",
+          "caption": "Comparison of core team metrics including possession, shots, and accuracy.",
+          "width": 1600,
+          "height": 1000
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Arsenal had a higher total shots count than Brentford.",
+          "evidence": [
+            "total_shots_home=5",
+            "total_shots_away=14"
+          ],
+          "confidence": 0.9
+        },
+        {
+          "claim": "Brentford scored first but could not maintain their lead.",
+          "evidence": [
+            "goal_minute=13",
+            "final_score=1-3"
+          ],
+          "confidence": 0.9
+        }
+      ]
+    },
+    {
+      "heading": "Key Moments",
+      "paragraphs": [
+        "The match's pivotal moment came in the 13th minute when Brentford's B. Mbeumo scored the opening goal, giving the home side an early advantage. This goal was crucial as it set the tone for the initial phase of the match, energizing the Brentford fans and players alike. However, the lead was short-lived, as Arsenal's Gabriel Jesus equalized just 16 minutes later, demonstrating the visitors' resilience and attacking intent. This quick response shifted the momentum in favor of Arsenal, who began to dominate possession and create more scoring opportunities.",
+        "Following their equalizer, Arsenal continued to apply pressure, scoring two more goals in the second half through Mikel Merino and Gabriel Martinelli. These goals, coming in the 50th and 53rd minutes respectively, showcased Arsenal's clinical finishing and ability to exploit defensive lapses from Brentford. The substitutions made by both teams in the second half aimed to change the dynamics of the game, but Arsenal's tactical adjustments proved more effective. Brentford's inability to respond to Arsenal's attacking waves ultimately sealed their fate in this match."
+      ],
+      "bullets": [
+        "Brentford opened the scoring early in the match.",
+        "Arsenal responded quickly with three unanswered goals.",
+        "Key substitutions were made in the second half."
+      ],
+      "figures": [
+        {
+          "src": "/generated/matches/1208204/goals_timeline.png",
+          "alt": "Vertical timeline of match events for Brentford vs Arsenal.",
+          "caption": "Match timeline showing goals, cards, and substitutions.",
+          "width": 1200,
+          "height": 1600
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Brentford scored the first goal of the match.",
+          "evidence": [
+            "goal_minute=13",
+            "player_name=B. Mbeumo"
+          ],
+          "confidence": 0.9
+        },
+        {
+          "claim": "Arsenal scored three consecutive goals after Brentford's opener.",
+          "evidence": [
+            "goals_away=3",
+            "goals_home=1"
+          ],
+          "confidence": 0.9
+        }
+      ]
+    },
+    {
+      "heading": "Tactical Notes",
+      "paragraphs": [
+        "Arsenal's tactical setup was instrumental in their victory, as they effectively utilized a formation that allowed for quick transitions from defense to attack. The midfield trio, particularly T. Partey, who had a player rating of 7.5, played a crucial role in controlling the tempo and distributing the ball efficiently. Their ability to win duels, with Partey winning 8 out of 9, helped Arsenal regain possession quickly and launch counter-attacks. This tactical approach not only created scoring opportunities but also minimized Brentford's chances to build their own attacks, as evidenced by their limited shots on goal.",
+        "On the other hand, Brentford's defensive organization appeared to falter, especially after conceding the equalizer. The home side struggled to maintain their shape, allowing Arsenal to exploit spaces between the lines. Players like N. Collins, who had a rating of 6.6, and S. van den Berg, rated at 7.2, showed moments of individual brilliance but were often left exposed due to the team's overall tactical disarray. The lack of cohesion in Brentford's defense was evident as they conceded three goals in quick succession, highlighting the need for better communication and organization in future matches."
+      ],
+      "bullets": [
+        "Arsenal's formation allowed for effective attacking transitions.",
+        "Brentford struggled to maintain defensive organization.",
+        "Key players made significant contributions to their teams."
       ],
       "figures": [
         {
@@ -46,14 +329,43 @@
           "caption": "Brentford pass network with average player positions and key passing links.",
           "width": 1600,
           "height": 1000
+        },
+        {
+          "src": "/generated/matches/1208204/pass_network_away.png",
+          "alt": "Pass network and formation for Arsenal showing player positions and passing connections.",
+          "caption": "Arsenal pass network with average player positions and key passing links.",
+          "width": 1600,
+          "height": 1000
+        },
+        {
+          "src": "/generated/matches/1208204/shot_map.png",
+          "alt": "Shot map for Brentford vs Arsenal showing all shot attempts and outcomes.",
+          "caption": "Shot map with outcomes: Gold (Goal), Blue (Saved), Red (Miss), Orange (Blocked). Size indicates distance to goal.",
+          "width": 1600,
+          "height": 1000
+        },
+        {
+          "src": "/generated/matches/1208204/touch_heatmap_home.png",
+          "alt": "Touch heatmap for Brentford.",
+          "caption": "Touch heatmap for Brentford across all events.",
+          "width": 1600,
+          "height": 1000
         }
       ],
       "claims": [
         {
-          "claim": "Arsenal's offensive efficiency was superior to Brentford's.",
+          "claim": "Arsenal's midfield control was pivotal in their attacking transitions.",
           "evidence": [
-            "shots_away=14",
-            "shots_home=5"
+            "player_rating=7.5",
+            "duels_won=8"
+          ],
+          "confidence": 0.9
+        },
+        {
+          "claim": "Brentford struggled with defensive organization after conceding.",
+          "evidence": [
+            "goals_conceded=3",
+            "final_score=1-3"
           ],
           "confidence": 0.9
         }
@@ -62,30 +374,42 @@
   ],
   "player_notes": [
     {
-      "player": "B. Mbeumo",
-      "team": "Brentford",
-      "summary": "Scored Brentford's only goal in the match.",
-      "evidence": [
-        "goal=1"
-      ],
-      "rating": "7.5"
-    },
-    {
       "player": "Gabriel Jesus",
       "team": "Arsenal",
-      "summary": "Contributed significantly to Arsenal's attacking play.",
+      "summary": "Gabriel Jesus was instrumental in Arsenal's attack, scoring one goal and contributing to the team's overall play.",
       "evidence": [
-        "shots_away=14"
+        "player_rating=8.2",
+        "player_goals=1"
       ],
-      "rating": "8.0"
+      "rating": "8.2"
+    },
+    {
+      "player": "Mikel Merino",
+      "team": "Arsenal",
+      "summary": "Mikel Merino's performance was key in midfield, scoring a goal and maintaining possession effectively.",
+      "evidence": [
+        "player_rating=8",
+        "player_goals=1"
+      ],
+      "rating": "8"
+    },
+    {
+      "player": "B. Mbeumo",
+      "team": "Brentford",
+      "summary": "B. Mbeumo opened the scoring for Brentford but could not influence the game further as Arsenal took control.",
+      "evidence": [
+        "player_rating=7.2",
+        "player_goals=1"
+      ],
+      "rating": "7.2"
     }
   ],
   "data_limitations": [
-    "Insufficient detailed player statistics available for comprehensive analysis."
+    "Expected Goals (xG) data not available from this source."
   ],
   "data_citations": [
     "API-Football fixtures",
     "API-Football events"
   ],
-  "cta": "Explore more match analyses and player insights on our platform."
+  "cta": "For more detailed analyses and insights, visit our website."
 }

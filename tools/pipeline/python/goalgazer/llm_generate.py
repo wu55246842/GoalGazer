@@ -72,14 +72,36 @@ LLM_SCHEMA: Dict[str, Any] = {
 }
 
 
+def _detect_limitations(match: MatchData) -> List[str]:
+    limitations = []
+    if not match.aggregates.normalized:
+        limitations.append("Full team-level statistics were not available.")
+    
+    # Check for player-level stats
+    has_ratings = any(p.stats.rating for p in match.players)
+    if not has_ratings:
+        limitations.append("Detailed player performance ratings were not available.")
+    
+    # Check for xG
+    if not match.aggregates.xG:
+        limitations.append("Expected Goals (xG) data not available from this source.")
+        
+    return limitations
+
+
 def build_prompt(match: MatchData, metrics: Dict[str, Any], figure_summaries: Dict[str, Any]) -> List[Dict[str, str]]:
     system_prompt = (
         "You are a professional football tactical analyst and data editor. "
-        "Only use the supplied JSON data and derived metrics. If unsure, state that data is insufficient. "
-        "Do not fabricate events, instructions, or player actions. "
-        "Do not include betting or gambling content. "
-        "Output MUST be strict JSON with no extra text. "
-        "The JSON MUST follow this structure exactly:\n"
+        "Strictly follow these requirements:\n"
+        "1. Only use the supplied JSON data and derived metrics. Do not fabricate facts.\n"
+        "2. Output MUST be strict JSON with no extra text.\n"
+        "3. Provide at least 3 sections: 'Match Overview', 'Key Moments', and 'Tactical Notes'.\n"
+        "4. Each section must have at least 2 paragraphs, and each paragraph must be at least 5 sentences long.\n"
+        "5. Every claim MUST include evidence referencing fields from the payload (e.g., 'total_shots_home=15').\n"
+        "6. Player notes MUST use player-specific evidence (e.g., 'player_rating=8.5', 'player_goals=1').\n"
+        "7. Include a 'thesis' which is a 2-3 sentence core takeaway of the match.\n"
+        "\n"
+        "JSON Structure:\n"
         "{\n"
         "  \"language\": \"en\",\n"
         "  \"title\": \"...\",\n"
@@ -87,15 +109,14 @@ def build_prompt(match: MatchData, metrics: Dict[str, Any], figure_summaries: Di
         "  \"tags\": [\"...\"],\n"
         "  \"thesis\": \"...\",\n"
         "  \"sections\": [\n"
-        "    { \"heading\": \"...\", \"bullets\": [\"...\"], \"paragraphs\": [\"...\"], \"claims\": [{ \"claim\": \"...\", \"evidence\": [\"key=value\"], \"confidence\": 0.9 }] }\n"
+        "    { \"heading\": \"...\", \"bullets\": [\"...\"], \"paragraphs\": [\"...\"], \"claims\": [{ \"claim\": \"...\", \"evidence\": [\"...\"], \"confidence\": 0.9 }] }\n"
         "  ],\n"
         "  \"player_notes\": [\n"
         "    { \"player\": \"...\", \"team\": \"...\", \"summary\": \"...\", \"evidence\": [\"...\"], \"rating\": \"7.5\" }\n"
         "  ],\n"
         "  \"data_limitations\": [\"...\"],\n"
         "  \"cta\": \"...\"\n"
-        "}\n"
-        "Every claim must include evidence referencing fields from the payload."
+        "}"
     )
 
     user_payload = {
@@ -103,11 +124,12 @@ def build_prompt(match: MatchData, metrics: Dict[str, Any], figure_summaries: Di
         "data_payload": {
             "teams": [team.model_dump() for team in match.teams],
             "players": [player.model_dump() for player in match.players],
-            "events_sample": [event.model_dump() for event in match.events[:50]],
+            "timeline": [t.model_dump() for t in match.timeline],
             "aggregates": match.aggregates.model_dump(),
             "derived_metrics": metrics,
         },
         "figure_summaries": figure_summaries,
+        "automatically_detected_limitations": _detect_limitations(match)
     }
 
     return [

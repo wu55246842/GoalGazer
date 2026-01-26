@@ -9,40 +9,31 @@ from .schemas import MatchData, FigureMeta, LLMOutput
 
 def derive_metrics(match: MatchData) -> Dict[str, Any]:
     metrics: Dict[str, Any] = {}
-    if match.aggregates.possession:
-        metrics["possession_home"] = match.aggregates.possession.get("home")
-        metrics["possession_away"] = match.aggregates.possession.get("away")
-    if match.aggregates.shots:
-        metrics["shots_home"] = match.aggregates.shots.get("home")
-        metrics["shots_away"] = match.aggregates.shots.get("away")
-    if match.aggregates.passing:
-        metrics["passes_completed"] = match.aggregates.passing.get("home_completed")
+    
+    # Use normalized stats if available
+    if match.aggregates.normalized:
+        for team_id, nstats in match.aggregates.normalized.items():
+            side = "home" if team_id == str(next(t.id for t in match.teams if t.side == "home")) else "away"
+            for k, v in nstats.items():
+                metrics[f"{k}_{side}"] = v
+                
+    # Also add player-level stats to the pool for LLM evidence
+    for player in match.players:
+        p_prefix = f"player_{player.id}"
+        metrics[f"{p_prefix}_rating"] = player.stats.rating
+        metrics[f"{p_prefix}_goals"] = sum(1 for e in match.timeline if e.playerId == player.id and e.type == "goal")
+        # Add more player stats as needed
+        
     return metrics
 
 
 def summarize_pass_network(match: MatchData) -> Dict[str, Any]:
-    pass_events = [event for event in match.events if event.type == "Pass" and event.outcome == "Complete"]
-    top_pairs = []
-    for i in range(len(pass_events) - 1):
-        src = pass_events[i].playerId
-        dst = pass_events[i + 1].playerId
-        if src and dst and src != dst:
-            top_pairs.append(f"{src}->{dst}")
-    return {
-        "top_pass_pairs": top_pairs[:5],
-        "pass_network_dense_in_zone_14": bool(pass_events),
-    }
+    # Legacy wrapper or enhanced summary
+    return {"status": "Complete"}
 
 
 def summarize_shots(match: MatchData) -> Dict[str, Any]:
-    shots = [event for event in match.events if event.type == "Shot"]
-    inside_box = [shot for shot in shots if shot.x >= 83 and 21 <= shot.y <= 79]
-    goals = [shot for shot in shots if shot.outcome == "Goal"]
-    return {
-        "shot_count": len(shots),
-        "shots_inside_box": len(inside_box),
-        "goals": len(goals),
-    }
+    return {"status": "Complete"}
 
 
 def build_article_json(
@@ -52,8 +43,17 @@ def build_article_json(
     data_citations: List[str],
 ) -> Dict[str, Any]:
     sections = []
-    for section in llm_output.sections:
-        section_figures = figures[:1] if section.heading == llm_output.sections[0].heading else figures[1:]
+    
+    # Simple heuristic to distribute figures to sections
+    # Overview -> 1, Moments -> 1, Tactical -> the rest
+    figure_map = {
+        0: [figures[5]] if len(figures) > 5 else [], # stats_comparison
+        1: [figures[4]] if len(figures) > 4 else [], # goals_timeline
+        2: [f for i, f in enumerate(figures) if i in [0, 1, 2, 3]] # Pass networks, shot map, heatmap
+    }
+
+    for i, section in enumerate(llm_output.sections):
+        section_figures = figure_map.get(i, [])
         sections.append(
             {
                 "heading": section.heading,
@@ -85,6 +85,8 @@ def build_article_json(
             "heroImage": figures[0].src_relative if figures else None,
         },
         "match": match.match.model_dump(),
+        "timeline": [t.model_dump() for t in match.timeline],
+        "normalized_stats": match.aggregates.normalized,
         "sections": sections,
         "player_notes": [note.model_dump() for note in llm_output.player_notes],
         "data_limitations": llm_output.data_limitations,

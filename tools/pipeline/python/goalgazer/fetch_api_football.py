@@ -46,3 +46,8 @@ def fetch_lineups(match_id: str) -> Dict[str, Any]:
 def fetch_stats(match_id: str) -> Dict[str, Any]:
     cache_path = settings.cache_dir / match_id / "stats.json"
     return _cached_request("fixtures/statistics", {"fixture": match_id}, cache_path)
+
+
+def fetch_players(match_id: str) -> Dict[str, Any]:
+    cache_path = settings.cache_dir / match_id / "players.json"
+    return _cached_request("fixtures/players", {"fixture": match_id}, cache_path)

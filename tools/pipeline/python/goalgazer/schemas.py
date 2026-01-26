@@ -23,10 +23,20 @@ class TeamInfo(BaseModel):
 
 
 class PlayerStats(BaseModel):
+    # Base stats usually from events
     passes_completed: Optional[int] = None
     progressive_passes: Optional[int] = None
     shots: Optional[int] = None
     touches: Optional[int] = None
+    
+    # Detailed stats from fixtures/players
+    rating: Optional[str] = None
+    key_passes: Optional[int] = None
+    tackles: Optional[int] = None
+    interceptions: Optional[int] = None
+    duels_total: Optional[int] = None
+    duels_won: Optional[int] = None
+    dribbles_success: Optional[int] = None
 
 
 class PlayerInfo(BaseModel):
@@ -57,13 +67,41 @@ class Event(BaseModel):
     qualifiers: Optional[EventQualifier] = None
 
 
+class TimelineEvent(BaseModel):
+    minute: int
+    type: str  # goal, card, sub, var
+    teamId: str
+    playerId: str
+    playerName: str
+    assistId: Optional[str] = None
+    assistName: Optional[str] = None
+    detail: str  # e.g. "Yellow Card", "Normal Goal"
+    score_after: Optional[str] = None
+
+
+class TeamNormalizedStats(BaseModel):
+    possession: Optional[int] = None
+    total_shots: Optional[int] = None
+    shots_on_target: Optional[int] = None
+    corners: Optional[int] = None
+    fouls: Optional[int] = None
+    yellow_cards: Optional[int] = None
+    red_cards: Optional[int] = None
+    offsides: Optional[int] = None
+    passes_total: Optional[int] = None
+    pass_accuracy: Optional[int] = None
+
+
 class Aggregates(BaseModel):
+    # Derived from events
     possession: Optional[dict] = None
     shots: Optional[dict] = None
     shotsOnTarget: Optional[dict] = None
     xG: Optional[dict] = None
-    passing: Optional[dict] = None
-    pressure: Optional[dict] = None
+    
+    # New normalized and raw stats
+    normalized: Optional[dict] = None  # Keyed by teamId
+    raw: Optional[dict] = None         # Raw response from API
 
 
 class MatchData(BaseModel):
@@ -71,6 +109,7 @@ class MatchData(BaseModel):
     teams: List[TeamInfo]
     players: List[PlayerInfo]
     events: List[Event]
+    timeline: List[TimelineEvent] = Field(default_factory=list)
     aggregates: Aggregates
 
 

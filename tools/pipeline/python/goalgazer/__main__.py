@@ -4,11 +4,13 @@ import argparse
 from pathlib import Path
 
 from .config import settings
-from .fetch_api_football import fetch_events, fetch_fixture, fetch_lineups, fetch_stats
+from .fetch_api_football import fetch_events, fetch_fixture, fetch_lineups, fetch_stats, fetch_players
 from .normalize import load_mock_match, normalize_api_payload
 from .plots_pass_network import render_pass_network
 from .plots_shot_map import render_shot_map
 from .plots_heatmap import render_touch_heatmap
+from .plots_timeline import render_match_timeline
+from .plots_stats import render_stats_comparison
 from .compose_article import build_article_json, derive_metrics, summarize_pass_network, summarize_shots, write_article
 from .llm_generate import generate_llm_output
 
@@ -19,7 +21,8 @@ def run_pipeline(match_id: str, league: str) -> None:
         events = fetch_events(match_id)
         lineups = fetch_lineups(match_id)
         stats = fetch_stats(match_id)
-        match = normalize_api_payload(fixture, events, lineups, stats)
+        players_detailed = fetch_players(match_id)
+        match = normalize_api_payload(fixture, events, lineups, stats, players_detailed)
     else:
         match = load_mock_match(match_id)
 
@@ -29,6 +32,8 @@ def run_pipeline(match_id: str, league: str) -> None:
     figures.append(render_pass_network(match, "away", match_public_dir / "pass_network_away.png"))
     figures.append(render_shot_map(match, match_public_dir / "shot_map.png"))
     figures.append(render_touch_heatmap(match, "home", match_public_dir / "touch_heatmap_home.png"))
+    figures.append(render_match_timeline(match, match_public_dir / "goals_timeline.png"))
+    figures.append(render_stats_comparison(match, match_public_dir / "stats_comparison.png"))
 
     metrics = derive_metrics(match)
     figure_summaries = {
