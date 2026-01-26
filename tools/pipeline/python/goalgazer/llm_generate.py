@@ -138,18 +138,21 @@ def build_prompt(match: MatchData, metrics: Dict[str, Any], figure_summaries: Di
     ]
 
 
-def call_openai(messages: List[Dict[str, str]]) -> str:
-    if not settings.openai_api_key:
-        raise RuntimeError("OPENAI_API_KEY is not set")
+def call_pollinations(messages: List[Dict[str, str]]) -> str:
+    # Fallback to OpenAI if no Pollinations key is set, or just use Pollinations anonymously
+    api_key = settings.pollinations_api_key
+    
+    headers = {
+        "Content-Type": "application/json",
+    }
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
 
     response = requests.post(
-        "https://api.openai.com/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {settings.openai_api_key}",
-            "Content-Type": "application/json",
-        },
+        settings.pollinations_endpoint,
+        headers=headers,
         json={
-            "model": settings.openai_model,
+            "model": settings.pollinations_model,
             "messages": messages,
             "temperature": 0.2,
             "response_format": {"type": "json_object"},
@@ -217,12 +220,12 @@ def generate_llm_output(match: MatchData, metrics: Dict[str, Any], figure_summar
     allowed_tokens = set(metrics.keys()) | {"possession", "shots", "shotsOnTarget", "xG"} | {"pass_network_dense_in_zone_14", "passes_completed"}
     messages = build_prompt(match, metrics, figure_summaries)
 
-    if not settings.openai_api_key:
+    if not settings.pollinations_api_key and not settings.openai_api_key:
         return fallback_output(match, metrics, figure_summaries)
 
     for attempt in range(3):
         try:
-            response = call_openai(messages)
+            response = call_pollinations(messages)
             payload = validate_json(response)
             
             # Temporarily disable strict evidence traceability to allow LLM output

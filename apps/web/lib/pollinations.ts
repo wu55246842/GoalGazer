@@ -9,7 +9,7 @@
     grok	✅ 可用	可用
  */
 
-const POLLINATIONS_ENDPOINT = 'https://text.pollinations.ai/v1/chat/completions';
+const POLLINATIONS_ENDPOINT = 'https://gen.pollinations.ai/v1/chat/completions';
 
 export interface Message {
     role: 'system' | 'user' | 'assistant';
@@ -47,12 +47,18 @@ export async function generateText({
 
     try {
         console.log(`Calling Pollinations AI [${model}]...`);
+
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+        };
+
+        if (apiKey) {
+            headers['Authorization'] = `Bearer ${apiKey}`;
+        }
+
         const response = await fetch(POLLINATIONS_ENDPOINT, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`,
-            },
+            headers,
             body: JSON.stringify({
                 messages,
                 model,
@@ -76,3 +82,28 @@ export async function generateText({
 
 // Alias for my new API to avoid breaking it
 export const generateAnalysis = generateText;
+
+/**
+ * Manual Test Script
+ * Note: If you have a .env file, run it with:
+ * npx tsx --env-file=.env apps/web/lib/pollinations.ts
+ */
+if (import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/'))) {
+    (async () => {
+        console.log('🚀 Starting Pollinations AI self-test...');
+        try {
+            const response = await generateText({
+                messages: [
+                    { role: 'system', content: 'You are a football tactician.' },
+                    { role: 'user', content: 'Give me a 1-sentence summary of why high-pressing is effective.' }
+                ],
+                model: 'grok'
+            });
+            console.log('\n--- AI Response ---');
+            console.log(response);
+            console.log('\n✅ Test completed successfully.');
+        } catch (error) {
+            console.error('\n❌ Test failed!');
+        }
+    })();
+}
