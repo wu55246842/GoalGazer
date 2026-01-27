@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from .schemas import (
     MatchData, MatchInfo, TeamInfo, PlayerInfo, PlayerStats, 
@@ -48,30 +48,24 @@ def _normalize_team_stats(stats_data: Dict[str, Any]) -> Dict[str, Dict[str, Any
 
 def _extract_timeline(events_data: Dict[str, Any]) -> list[TimelineEvent]:
     timeline = []
-    current_score = [0, 0]
     
     for item in events_data.get("response", []):
         etype = item["type"].lower()
         if etype not in ["goal", "card", "subst", "var"]:
-            continue
-            
-        # Simplified score tracking
-        if etype == "goal":
-            # API-Football doesn't always provide score in event, we might need to derive it
-            # But for timeline, we usually just want the event
-            pass
+            etype = "other"
 
         timeline.append(
             TimelineEvent(
                 minute=item["time"]["elapsed"] + (item["time"]["extra"] or 0),
                 type=etype,
-                teamId=str(item["team"]["id"]),
-                playerId=str(item["player"]["id"]) if item.get("player") else "unknown",
-                playerName=item.get("player", {}).get("name", "Unknown"),
+                teamId=str(item["team"]["id"]) if item.get("team") else None,
+                teamName=item.get("team", {}).get("name") if item.get("team") else None,
+                playerId=str(item["player"]["id"]) if item.get("player") and item["player"].get("id") else None,
+                playerName=item.get("player", {}).get("name"),
                 assistId=str(item["assist"]["id"]) if item.get("assist") and item["assist"].get("id") else None,
                 assistName=item.get("assist", {}).get("name") if item.get("assist") else None,
-                detail=item.get("detail", ""),
-                score_after=None # We'll leave this for now or compute later if needed
+                detail=item.get("detail"),
+                score_after=None
             )
         )
     return sorted(timeline, key=lambda x: x.minute)
@@ -124,16 +118,29 @@ def normalize_api_payload(
     league_meta = fixture_info["league"]
     teams_meta = fixture_info["teams"]
 
+    home_score = fixture_info.get("goals", {}).get("home")
+    away_score = fixture_info.get("goals", {}).get("away")
+    score = {
+        "home": 0 if home_score is None else home_score,
+        "away": 0 if away_score is None else away_score,
+    }
+    ht_home = fixture_info.get("score", {}).get("halftime", {}).get("home")
+    ht_away = fixture_info.get("score", {}).get("halftime", {}).get("away")
+    if ht_home is not None:
+        score["ht_home"] = ht_home
+    if ht_away is not None:
+        score["ht_away"] = ht_away
+
     match = MatchInfo(
         id=str(fixture_meta["id"]),
         date_utc=fixture_meta["date"],
         league=league_meta["name"],
         season=str(league_meta["season"]),
-        round=league_meta.get("round", ""),
-        homeTeam=teams_meta["home"]["name"],
-        awayTeam=teams_meta["away"]["name"],
-        score=f"{fixture_info['goals']['home']}-{fixture_info['goals']['away']}",
-        venue=fixture_meta["venue"]["name"],
+        round=league_meta.get("round"),
+        homeTeam={"id": str(teams_meta["home"]["id"]), "name": teams_meta["home"]["name"]},
+        awayTeam={"id": str(teams_meta["away"]["id"]), "name": teams_meta["away"]["name"]},
+        score=score,
+        venue=fixture_meta.get("venue", {}).get("name"),
     )
 
     teams = [

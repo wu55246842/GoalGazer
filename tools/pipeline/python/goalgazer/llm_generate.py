@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from typing import Any, Dict, List
+import re
 import requests
 from jsonschema import validate, ValidationError
 
@@ -38,7 +39,7 @@ LLM_SCHEMA: Dict[str, Any] = {
                         },
                     },
                 },
-                "required": ["heading", "bullets", "paragraphs", "claims"],
+                "required": ["heading", "paragraphs", "claims"],
             },
         },
         "player_notes": {
@@ -52,7 +53,7 @@ LLM_SCHEMA: Dict[str, Any] = {
                     "evidence": {"type": "array", "items": {"type": "string"}},
                     "rating": {"type": "string"},
                 },
-                "required": ["player", "team", "summary", "evidence", "rating"],
+                "required": ["player", "team", "summary", "evidence"],
             },
         },
         "data_limitations": {"type": "array", "items": {"type": "string"}},
@@ -72,24 +73,27 @@ LLM_SCHEMA: Dict[str, Any] = {
 }
 
 
-def _detect_limitations(match: MatchData) -> List[str]:
+def _detect_limitations(availability: Dict[str, bool]) -> List[str]:
     limitations = []
-    if not match.aggregates.normalized:
+    if not availability.get("has_statistics"):
         limitations.append("Full team-level statistics were not available.")
     
-    # Check for player-level stats
-    has_ratings = any(p.stats.rating for p in match.players)
-    if not has_ratings:
+    if not availability.get("has_players"):
         limitations.append("Detailed player performance ratings were not available.")
     
-    # Check for xG
-    if not match.aggregates.xG:
+    if not availability.get("has_xg"):
         limitations.append("Expected Goals (xG) data not available from this source.")
         
     return limitations
 
 
-def build_prompt(match: MatchData, metrics: Dict[str, Any], figure_summaries: Dict[str, Any]) -> List[Dict[str, str]]:
+def build_prompt(
+    match: MatchData,
+    metrics: Dict[str, Any],
+    figure_summaries: Dict[str, Any],
+    availability: Dict[str, bool],
+    allowed_evidence: List[str],
+) -> List[Dict[str, str]]:
     system_prompt = (
         "You are a professional football tactical analyst and data editor. "
         "Strictly follow these requirements:\n"
@@ -97,9 +101,11 @@ def build_prompt(match: MatchData, metrics: Dict[str, Any], figure_summaries: Di
         "2. Output MUST be strict JSON with no extra text.\n"
         "3. Provide at least 3 sections: 'Match Overview', 'Key Moments', and 'Tactical Notes'.\n"
         "4. Each section must have at least 2 paragraphs, and each paragraph must be at least 5 sentences long.\n"
-        "5. Every claim MUST include evidence referencing fields from the payload (e.g., 'total_shots_home=15').\n"
-        "6. Player notes MUST use player-specific evidence (e.g., 'player_rating=8.5', 'player_goals=1').\n"
+        "5. Every claim MUST include evidence referencing fields from the payload and allowed evidence list (e.g., 'team_stats.normalized.123.total_shots=15').\n"
+        "6. Player notes MUST use player-specific evidence ONLY when availability.has_players=true.\n"
         "7. Include a 'thesis' which is a 2-3 sentence core takeaway of the match.\n"
+        f"8. availability.has_xg={availability.get('has_xg')}; if false, do NOT mention xG or Expected Goals.\n"
+        f"9. availability.has_players={availability.get('has_players')}; if false, do NOT mention ratings or duels.\n"
         "\n"
         "JSON Structure:\n"
         "{\n"
@@ -112,7 +118,7 @@ def build_prompt(match: MatchData, metrics: Dict[str, Any], figure_summaries: Di
         "    { \"heading\": \"...\", \"bullets\": [\"...\"], \"paragraphs\": [\"...\"], \"claims\": [{ \"claim\": \"...\", \"evidence\": [\"...\"], \"confidence\": 0.9 }] }\n"
         "  ],\n"
         "  \"player_notes\": [\n"
-        "    { \"player\": \"...\", \"team\": \"...\", \"summary\": \"...\", \"evidence\": [\"...\"], \"rating\": \"7.5\" }\n"
+        "    { \"player\": \"...\", \"team\": \"...\", \"summary\": \"...\", \"evidence\": [\"...\"] }\n"
         "  ],\n"
         "  \"data_limitations\": [\"...\"],\n"
         "  \"cta\": \"...\"\n"
@@ -129,7 +135,9 @@ def build_prompt(match: MatchData, metrics: Dict[str, Any], figure_summaries: Di
             "derived_metrics": metrics,
         },
         "figure_summaries": figure_summaries,
-        "automatically_detected_limitations": _detect_limitations(match)
+        "automatically_detected_limitations": _detect_limitations(availability),
+        "availability": availability,
+        "allowed_evidence": allowed_evidence,
     }
 
     return [
@@ -178,11 +186,23 @@ def evidence_traceable(payload: Dict[str, Any], allowed_tokens: set[str]) -> boo
                 key = item.split("=")[0]
                 if key not in allowed_tokens:
                     return False
+    for note in payload.get("player_notes", []):
+        for item in note.get("evidence", []):
+            key = item.split("=")[0]
+            if key not in allowed_tokens:
+                return False
     return True
 
 
-def fallback_output(match: MatchData, metrics: Dict[str, Any], figure_summaries: Dict[str, Any]) -> LLMOutput:
-    title = f"{match.match.league} Tactical Review: {match.match.homeTeam} {match.match.score} {match.match.awayTeam}"
+def fallback_output(
+    match: MatchData,
+    metrics: Dict[str, Any],
+    figure_summaries: Dict[str, Any],
+    availability: Dict[str, bool],
+    allowed_evidence: List[str],
+) -> LLMOutput:
+    title = f"{match.match.league} Tactical Review: {match.match.homeTeam['name']} vs {match.match.awayTeam['name']}"
+    evidence = [item for item in allowed_evidence if item.startswith("team_stats.normalized")][:2]
     return LLMOutput(
         title=title,
         meta_description="Automated draft based on available match data and original charts.",
@@ -192,9 +212,9 @@ def fallback_output(match: MatchData, metrics: Dict[str, Any], figure_summaries:
             {
                 "heading": "Automated Data Summary",
                 "bullets": [
-                    f"Possession: {match.aggregates.possession}",
-                    f"Shots: {match.aggregates.shots}",
-                    f"Shots on target: {match.aggregates.shotsOnTarget}",
+                    f"Possession data available: {availability.get('has_statistics')}",
+                    f"Timeline events available: {availability.get('has_events')}",
+                    f"Player stats available: {availability.get('has_players')}",
                 ],
                 "paragraphs": [
                     "This draft was generated because the LLM API was unavailable. It summarizes available statistics and figures without speculative narrative.",
@@ -203,7 +223,7 @@ def fallback_output(match: MatchData, metrics: Dict[str, Any], figure_summaries:
                 "claims": [
                     {
                         "claim": "Data-only summary; no tactical inference made.",
-                        "evidence": ["possession", "shots"],
+                        "evidence": evidence or [],
                         "confidence": 0.3,
                     }
                 ],
@@ -211,32 +231,58 @@ def fallback_output(match: MatchData, metrics: Dict[str, Any], figure_summaries:
         ],
         player_notes=[],
         data_limitations=["LLM unavailable; fallback summary generated."]
-        + (["xG not available from source."] if match.aggregates.xG is None else []),
+        + (["xG not available from source."] if not availability.get("has_xg") else []),
         cta="Automated draft generated without LLM narrative.",
     )
 
 
-def generate_llm_output(match: MatchData, metrics: Dict[str, Any], figure_summaries: Dict[str, Any]) -> LLMOutput:
-    allowed_tokens = set(metrics.keys()) | {"possession", "shots", "shotsOnTarget", "xG"} | {"pass_network_dense_in_zone_14", "passes_completed"}
-    messages = build_prompt(match, metrics, figure_summaries)
+def _validate_llm_payload(payload: Dict[str, Any], availability: Dict[str, bool], allowed_tokens: set[str]) -> bool:
+    forbidden_terms = []
+    if not availability.get("has_xg"):
+        forbidden_terms.extend([r"\bxg\b", r"expected goals"])
+    if not availability.get("has_players"):
+        forbidden_terms.extend([r"\brating\b", r"\bduel"])
+
+    text_fields = []
+    for section in payload.get("sections", []):
+        text_fields.extend(section.get("paragraphs", []))
+        text_fields.extend(section.get("bullets", []))
+        for claim in section.get("claims", []):
+            text_fields.append(claim.get("claim", ""))
+    for note in payload.get("player_notes", []):
+        text_fields.append(note.get("summary", ""))
+
+    for term in forbidden_terms:
+        pattern = re.compile(term, re.IGNORECASE)
+        if any(pattern.search(text or "") for text in text_fields):
+            return False
+
+    return evidence_traceable(payload, allowed_tokens)
+
+
+def generate_llm_output(
+    match: MatchData,
+    metrics: Dict[str, Any],
+    figure_summaries: Dict[str, Any],
+    availability: Dict[str, bool],
+) -> LLMOutput:
+    allowed_evidence = [f"{key}={value}" for key, value in metrics.items()]
+    allowed_tokens = set(metrics.keys())
+    messages = build_prompt(match, metrics, figure_summaries, availability, allowed_evidence)
 
     if not settings.pollinations_api_key and not settings.openai_api_key:
-        return fallback_output(match, metrics, figure_summaries)
+        return fallback_output(match, metrics, figure_summaries, availability, allowed_evidence)
 
     for attempt in range(3):
         try:
             response = call_pollinations(messages)
             payload = validate_json(response)
-            
-            # Temporarily disable strict evidence traceability to allow LLM output
-            # TODO: Re-enable after improving prompt to ensure evidence keys match
-            # if not evidence_traceable(payload, allowed_tokens):
-            #     print(f"Attempt {attempt + 1}: Evidence traceability failed, retrying...")
-            #     continue
-            
+            if not _validate_llm_payload(payload, availability, allowed_tokens):
+                print(f"Attempt {attempt + 1}: LLM payload failed validation.")
+                continue
             return LLMOutput.model_validate(payload)
         except (ValidationError, json.JSONDecodeError, requests.RequestException) as e:
             print(f"Attempt {attempt + 1} failed: {type(e).__name__}: {str(e)[:100]}")
             continue
 
-    return fallback_output(match, metrics, figure_summaries)
+    return fallback_output(match, metrics, figure_summaries, availability, allowed_evidence)
