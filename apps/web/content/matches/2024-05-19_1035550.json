@@ -1,0 +1,1322 @@
+{
+  "frontmatter": {
+    "title": "Liverpool 2-0 Wolves: Dominant Anfield Win on Final Day",
+    "description": "Liverpool capped their 2023 Premier League season with a commanding 2-0 victory over Wolves at Anfield, showcasing superior possession and shot volume despite Wolves' resilient goalkeeping.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035550",
+    "league": "premier-league",
+    "teams": [
+      "Liverpool",
+      "Wolves"
+    ],
+    "tags": [
+      "Premier League",
+      "Liverpool",
+      "Wolves",
+      "Match Analysis",
+      "Tactical Breakdown"
+    ],
+    "heroImage": "/generated/matches/1035550/shot_proxy.png"
+  },
+  "match": {
+    "id": "1035550",
+    "date_utc": "2024-05-19T15:00:00+00:00",
+    "league": "Premier League",
+    "season": "2023",
+    "round": "Regular Season - 38",
+    "homeTeam": {
+      "id": "40",
+      "name": "Liverpool"
+    },
+    "awayTeam": {
+      "id": "39",
+      "name": "Wolves"
+    },
+    "score": {
+      "home": 2,
+      "away": 0,
+      "ht_home": 2,
+      "ht_away": 0
+    },
+    "venue": "Anfield"
+  },
+  "data_provenance": {
+    "provider": "api-football",
+    "endpoints_used": [
+      "fixtures",
+      "fixtures/events",
+      "fixtures/lineups",
+      "fixtures/players",
+      "fixtures/statistics"
+    ],
+    "fetched_at_utc": "2026-01-27T18:08:21.272399+00:00",
+    "availability": {
+      "has_events": true,
+      "has_statistics": true,
+      "has_lineups": true,
+      "has_players": true,
+      "has_xg": false,
+      "has_shot_locations": false
+    },
+    "notes": [
+      "match.* sourced from fixtures (teams, score, venue, kickoff)",
+      "timeline.* sourced from fixtures/events (time, type, team, player, detail)",
+      "team_stats.normalized.40.possession sourced from fixtures/statistics.statistics['Ball Possession']",
+      "team_stats.normalized.40.total_shots sourced from fixtures/statistics.statistics['Total Shots']",
+      "team_stats.normalized.40.shots_on_target sourced from fixtures/statistics.statistics['Shots on Goal']",
+      "team_stats.normalized.40.corners sourced from fixtures/statistics.statistics['Corner Kicks']",
+      "team_stats.normalized.40.fouls sourced from fixtures/statistics.statistics['Fouls']",
+      "team_stats.normalized.40.yellow_cards sourced from fixtures/statistics.statistics['Yellow Cards']",
+      "team_stats.normalized.40.red_cards sourced from fixtures/statistics.statistics['Red Cards']",
+      "team_stats.normalized.40.offsides sourced from fixtures/statistics.statistics['Offsides']",
+      "team_stats.normalized.40.passes_total sourced from fixtures/statistics.statistics['Total passes']",
+      "team_stats.normalized.40.pass_accuracy sourced from fixtures/statistics.statistics['Passes %']",
+      "team_stats.normalized.39.possession sourced from fixtures/statistics.statistics['Ball Possession']",
+      "team_stats.normalized.39.total_shots sourced from fixtures/statistics.statistics['Total Shots']",
+      "team_stats.normalized.39.shots_on_target sourced from fixtures/statistics.statistics['Shots on Goal']",
+      "team_stats.normalized.39.corners sourced from fixtures/statistics.statistics['Corner Kicks']",
+      "team_stats.normalized.39.fouls sourced from fixtures/statistics.statistics['Fouls']",
+      "team_stats.normalized.39.yellow_cards sourced from fixtures/statistics.statistics['Yellow Cards']",
+      "team_stats.normalized.39.red_cards sourced from fixtures/statistics.statistics['Red Cards']",
+      "team_stats.normalized.39.offsides sourced from fixtures/statistics.statistics['Offsides']",
+      "team_stats.normalized.39.passes_total sourced from fixtures/statistics.statistics['Total passes']",
+      "team_stats.normalized.39.pass_accuracy sourced from fixtures/statistics.statistics['Passes %']",
+      "players.* sourced from fixtures/players.statistics",
+      "players.away.6.minutes sourced from fixtures/players",
+      "players.away.6.rating sourced from fixtures/players",
+      "players.away.7.duels_won sourced from fixtures/players",
+      "players.away.7.minutes sourced from fixtures/players",
+      "players.away.7.rating sourced from fixtures/players",
+      "players.away.7.tackles sourced from fixtures/players",
+      "players.home.0.duels_won sourced from fixtures/players",
+      "players.home.0.goals sourced from fixtures/players",
+      "players.home.0.key_passes sourced from fixtures/players",
+      "players.home.0.minutes sourced from fixtures/players",
+      "players.home.0.rating sourced from fixtures/players",
+      "players.home.10.assists sourced from fixtures/players",
+      "players.home.10.key_passes sourced from fixtures/players",
+      "players.home.10.minutes sourced from fixtures/players",
+      "players.home.10.rating sourced from fixtures/players",
+      "players.home.10.tackles sourced from fixtures/players",
+      "players.home.13.duels_won sourced from fixtures/players",
+      "players.home.13.goals sourced from fixtures/players",
+      "players.home.13.minutes sourced from fixtures/players",
+      "players.home.13.rating sourced from fixtures/players",
+      "players.home.13.tackles sourced from fixtures/players",
+      "team_stats.normalized.39.possession sourced from fixtures/statistics",
+      "team_stats.normalized.39.total_shots sourced from fixtures/statistics",
+      "team_stats.normalized.40.possession sourced from fixtures/statistics",
+      "team_stats.normalized.40.shots_on_target sourced from fixtures/statistics",
+      "team_stats.normalized.40.total_shots sourced from fixtures/statistics",
+      "timeline.1.minute sourced from fixtures/events",
+      "timeline.1.type sourced from fixtures/events",
+      "timeline.2.minute sourced from fixtures/events",
+      "timeline.2.type sourced from fixtures/events",
+      "timeline.3.minute sourced from fixtures/events",
+      "timeline.3.type sourced from fixtures/events",
+      "timeline.6.minute sourced from fixtures/events",
+      "timeline.6.type sourced from fixtures/events",
+      "timeline.8.minute sourced from fixtures/events",
+      "timeline.8.type sourced from fixtures/events"
+    ]
+  },
+  "timeline": [
+    {
+      "minute": 27,
+      "type": "var",
+      "teamId": "39",
+      "teamName": "Wolves",
+      "playerId": "130",
+      "playerName": "N\u00e9lson Semedo",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Card upgrade",
+      "score_after": null
+    },
+    {
+      "minute": 28,
+      "type": "card",
+      "teamId": "39",
+      "teamName": "Wolves",
+      "playerId": "130",
+      "playerName": "N\u00e9lson Semedo",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Red Card",
+      "score_after": null
+    },
+    {
+      "minute": 34,
+      "type": "goal",
+      "teamId": "40",
+      "teamName": "Liverpool",
+      "playerId": "6716",
+      "playerName": "A. Mac Allister",
+      "assistId": "19035",
+      "assistName": "H. Elliott",
+      "detail": "Normal Goal",
+      "score_after": null
+    },
+    {
+      "minute": 40,
+      "type": "goal",
+      "teamId": "40",
+      "teamName": "Liverpool",
+      "playerId": "158698",
+      "playerName": "J. Quansah",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Normal Goal",
+      "score_after": null
+    },
+    {
+      "minute": 46,
+      "type": "card",
+      "teamId": "39",
+      "teamName": "Wolves",
+      "playerId": "41606",
+      "playerName": "Toti Gomes",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 60,
+      "type": "card",
+      "teamId": "40",
+      "teamName": "Liverpool",
+      "playerId": "8500",
+      "playerName": "Wataru Endo",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 62,
+      "type": "subst",
+      "teamId": "39",
+      "teamName": "Wolves",
+      "playerId": "24888",
+      "playerName": "Hwang Hee-Chan",
+      "assistId": "18742",
+      "assistName": "M. Doherty",
+      "detail": "Substitution 1",
+      "score_after": null
+    },
+    {
+      "minute": 63,
+      "type": "subst",
+      "teamId": "39",
+      "teamName": "Wolves",
+      "playerId": "20665",
+      "playerName": "J. Bellegarde",
+      "assistId": "157912",
+      "assistName": "B. Traor\u00e9",
+      "detail": "Substitution 2",
+      "score_after": null
+    },
+    {
+      "minute": 70,
+      "type": "subst",
+      "teamId": "40",
+      "teamName": "Liverpool",
+      "playerId": "283",
+      "playerName": "T. Alexander-Arnold",
+      "assistId": "180317",
+      "assistName": "C. Bradley",
+      "detail": "Substitution 1",
+      "score_after": null
+    },
+    {
+      "minute": 70,
+      "type": "subst",
+      "teamId": "40",
+      "teamName": "Liverpool",
+      "playerId": "6716",
+      "playerName": "A. Mac Allister",
+      "assistId": "542",
+      "assistName": "R. Gravenberch",
+      "detail": "Substitution 2",
+      "score_after": null
+    },
+    {
+      "minute": 71,
+      "type": "subst",
+      "teamId": "40",
+      "teamName": "Liverpool",
+      "playerId": "2489",
+      "playerName": "L. D\u00edaz",
+      "assistId": "51617",
+      "assistName": "D. N\u00fa\u00f1ez",
+      "detail": "Substitution 3",
+      "score_after": null
+    },
+    {
+      "minute": 78,
+      "type": "subst",
+      "teamId": "39",
+      "teamName": "Wolves",
+      "playerId": "1165",
+      "playerName": "Matheus Cunha",
+      "assistId": "1864",
+      "assistName": "Pedro Neto",
+      "detail": "Substitution 3",
+      "score_after": null
+    },
+    {
+      "minute": 78,
+      "type": "subst",
+      "teamId": "39",
+      "teamName": "Wolves",
+      "playerId": "21138",
+      "playerName": "R. A\u00eft-Nouri",
+      "assistId": "280687",
+      "assistName": "Hugo Bueno",
+      "detail": "Substitution 4",
+      "score_after": null
+    },
+    {
+      "minute": 81,
+      "type": "subst",
+      "teamId": "40",
+      "teamName": "Liverpool",
+      "playerId": "247",
+      "playerName": "C. Gakpo",
+      "assistId": "1096",
+      "assistName": "D. Szoboszlai",
+      "detail": "Substitution 4",
+      "score_after": null
+    },
+    {
+      "minute": 81,
+      "type": "subst",
+      "teamId": "40",
+      "teamName": "Liverpool",
+      "playerId": "19035",
+      "playerName": "H. Elliott",
+      "assistId": "293",
+      "assistName": "C. Jones",
+      "detail": "Substitution 5",
+      "score_after": null
+    },
+    {
+      "minute": 84,
+      "type": "subst",
+      "teamId": "39",
+      "teamName": "Wolves",
+      "playerId": "135334",
+      "playerName": "S. Bueno",
+      "assistId": "144732",
+      "assistName": "T. Doyle",
+      "detail": "Substitution 5",
+      "score_after": null
+    }
+  ],
+  "team_stats": {
+    "raw": {
+      "40": {
+        "team": {
+          "id": 40,
+          "name": "Liverpool",
+          "logo": "https://media.api-sports.io/football/teams/40.png"
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 14
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 12
+          },
+          {
+            "type": "Total Shots",
+            "value": 36
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 10
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 27
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 9
+          },
+          {
+            "type": "Fouls",
+            "value": 14
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 10
+          },
+          {
+            "type": "Offsides",
+            "value": 3
+          },
+          {
+            "type": "Ball Possession",
+            "value": "67%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Red Cards",
+            "value": 0
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 2
+          },
+          {
+            "type": "Total passes",
+            "value": 621
+          },
+          {
+            "type": "Passes accurate",
+            "value": 568
+          },
+          {
+            "type": "Passes %",
+            "value": "91%"
+          },
+          {
+            "type": "expected_goals",
+            "value": "4.74"
+          },
+          {
+            "type": "goals_prevented",
+            "value": 3
+          }
+        ]
+      },
+      "39": {
+        "team": {
+          "id": 39,
+          "name": "Wolves",
+          "logo": "https://media.api-sports.io/football/teams/39.png"
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 3
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 0
+          },
+          {
+            "type": "Total Shots",
+            "value": 4
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 1
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 3
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 1
+          },
+          {
+            "type": "Fouls",
+            "value": 10
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 2
+          },
+          {
+            "type": "Offsides",
+            "value": 2
+          },
+          {
+            "type": "Ball Possession",
+            "value": "33%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 1
+          },
+          {
+            "type": "Red Cards",
+            "value": 1
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 11
+          },
+          {
+            "type": "Total passes",
+            "value": 303
+          },
+          {
+            "type": "Passes accurate",
+            "value": 231
+          },
+          {
+            "type": "Passes %",
+            "value": "76%"
+          },
+          {
+            "type": "expected_goals",
+            "value": "0.50"
+          },
+          {
+            "type": "goals_prevented",
+            "value": 3
+          }
+        ]
+      }
+    },
+    "normalized": {
+      "40": {
+        "possession": 67,
+        "total_shots": 36,
+        "shots_on_target": 14,
+        "corners": 10,
+        "fouls": 14,
+        "yellow_cards": 1,
+        "red_cards": 0,
+        "offsides": 3,
+        "passes_total": 621,
+        "pass_accuracy": 91
+      },
+      "39": {
+        "possession": 33,
+        "total_shots": 4,
+        "shots_on_target": 3,
+        "corners": 2,
+        "fouls": 10,
+        "yellow_cards": 1,
+        "red_cards": 1,
+        "offsides": 2,
+        "passes_total": 303,
+        "pass_accuracy": 76
+      }
+    }
+  },
+  "players": {
+    "home": [
+      {
+        "id": "6716",
+        "name": "A. Mac Allister",
+        "minutes": 70,
+        "goals": 1,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 8.0,
+        "shots": 2,
+        "key_passes": 3,
+        "passes": 39,
+        "tackles": 3,
+        "duels_won": 8
+      },
+      {
+        "id": "289",
+        "name": "A. Robertson",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 8.5,
+        "shots": null,
+        "key_passes": 7,
+        "passes": 84,
+        "tackles": 1,
+        "duels_won": 3
+      },
+      {
+        "id": "280",
+        "name": "Alisson Becker",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.3,
+        "shots": null,
+        "key_passes": null,
+        "passes": 16,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "180317",
+        "name": "C. Bradley",
+        "minutes": 19,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.3,
+        "shots": null,
+        "key_passes": null,
+        "passes": 10,
+        "tackles": 1,
+        "duels_won": 2
+      },
+      {
+        "id": "247",
+        "name": "C. Gakpo",
+        "minutes": 81,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.2,
+        "shots": 4,
+        "key_passes": 1,
+        "passes": 30,
+        "tackles": 1,
+        "duels_won": 5
+      },
+      {
+        "id": "293",
+        "name": "C. Jones",
+        "minutes": 9,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.7,
+        "shots": null,
+        "key_passes": 1,
+        "passes": 12,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "281",
+        "name": "C. Kelleher",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "51617",
+        "name": "D. N\u00fa\u00f1ez",
+        "minutes": 19,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.3,
+        "shots": null,
+        "key_passes": null,
+        "passes": 3,
+        "tackles": 1,
+        "duels_won": 1
+      },
+      {
+        "id": "1096",
+        "name": "D. Szoboszlai",
+        "minutes": 9,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 7.2,
+        "shots": 1,
+        "key_passes": 2,
+        "passes": 8,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "2678",
+        "name": "Diogo Jota",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "19035",
+        "name": "H. Elliott",
+        "minutes": 81,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 8.6,
+        "shots": 1,
+        "key_passes": 5,
+        "passes": 65,
+        "tackles": 2,
+        "duels_won": 3
+      },
+      {
+        "id": "1145",
+        "name": "I. Konat\u00e9",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "284",
+        "name": "J. Gomez",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "158698",
+        "name": "J. Quansah",
+        "minutes": 90,
+        "goals": 1,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 8.6,
+        "shots": 2,
+        "key_passes": 1,
+        "passes": 67,
+        "tackles": 3,
+        "duels_won": 6
+      },
+      {
+        "id": "2489",
+        "name": "L. D\u00edaz",
+        "minutes": 71,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.2,
+        "shots": 3,
+        "key_passes": 3,
+        "passes": 30,
+        "tackles": 1,
+        "duels_won": 4
+      },
+      {
+        "id": "306",
+        "name": "Mohamed Salah",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": 5,
+        "key_passes": null,
+        "passes": 20,
+        "tackles": 2,
+        "duels_won": 4
+      },
+      {
+        "id": "542",
+        "name": "R. Gravenberch",
+        "minutes": 20,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": null,
+        "key_passes": 1,
+        "passes": 10,
+        "tackles": 1,
+        "duels_won": 1
+      },
+      {
+        "id": "283",
+        "name": "T. Alexander-Arnold",
+        "minutes": 71,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 8.2,
+        "shots": 3,
+        "key_passes": 3,
+        "passes": 42,
+        "tackles": 3,
+        "duels_won": 4
+      },
+      {
+        "id": "290",
+        "name": "V. van Dijk",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 8.2,
+        "shots": 4,
+        "key_passes": null,
+        "passes": 63,
+        "tackles": null,
+        "duels_won": 4
+      },
+      {
+        "id": "8500",
+        "name": "W. Endo",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": 1,
+        "red": null,
+        "rating": 7.0,
+        "shots": 1,
+        "key_passes": 2,
+        "passes": 69,
+        "tackles": 3,
+        "duels_won": 6
+      }
+    ],
+    "away": [
+      {
+        "id": "157912",
+        "name": "B. Traor\u00e9",
+        "minutes": 27,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.7,
+        "shots": null,
+        "key_passes": null,
+        "passes": 12,
+        "tackles": 1,
+        "duels_won": 1
+      },
+      {
+        "id": "19341",
+        "name": "D. Bentley",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "385726",
+        "name": "E. Gonz\u00e1lez",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "280687",
+        "name": "Hugo Bueno",
+        "minutes": 12,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.7,
+        "shots": null,
+        "key_passes": null,
+        "passes": 3,
+        "tackles": 1,
+        "duels_won": 1
+      },
+      {
+        "id": "24888",
+        "name": "Hwang Hee-Chan",
+        "minutes": 62,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": 1,
+        "key_passes": null,
+        "passes": 6,
+        "tackles": 1,
+        "duels_won": 2
+      },
+      {
+        "id": "20665",
+        "name": "J. Bellegarde",
+        "minutes": 63,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.6,
+        "shots": null,
+        "key_passes": null,
+        "passes": 9,
+        "tackles": 2,
+        "duels_won": 7
+      },
+      {
+        "id": "1590",
+        "name": "Jos\u00e9 S\u00e1",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 9.0,
+        "shots": null,
+        "key_passes": null,
+        "passes": 11,
+        "tackles": null,
+        "duels_won": 1
+      },
+      {
+        "id": "195103",
+        "name": "Jo\u00e3o Gomes",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.2,
+        "shots": null,
+        "key_passes": null,
+        "passes": 26,
+        "tackles": 6,
+        "duels_won": 10
+      },
+      {
+        "id": "18742",
+        "name": "M. Doherty",
+        "minutes": 28,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": null,
+        "key_passes": null,
+        "passes": 5,
+        "tackles": 2,
+        "duels_won": 4
+      },
+      {
+        "id": "18744",
+        "name": "M. Kilman",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.2,
+        "shots": null,
+        "key_passes": null,
+        "passes": 29,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "18947",
+        "name": "M. Lemina",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.6,
+        "shots": null,
+        "key_passes": null,
+        "passes": 30,
+        "tackles": 4,
+        "duels_won": 7
+      },
+      {
+        "id": "1165",
+        "name": "Matheus Cunha",
+        "minutes": 78,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.3,
+        "shots": 1,
+        "key_passes": 1,
+        "passes": 14,
+        "tackles": null,
+        "duels_won": 5
+      },
+      {
+        "id": "303019",
+        "name": "N. Fraser",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "130",
+        "name": "N\u00e9lson Semedo",
+        "minutes": 28,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": 1,
+        "rating": 4.9,
+        "shots": null,
+        "key_passes": null,
+        "passes": 4,
+        "tackles": 1,
+        "duels_won": 1
+      },
+      {
+        "id": "1864",
+        "name": "Pedro Neto",
+        "minutes": 12,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 7.0,
+        "shots": 1,
+        "key_passes": null,
+        "passes": 6,
+        "tackles": null,
+        "duels_won": 1
+      },
+      {
+        "id": "21138",
+        "name": "R. A\u00eft-Nouri",
+        "minutes": 78,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.2,
+        "shots": null,
+        "key_passes": 1,
+        "passes": 24,
+        "tackles": 4,
+        "duels_won": 11
+      },
+      {
+        "id": "135334",
+        "name": "S. Bueno",
+        "minutes": 84,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.7,
+        "shots": null,
+        "key_passes": 1,
+        "passes": 29,
+        "tackles": null,
+        "duels_won": 2
+      },
+      {
+        "id": "171035",
+        "name": "T. Chirewa",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "144732",
+        "name": "T. Doyle",
+        "minutes": 11,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": null,
+        "key_passes": 1,
+        "passes": 3,
+        "tackles": 1,
+        "duels_won": 1
+      },
+      {
+        "id": "41606",
+        "name": "Toti Gomes",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": 1,
+        "red": null,
+        "rating": 6.2,
+        "shots": null,
+        "key_passes": null,
+        "passes": 20,
+        "tackles": null,
+        "duels_won": 2
+      }
+    ]
+  },
+  "figures": [
+    {
+      "id": "shot_proxy",
+      "src": "/generated/matches/1035550/shot_proxy.png",
+      "alt": "Shot proxy chart comparing Liverpool and Wolves total shots and shots on target.",
+      "caption": "Shot proxy chart based on team totals when shot locations are unavailable.",
+      "width": 1200,
+      "height": 800,
+      "kind": "shot_proxy"
+    },
+    {
+      "id": "timeline",
+      "src": "/generated/matches/1035550/goals_timeline.png",
+      "alt": "Vertical timeline of match events for Liverpool vs Wolves.",
+      "caption": "Match timeline showing goals, cards, and substitutions.",
+      "width": 1200,
+      "height": 1600,
+      "kind": "timeline"
+    },
+    {
+      "id": "stats_comparison",
+      "src": "/generated/matches/1035550/stats_comparison.png",
+      "alt": "Statistical comparison between Liverpool and Wolves.",
+      "caption": "Comparison of core team metrics including possession, shots, and accuracy.",
+      "width": 1600,
+      "height": 1000,
+      "kind": "stats_comparison"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Match Overview",
+      "paragraphs": [
+        "Liverpool asserted early dominance in the Premier League clash at Anfield, securing a 2-0 victory over Wolves on the final day of the 2023 season. The home side enjoyed 67% possession throughout the match, as evidenced by team_stats.normalized.40.possession=67, allowing them to dictate the tempo and create numerous scoring opportunities. Wolves, hampered by only 33% possession (team_stats.normalized.39.possession=33), struggled to maintain control but showed resilience in defense. Liverpool's passing accuracy of 91% (team_stats.normalized.40.pass_accuracy=91) contrasted sharply with Wolves' 76% (team_stats.normalized.39.pass_accuracy=76), highlighting the Reds' technical superiority. This statistical edge translated into a one-sided affair, with Liverpool's total passes reaching 621 (team_stats.normalized.40.passes_total=621) against Wolves' 303 (team_stats.normalized.39.passes_total=303).",
+        "The match's outcome was influenced by disciplinary incidents, including a red card to Wolves' N\u00e9lson Semedo in the 28th minute (timeline.1.minute=28, timeline.1.type=card, timeline.1.detail=Red Card), leaving the visitors with 10 men for over an hour. Liverpool capitalized swiftly, scoring twice before halftime to lead 2-0 (match.score.home=2, match.score.away=0). Wolves managed just 4 total shots (team_stats.normalized.39.total_shots=4), while Liverpool unleashed 36 (team_stats.normalized.40.total_shots=36), including 14 on target (team_stats.normalized.40.shots_on_target=14). Despite the numerical disadvantage, Wolves committed fewer fouls at 10 (team_stats.normalized.39.fouls=10) compared to Liverpool's 14 (team_stats.normalized.40.fouls=14), indicating a disciplined approach. The game ended without further goals, affirming Liverpool's control in the season's finale."
+      ],
+      "bullets": [
+        "Liverpool controlled 67% possession, outpassing Wolves 621 to 303 with 91% accuracy.",
+        "Liverpool fired 36 shots, 14 on target, compared to Wolves' 4 shots and 3 on target.",
+        "Wolves played with 10 men after 28th-minute red card to N\u00e9lson Semedo.",
+        "Liverpool scored twice in the first half: Mac Allister (34') and Quansah (40').",
+        "Both teams received one yellow card; Wolves had one red."
+      ],
+      "claims": [
+        {
+          "claim": "Liverpool's possession dominance overwhelmed Wolves, leading to superior shot creation.",
+          "evidence": [
+            "team_stats.normalized.40.possession=67",
+            "team_stats.normalized.40.total_shots=36",
+            "team_stats.normalized.39.possession=33",
+            "team_stats.normalized.39.total_shots=4"
+          ],
+          "confidence": 0.95
+        },
+        {
+          "claim": "Wolves' red card shifted the game's balance, allowing Liverpool to score twice quickly.",
+          "evidence": [
+            "timeline.1.minute=28",
+            "timeline.1.type=card",
+            "timeline.2.minute=34",
+            "timeline.2.type=goal",
+            "timeline.3.minute=40",
+            "timeline.3.type=goal"
+          ],
+          "confidence": 0.9
+        }
+      ]
+    },
+    {
+      "heading": "Key Moments",
+      "paragraphs": [
+        "The turning point arrived in the 28th minute when Wolves' N\u00e9lson Semedo was sent off with a red card following a VAR review (timeline.1.minute=28, timeline.1.type=card, timeline.1.detail=Red Card), drastically altering the game's dynamics. This numerical disadvantage forced Wolves into a defensive shell, limiting their offensive output to just 4 shots total (team_stats.normalized.39.total_shots=4). Liverpool immediately exploited the situation, with Alexis Mac Allister netting the opener six minutes later in the 34th minute, assisted by Harvey Elliott (timeline.2.minute=34, timeline.2.type=goal, timeline.2.assistName=H. Elliott). The goal, a normal strike, gave Liverpool a 1-0 lead and boosted their momentum heading into the latter stages of the first half. Semedo's early exit, after only 28 minutes on the pitch (players.away.13.minutes=28), underscored Wolves' disciplinary woes, as they also picked up a yellow card later (team_stats.normalized.39.yellow_cards=1).",
+        "Liverpool doubled their advantage in the 40th minute through defender Jarell Quansah's header, unassisted but capitalizing on set-piece pressure (timeline.3.minute=40, timeline.3.type=goal, timeline.3.playerName=J. Quansah). This made it 2-0 at halftime, with ht_home=2 and ht_away=0 from the match context. The second half saw no further scoring, but key substitutions kept the intensity alive; Wolves made their first change at 62' bringing on Hwang Hee-Chan (timeline.6.minute=62, timeline.6.type=subst), while Liverpool rotated at 70' with Conor Bradley entering (timeline.8.minute=70). Additional subs, including Liverpool's Darwin N\u00fa\u00f1ez at 71' (timeline.10), aimed to maintain freshness amid 36 shots attempted (team_stats.normalized.40.total_shots=36). Wolves' goalkeeper Jos\u00e9 S\u00e1 faced 14 shots on target (team_stats.normalized.40.shots_on_target=14), making crucial saves to prevent a heavier defeat, but the early goals proved decisive in the 2-0 final score (match.score.home=2)."
+      ],
+      "bullets": [
+        "28': N\u00e9lson Semedo receives red card, reducing Wolves to 10 men (timeline.1).",
+        "34': Alexis Mac Allister scores, assisted by Harvey Elliott (timeline.2).",
+        "40': Jarell Quansah heads in Liverpool's second goal (timeline.3).",
+        "Multiple substitutions from 62' onward reshaped both teams' strategies.",
+        "No second-half goals despite Liverpool's 10 corners (team_stats.normalized.40.corners=10)."
+      ],
+      "claims": [
+        {
+          "claim": "Semedo's red card directly led to Liverpool's first-half brace.",
+          "evidence": [
+            "timeline.1.minute=28",
+            "timeline.1.type=card",
+            "timeline.2.minute=34",
+            "timeline.2.type=goal",
+            "timeline.3.minute=40",
+            "timeline.3.type=goal"
+          ],
+          "confidence": 0.95
+        },
+        {
+          "claim": "Substitutions in the second half helped both teams manage fatigue without altering the scoreline.",
+          "evidence": [
+            "timeline.6.minute=62",
+            "timeline.6.type=subst",
+            "timeline.8.minute=70",
+            "timeline.8.type=subst",
+            "match.score.home=2",
+            "match.score.away=0"
+          ],
+          "confidence": 0.85
+        }
+      ]
+    },
+    {
+      "heading": "Tactical Notes",
+      "paragraphs": [
+        "Tactically, Liverpool employed a possession-based approach, holding 67% of the ball (team_stats.normalized.40.possession=67) to break down Wolves' compact defense after the red card. This allowed them to generate 10 corners (team_stats.normalized.40.corners=10) and 36 total shots (team_stats.normalized.40.total_shots=36), overwhelming the visitors who were restricted to 33% possession (team_stats.normalized.39.possession=33). Key to this was Liverpool's midfield orchestration, with Harvey Elliott providing 5 key passes (players.home.10.key_passes=5) to unlock defenses. Wolves, down to 10 men from the 28th minute (timeline.1.minute=28), shifted to a low block, committing 10 fouls (team_stats.normalized.39.fouls=10) to disrupt play but earning a yellow to Toti Gomes at 46' (timeline.4.minute=46). Liverpool's 91% pass accuracy (team_stats.normalized.40.pass_accuracy=91) facilitated smooth transitions, contrasting Wolves' more erratic 76% (team_stats.normalized.39.pass_accuracy=76), which limited their build-up.",
+        "Wolves' tactics emphasized resilience, with Jo\u00e3o Gomes excelling in duels by winning 10 (players.away.7.duels_won=10) to shield their backline despite the man disadvantage. Liverpool's high shot volume, including 14 on target (team_stats.normalized.40.shots_on_target=14), tested Jos\u00e9 S\u00e1 repeatedly, but Wolves' 2 corners (team_stats.normalized.39.corners=2) reflected their counter-attacking intent. Substitutions like Boubacar Traor\u00e9 for Wolves at 63' (timeline.7.minute=63) aimed to inject energy, while Liverpool's changes, such as Curtis Jones at 81' (timeline.14.minute=81), preserved their lead without risking it. The Reds' 3 offsides (team_stats.normalized.40.offsides=3) indicated aggressive forward runs, but Wolves matched with 2 (team_stats.normalized.39.offsides=2), showing discipline. Overall, Liverpool's tactical patience secured the win, while Wolves' defensive setup minimized damage in a 2-0 defeat (match.score.home=2)."
+      ],
+      "bullets": [
+        "Liverpool's high possession (67%) enabled 10 corners and sustained pressure.",
+        "Wolves focused on counter-attacks but managed only 3 shots on target with 10 men.",
+        "Liverpool's midfield, led by Elliott's 5 key passes, created chances effectively.",
+        "Wolves' Jo\u00e3o Gomes won 10 duels, anchoring their reduced squad's defense.",
+        "Passing disparity (91% vs 76%) showed Liverpool's build-up superiority."
+      ],
+      "claims": [
+        {
+          "claim": "Liverpool's midfield creativity, via key passes, drove their shot dominance.",
+          "evidence": [
+            "players.home.10.key_passes=5",
+            "team_stats.normalized.40.total_shots=36",
+            "team_stats.normalized.40.shots_on_target=14"
+          ],
+          "confidence": 0.9
+        },
+        {
+          "claim": "Wolves' duel-winning efforts in midfield sustained their defense post-red card.",
+          "evidence": [
+            "players.away.7.duels_won=10",
+            "timeline.1.minute=28",
+            "team_stats.normalized.39.total_shots=4"
+          ],
+          "confidence": 0.85
+        }
+      ]
+    }
+  ],
+  "player_notes": [
+    {
+      "player": "Jarell Quansah",
+      "team": "Liverpool",
+      "summary": "Quansah shone with a goal and strong defensive contributions, earning an 8.6 rating in 90 minutes.",
+      "evidence": [
+        "players.home.13.rating=8.6",
+        "players.home.13.goals=1",
+        "players.home.13.minutes=90",
+        "players.home.13.tackles=3",
+        "players.home.13.duels_won=6"
+      ]
+    },
+    {
+      "player": "Harvey Elliott",
+      "team": "Liverpool",
+      "summary": "Elliott's creativity was pivotal with an assist and 5 key passes, contributing to his high 8.6 rating over 81 minutes.",
+      "evidence": [
+        "players.home.10.rating=8.6",
+        "players.home.10.assists=1",
+        "players.home.10.key_passes=5",
+        "players.home.10.minutes=81",
+        "players.home.10.tackles=2"
+      ]
+    },
+    {
+      "player": "Alexis Mac Allister",
+      "team": "Liverpool",
+      "summary": "Mac Allister scored the opener and won 8 duels, showcasing all-around play in 70 minutes with an 8.0 rating.",
+      "evidence": [
+        "players.home.0.rating=8.0",
+        "players.home.0.goals=1",
+        "players.home.0.minutes=70",
+        "players.home.0.key_passes=3",
+        "players.home.0.duels_won=8"
+      ]
+    },
+    {
+      "player": "Jo\u00e3o Gomes",
+      "team": "Wolves",
+      "summary": "Gomes was Wolves' standout, winning 10 duels and making 6 tackles in a gritty 90-minute performance rated 7.2.",
+      "evidence": [
+        "players.away.7.rating=7.2",
+        "players.away.7.minutes=90",
+        "players.away.7.tackles=6",
+        "players.away.7.duels_won=10"
+      ]
+    },
+    {
+      "player": "Jos\u00e9 S\u00e1",
+      "team": "Wolves",
+      "summary": "S\u00e1 earned a perfect 9.0 rating with heroic saves against 14 shots on target, anchoring Wolves' defense for 90 minutes.",
+      "evidence": [
+        "players.away.6.rating=9.0",
+        "players.away.6.minutes=90",
+        "team_stats.normalized.40.shots_on_target=14"
+      ]
+    }
+  ],
+  "data_limitations": [
+    "Expected Goals (xG) data not available from this source.",
+    "Shot locations were not available; spatial charts were downgraded."
+  ],
+  "cta": "Dive deeper into Premier League tactics with our full season analysis series."
+}
