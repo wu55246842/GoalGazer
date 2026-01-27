@@ -41,9 +41,21 @@ export default function MatchPage({ params }: MatchPageProps) {
       description={article.frontmatter.description}
     >
       <MatchHeader
-        homeTeam={article.match.homeTeam}
-        awayTeam={article.match.awayTeam}
-        score={article.match.score}
+        homeTeam={
+          typeof article.match.homeTeam === "object"
+            ? (article.match.homeTeam as any).name
+            : article.match.homeTeam
+        }
+        awayTeam={
+          typeof article.match.awayTeam === "object"
+            ? (article.match.awayTeam as any).name
+            : article.match.awayTeam
+        }
+        score={
+          typeof article.match.score === "object"
+            ? `${(article.match.score as any).home}-${(article.match.score as any).away}`
+            : article.match.score
+        }
         dateUtc={article.match.date_utc}
         league={article.match.league}
         round={article.match.round}
