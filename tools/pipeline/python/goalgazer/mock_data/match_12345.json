@@ -5,9 +5,9 @@
     "league": "Premier League",
     "season": "2024",
     "round": "Regular Season - 1",
-    "homeTeam": "Manchester City",
-    "awayTeam": "Chelsea",
-    "score": "2-0",
+    "homeTeam": {"id": "50", "name": "Manchester City"},
+    "awayTeam": {"id": "49", "name": "Chelsea"},
+    "score": {"home": 2, "away": 0, "ht_home": 1, "ht_away": 0},
     "venue": "Etihad Stadium"
   },
   "teams": [
@@ -231,6 +231,7 @@
       "qualifiers": {}
     }
   ],
+  "timeline": [],
   "aggregates": {
     "possession": {
       "home": 62,
@@ -245,7 +246,32 @@
       "away": 3
     },
     "xG": null,
-    "passing": null,
-    "pressure": null
+    "normalized": {
+      "50": {
+        "possession": 62,
+        "total_shots": 16,
+        "shots_on_target": 8,
+        "corners": null,
+        "fouls": null,
+        "yellow_cards": null,
+        "red_cards": null,
+        "offsides": null,
+        "passes_total": null,
+        "pass_accuracy": null
+      },
+      "49": {
+        "possession": 38,
+        "total_shots": 7,
+        "shots_on_target": 3,
+        "corners": null,
+        "fouls": null,
+        "yellow_cards": null,
+        "red_cards": null,
+        "offsides": null,
+        "passes_total": null,
+        "pass_accuracy": null
+      }
+    },
+    "raw": {}
   }
 }

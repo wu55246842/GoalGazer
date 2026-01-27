@@ -69,9 +69,11 @@ def render_stats_comparison(match: MatchData, out_path: Path) -> FigureMeta:
     plt.close(fig)
 
     return FigureMeta(
+        id="stats_comparison",
         src_relative=str(out_path).split("public")[1].replace("\\", "/"),
         alt=f"Statistical comparison between {home_team.name} and {away_team.name}.",
         caption="Comparison of core team metrics including possession, shots, and accuracy.",
         width=1600,
         height=1000,
+        kind="stats_comparison",
     )

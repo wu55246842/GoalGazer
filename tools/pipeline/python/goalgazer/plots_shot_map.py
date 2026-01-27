@@ -55,7 +55,7 @@ def render_shot_map(match: MatchData, out_path: Path) -> FigureMeta:
         )
 
     # Enhanced title
-    title = f"{match.match.homeTeam} vs {match.match.awayTeam}\nShot Map - All Attempts"
+    title = f"{match.match.homeTeam['name']} vs {match.match.awayTeam['name']}\nShot Map - All Attempts"
     ax.set_title(title, fontsize=14, fontweight="bold", color="#1e7a46", pad=20)
     
     # Add legend
@@ -73,9 +73,68 @@ def render_shot_map(match: MatchData, out_path: Path) -> FigureMeta:
     plt.close(fig)
 
     return FigureMeta(
+        id="shot_map",
         src_relative=str(out_path).split("public")[1].replace("\\", "/"),
-        alt=f"Shot map for {match.match.homeTeam} vs {match.match.awayTeam} showing all shot attempts and outcomes.",
+        alt=f"Shot map for {match.match.homeTeam['name']} vs {match.match.awayTeam['name']} showing all shot attempts and outcomes.",
         caption="Shot map with outcomes: Gold (Goal), Blue (Saved), Red (Miss), Orange (Blocked). Size indicates distance to goal.",
         width=1600,
         height=1000,
+        kind="other",
+    )
+
+
+def render_shot_proxy(match: MatchData, out_path: Path) -> FigureMeta:
+    """Render a shot proxy chart when shot locations are unavailable."""
+    home_team = next(t for t in match.teams if t.side == "home")
+    away_team = next(t for t in match.teams if t.side == "away")
+
+    h_stats = match.aggregates.normalized.get(home_team.id, {}) if match.aggregates.normalized else {}
+    a_stats = match.aggregates.normalized.get(away_team.id, {}) if match.aggregates.normalized else {}
+
+    labels = ["Total Shots", "Shots on Target"]
+    home_vals = [h_stats.get("total_shots", 0) or 0, h_stats.get("shots_on_target", 0) or 0]
+    away_vals = [a_stats.get("total_shots", 0) or 0, a_stats.get("shots_on_target", 0) or 0]
+
+    x = range(len(labels))
+    width = 0.35
+
+    fig, ax = plt.subplots(figsize=(12, 8), facecolor="#1e7a46")
+    ax.set_facecolor("#1e7a46")
+
+    ax.bar([i - width / 2 for i in x], home_vals, width, label=home_team.name, color="#3b82f6", edgecolor="white")
+    ax.bar([i + width / 2 for i in x], away_vals, width, label=away_team.name, color="#ef4444", edgecolor="white")
+
+    ax.set_xticks(list(x))
+    ax.set_xticklabels(labels, color="white", fontsize=12, fontweight="bold")
+    ax.tick_params(axis="y", colors="white")
+
+    for spine in ax.spines.values():
+        spine.set_color("white")
+
+    ax.legend(framealpha=0.9)
+    ax.set_title(
+        f"Shot Proxy Comparison\n{home_team.name} vs {away_team.name}",
+        fontsize=16,
+        fontweight="bold",
+        color="white",
+        pad=20,
+    )
+
+    for idx, (home_val, away_val) in enumerate(zip(home_vals, away_vals)):
+        ax.text(idx - width / 2, home_val + 0.5, str(home_val), color="white", ha="center", fontweight="bold")
+        ax.text(idx + width / 2, away_val + 0.5, str(away_val), color="white", ha="center", fontweight="bold")
+
+    fig.tight_layout()
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, dpi=200, facecolor="#1e7a46")
+    plt.close(fig)
+
+    return FigureMeta(
+        id="shot_proxy",
+        src_relative=str(out_path).split("public")[1].replace("\\", "/"),
+        alt=f"Shot proxy chart comparing {home_team.name} and {away_team.name} total shots and shots on target.",
+        caption="Shot proxy chart based on team totals when shot locations are unavailable.",
+        width=1200,
+        height=800,
+        kind="shot_proxy",
     )

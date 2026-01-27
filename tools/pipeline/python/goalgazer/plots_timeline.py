@@ -45,13 +45,15 @@ def render_match_timeline(match: MatchData, out_path: Path) -> FigureMeta:
             icon = icons.get(event.type, "•")
             if "Red Card" in event.detail: icon = "🟥"
             
-            text = f"{event.minute}' {icon} {event.playerName}\n{event.detail}"
+            detail = event.detail or ""
+            player_name = event.playerName or "Unknown"
+            text = f"{event.minute}' {icon} {player_name}\n{detail}"
             ax.text(x_pos, y, text, color='white', ha=ha, va='center', 
                     fontsize=12, fontweight='bold',
                     bbox=dict(facecolor='#1e7a46', edgecolor='white', alpha=0.6, boxstyle='round,pad=0.5'))
 
     # Title
-    title = f"Match Timeline: {match.match.homeTeam} vs {match.match.awayTeam}"
+    title = f"Match Timeline: {match.match.homeTeam['name']} vs {match.match.awayTeam['name']}"
     ax.text(0.5, 1.05, title, color='white', fontsize=20, fontweight='bold', ha='center', transform=ax.transAxes)
     
     # Footnote
@@ -63,9 +65,11 @@ def render_match_timeline(match: MatchData, out_path: Path) -> FigureMeta:
     plt.close(fig)
 
     return FigureMeta(
+        id="timeline",
         src_relative=str(out_path).split("public")[1].replace("\\", "/"),
-        alt=f"Vertical timeline of match events for {match.match.homeTeam} vs {match.match.awayTeam}.",
+        alt=f"Vertical timeline of match events for {match.match.homeTeam['name']} vs {match.match.awayTeam['name']}.",
         caption="Match timeline showing goals, cards, and substitutions.",
         width=1200,
         height=1600,
+        kind="timeline",
     )

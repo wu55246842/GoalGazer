@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import List, Optional, Literal, Dict, Any
 from pydantic import BaseModel, Field
 
 
@@ -9,11 +9,11 @@ class MatchInfo(BaseModel):
     date_utc: str
     league: str
     season: str
-    round: str
-    homeTeam: str
-    awayTeam: str
-    score: str
-    venue: str
+    round: Optional[str] = None
+    homeTeam: Dict[str, Optional[str]]
+    awayTeam: Dict[str, Optional[str]]
+    score: Dict[str, Optional[int]]
+    venue: Optional[str] = None
 
 
 class TeamInfo(BaseModel):
@@ -69,14 +69,15 @@ class Event(BaseModel):
 
 class TimelineEvent(BaseModel):
     minute: int
-    type: str  # goal, card, sub, var
-    teamId: str
-    playerId: str
-    playerName: str
+    type: Literal["goal", "card", "subst", "var", "other"]
+    teamId: Optional[str] = None
+    teamName: Optional[str] = None
+    playerId: Optional[str] = None
+    playerName: Optional[str] = None
     assistId: Optional[str] = None
     assistName: Optional[str] = None
-    detail: str  # e.g. "Yellow Card", "Normal Goal"
-    score_after: Optional[str] = None
+    detail: Optional[str] = None
+    score_after: Optional[Dict[str, int]] = None
 
 
 class TeamNormalizedStats(BaseModel):
@@ -114,11 +115,13 @@ class MatchData(BaseModel):
 
 
 class FigureMeta(BaseModel):
+    id: str
     src_relative: str
     alt: str
     caption: str
     width: int
     height: int
+    kind: Literal["stats_comparison", "timeline", "pass_network", "shot_proxy", "other"]
 
 
 class LLMClaim(BaseModel):
@@ -129,7 +132,7 @@ class LLMClaim(BaseModel):
 
 class LLMSection(BaseModel):
     heading: str
-    bullets: List[str]
+    bullets: List[str] = Field(default_factory=list)
     paragraphs: List[str]
     claims: List[LLMClaim]
 
@@ -139,7 +142,7 @@ class LLMPlayerNote(BaseModel):
     team: str
     summary: str
     evidence: List[str]
-    rating: str
+    rating: Optional[str] = None
 
 
 class LLMOutput(BaseModel):

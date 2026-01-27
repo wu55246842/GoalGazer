@@ -129,7 +129,7 @@ def render_pass_network(match: MatchData, team_side: str, out_path: Path) -> Fig
             )
 
     # Enhanced title
-    title = f"{match.match.homeTeam} vs {match.match.awayTeam}\n{team.name} Pass Network & Formation"
+    title = f"{match.match.homeTeam['name']} vs {match.match.awayTeam['name']}\n{team.name} Pass Network & Formation"
     ax.set_title(title, fontsize=14, fontweight="bold", color="#1e7a46", pad=20)
     
     # Add legend
@@ -146,9 +146,11 @@ def render_pass_network(match: MatchData, team_side: str, out_path: Path) -> Fig
     plt.close(fig)
 
     return FigureMeta(
+        id=f"pass_network_{team_side}",
         src_relative=str(out_path).split("public")[1].replace("\\", "/"),
         alt=f"Pass network and formation for {team.name} showing player positions and passing connections.",
         caption=f"{team.name} pass network with average player positions and key passing links.",
         width=1600,
         height=1000,
+        kind="pass_network",
     )
