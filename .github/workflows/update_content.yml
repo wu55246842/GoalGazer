@@ -1,0 +1,53 @@
+name: Update Match Content
+
+on:
+  workflow_dispatch:
+    inputs:
+      matchId:
+        description: 'Match ID to analyze'
+        required: true
+        type: string
+      league:
+        description: 'League Code (e.g., epl, ucl)'
+        required: false
+        default: 'epl'
+
+jobs:
+  update-content:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python Dependencies
+        working-directory: ./tools/pipeline/python
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Analysis Pipeline
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
+        working-directory: ./tools/pipeline/python
+        run: |
+          # The script is expected to write to apps/web/content and apps/web/public
+          python -m goalgazer --matchId "${{ inputs.matchId }}" --league "${{ inputs.league }}"
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GoalGazer Bot'
+          git config --global user.email 'bot@goalgazer.com'
+          git add apps/web/content apps/web/public
+          # Only commit if there are changes
+          git diff --staged --quiet || git commit -m "content: update match analysis for ${{ inputs.matchId }}"
+          git push
