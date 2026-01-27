@@ -49,7 +49,7 @@ export default function MatchPage({ params }: MatchPageProps) {
         round={article.match.round}
         venue={article.match.venue}
       />
-      {article.sections.map((section) => (
+      {(article.sections || []).map((section) => (
         <section key={section.heading} style={{ marginTop: "2rem" }}>
           <h2>{section.heading}</h2>
           {section.bullets && (
@@ -59,18 +59,18 @@ export default function MatchPage({ params }: MatchPageProps) {
               ))}
             </ul>
           )}
-          {section.paragraphs.map((paragraph) => (
+          {(section.paragraphs || []).map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
-          {section.figures.map((figure) => (
+          {(section.figures || []).map((figure) => (
             <ChartFigure key={figure.src} {...figure} />
           ))}
-          {section.claims?.map((claim) => (
+          {(section.claims || []).map((claim) => (
             <details key={claim.claim} style={{ marginTop: "1rem" }}>
               <summary>{claim.claim}</summary>
               <p>Confidence: {Math.round(claim.confidence * 100)}%</p>
               <ul>
-                {claim.evidence.map((evidence) => (
+                {(claim.evidence || []).map((evidence) => (
                   <li key={evidence}>{evidence}</li>
                 ))}
               </ul>
@@ -80,7 +80,7 @@ export default function MatchPage({ params }: MatchPageProps) {
       ))}
 
       {/* Player Performances */}
-      {article.player_notes.length > 0 && (
+      {(article.player_notes || []).length > 0 && (
         <section style={{ marginTop: "4rem" }}>
           <h2 style={{
             fontSize: "clamp(1.75rem, 4vw, 2.25rem)",
@@ -89,7 +89,7 @@ export default function MatchPage({ params }: MatchPageProps) {
             Player Performances
           </h2>
           <div className="grid grid-2">
-            {article.player_notes.map((note) => {
+            {(article.player_notes || []).map((note) => {
               const rating = parseFloat(note.rating);
               const isHome = article.match.homeTeam === note.team;
               const ratingColor = rating >= 7.5 ? "var(--color-success)" : rating >= 6.5 ? "var(--color-accent)" : "var(--color-text-muted)";
@@ -144,7 +144,7 @@ export default function MatchPage({ params }: MatchPageProps) {
                     {note.summary}
                   </p>
                   <ul style={{ margin: 0, paddingLeft: "1.5rem" }}>
-                    {note.evidence.map((evidence) => (
+                    {(note.evidence || []).map((evidence) => (
                       <li key={evidence} style={{
                         marginBottom: "0.5rem",
                         color: "var(--color-text-muted)"
@@ -161,7 +161,7 @@ export default function MatchPage({ params }: MatchPageProps) {
       )}
 
       {/* Data Limitations */}
-      {article.data_limitations.length > 0 && (
+      {(article.data_limitations || []).length > 0 && (
         <section style={{ marginTop: "4rem" }}>
           <div className="card" style={{
             background: "var(--color-bg-alt)",
@@ -176,7 +176,7 @@ export default function MatchPage({ params }: MatchPageProps) {
               <span>⚠️</span> Data Limitations
             </h2>
             <ul style={{ marginBottom: 0 }}>
-              {article.data_limitations.map((limitation) => (
+              {(article.data_limitations || []).map((limitation) => (
                 <li key={limitation}>{limitation}</li>
               ))}
             </ul>
@@ -214,7 +214,7 @@ export default function MatchPage({ params }: MatchPageProps) {
             Data citations:
           </p>
           <ul style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
-            {article.data_citations.map((citation) => (
+            {(article.data_citations || []).map((citation) => (
               <li key={citation}>{citation}</li>
             ))}
           </ul>
