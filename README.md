@@ -141,4 +141,23 @@ The site ships with About, Privacy, Contact, Data Sources, and Editorial Policy 
 
 
 
-## https://allsportsapi.com/soccer-football-api-documentation
+## cd tools\pipeline\python
+## python fetch_fixtures.py --league epl --season 2023
+
+Fetching matches for league epl (39) in season 2023...
+
+Recent Matches:
+------------------------------------------------------------
+Match ID   | Date         | Home            vs Away            | Score
+------------------------------------------------------------
+1035550    | 2024-05-19   | Liverpool       vs Wolves          | 2-0
+1035544    | 2024-05-19   | Arsenal         vs Everton         | 2-1
+1035547    | 2024-05-19   | Burnley         vs Nottingham Forest | 1-2
+1035548    | 2024-05-19   | Chelsea         vs Bournemouth     | 2-1
+1035552    | 2024-05-19   | Manchester City vs West Ham        | 3-1
+1035546    | 2024-05-19   | Brighton        vs Manchester United | 0-2
+1035549    | 2024-05-19   | Crystal Palace  vs Aston Villa     | 5-0
+1035545    | 2024-05-19   | Brentford       vs Newcastle       | 2-4
+1035553    | 2024-05-19   | Sheffield Utd   vs Tottenham       | 0-3
+1035551    | 2024-05-19   | Luton           vs Fulham          | 2-4
+------------------------------------------------------------
