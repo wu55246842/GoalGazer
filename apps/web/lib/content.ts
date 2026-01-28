@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { contentPaths, generatedContentPaths } from "./paths";
+import { normalizeLanguage } from "../i18n";
 
 export interface FigureMeta {
   src: string;
@@ -76,6 +77,25 @@ export function loadIndex(): ArticleIndexEntry[] {
   return JSON.parse(raw) as ArticleIndexEntry[];
 }
 
+export function loadIndexLocalized(lang: string): ArticleIndexEntry[] {
+  const entries = loadIndex();
+  return entries.map((entry) => {
+    const { article } = loadArticleLocalized(entry.matchId, lang);
+    if (!article) {
+      return entry;
+    }
+    return {
+      ...entry,
+      title: article.frontmatter.title || entry.title,
+      description: article.frontmatter.description || entry.description,
+      date: article.frontmatter.date || entry.date,
+      league: article.frontmatter.league || entry.league,
+      teams: article.frontmatter.teams || entry.teams,
+      matchId: article.frontmatter.matchId || entry.matchId,
+    };
+  });
+}
+
 export function loadArticle(matchId: string): ArticleContent | null {
   if (!fs.existsSync(contentPaths.matches)) {
     return null;
@@ -93,8 +113,7 @@ export function loadArticleLocalized(
   matchId: string,
   lang: string
 ): { article: ArticleContent | null; resolvedLang: string; fallback: boolean } {
-  const supportedLangs = ["en", "zh", "ja"];
-  const normalizedLang = supportedLangs.includes(lang) ? lang : "en";
+  const normalizedLang = normalizeLanguage(lang);
   const requestedPath = generatedContentPaths.matchContentFile(matchId, normalizedLang);
   if (fs.existsSync(requestedPath)) {
     const raw = fs.readFileSync(requestedPath, "utf-8");

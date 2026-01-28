@@ -54,7 +54,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
         run: |
-          npm run pipeline -- --league "${{ inputs.league || 'epl' }}" --season "${{ inputs.season || '2023' }}" ${{ inputs.matchId && format('--matchId {0}', inputs.matchId) || '' }}
+          npm run pipeline -- --incremental --league "${{ inputs.league || 'epl' }}" --season "${{ inputs.season || '2023' }}" ${{ inputs.matchId && format('--matchId {0}', inputs.matchId) || '' }}
 
       - name: Commit and Push Changes
         run: |

@@ -1,18 +1,31 @@
 import type { Metadata } from "next";
 import type { ArticleContent } from "./content";
+import type { SupportedLanguage } from "../i18n";
 
-export function buildArticleMetadata(article: ArticleContent): Metadata {
+const baseUrl = "https://www.goalgazer.example";
+
+export function buildArticleMetadata(article: ArticleContent, lang: SupportedLanguage): Metadata {
   const title = article.frontmatter.title;
   const description = article.frontmatter.description;
   const image = article.frontmatter.heroImage ?? article.sections[0]?.figures[0]?.src;
+  const canonical = `${baseUrl}/${lang}/matches/${article.frontmatter.matchId}`;
 
   return {
     title,
     description,
+    alternates: {
+      canonical,
+      languages: {
+        en: `${baseUrl}/en/matches/${article.frontmatter.matchId}`,
+        zh: `${baseUrl}/zh/matches/${article.frontmatter.matchId}`,
+        ja: `${baseUrl}/ja/matches/${article.frontmatter.matchId}`,
+      },
+    },
     openGraph: {
       title,
       description,
       type: "article",
+      url: canonical,
       images: image ? [{ url: image }] : undefined,
     },
     twitter: {
@@ -24,8 +37,8 @@ export function buildArticleMetadata(article: ArticleContent): Metadata {
   };
 }
 
-export function buildJsonLd(article: ArticleContent) {
-  const url = `https://www.goalgazer.example/matches/${article.frontmatter.matchId}`;
+export function buildJsonLd(article: ArticleContent, lang: SupportedLanguage) {
+  const url = `${baseUrl}/${lang}/matches/${article.frontmatter.matchId}`;
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -33,6 +46,7 @@ export function buildJsonLd(article: ArticleContent) {
     description: article.frontmatter.description,
     datePublished: article.frontmatter.date,
     mainEntityOfPage: url,
+    inLanguage: lang,
     author: {
       "@type": "Organization",
       name: "GoalGazer",
@@ -40,7 +54,11 @@ export function buildJsonLd(article: ArticleContent) {
   };
 }
 
-export function buildBreadcrumbJsonLd(article: ArticleContent) {
+export function buildBreadcrumbJsonLd(
+  article: ArticleContent,
+  lang: SupportedLanguage,
+  labels: { home: string }
+) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -48,20 +66,20 @@ export function buildBreadcrumbJsonLd(article: ArticleContent) {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Home",
-        item: "https://www.goalgazer.example",
+        name: labels.home,
+        item: `${baseUrl}/${lang}`,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: article.frontmatter.league,
-        item: `https://www.goalgazer.example/leagues/${article.frontmatter.league}`,
+        item: `${baseUrl}/${lang}/leagues/${article.frontmatter.league}`,
       },
       {
         "@type": "ListItem",
         position: 3,
         name: article.frontmatter.title,
-        item: `https://www.goalgazer.example/matches/${article.frontmatter.matchId}`,
+        item: `${baseUrl}/${lang}/matches/${article.frontmatter.matchId}`,
       },
     ],
   };

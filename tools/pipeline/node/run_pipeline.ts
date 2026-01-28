@@ -10,6 +10,7 @@ async function main() {
   const league = getArgValue(args, "--league", "epl");
   const season = getArgValue(args, "--season", "2023");
   const matchIdArg = getArgValue(args, "--matchId", "");
+  const incremental = args.includes("--incremental") || !args.includes("--full");
   const pythonScript = path.resolve(__dirname, "../python/goalgazer/__main__.py");
   const fetchFixturesScript = path.resolve(__dirname, "../python/fetch_fixtures.py");
   const pythonCwd = path.resolve(__dirname, "../python");
@@ -29,7 +30,7 @@ async function main() {
     fs.existsSync(getGeneratedContentPath(matchId, lang))
   );
 
-  if (existingLanguages.length === languageTargets.length) {
+  if (incremental && existingLanguages.length === languageTargets.length) {
     console.log(`skip ${matchId} already generated`);
     process.exit(0);
   }
