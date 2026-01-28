@@ -1,18 +1,55 @@
 from __future__ import annotations
 
 import argparse
+import os
+import sys
 from datetime import datetime, timezone
 
-from .config import settings
-from .fetch_api_football import fetch_events, fetch_fixture, fetch_lineups, fetch_stats, fetch_players
-from .normalize import load_mock_match, normalize_api_payload
-from .plots_pass_network import render_pass_network
-from .plots_shot_map import render_shot_map, render_shot_proxy
-from .plots_heatmap import render_touch_heatmap
-from .plots_timeline import render_match_timeline
-from .plots_stats import render_stats_comparison
-from .compose_article import build_article_json, derive_metrics, summarize_pass_network, summarize_shots, write_article, build_data_provenance
-from .llm_generate import generate_llm_output
+if __package__ in (None, ""):
+    package_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    if package_root not in sys.path:
+        sys.path.insert(0, package_root)
+    from goalgazer.config import settings
+    from goalgazer.fetch_api_football import (
+        fetch_events,
+        fetch_fixture,
+        fetch_lineups,
+        fetch_stats,
+        fetch_players,
+    )
+    from goalgazer.normalize import load_mock_match, normalize_api_payload
+    from goalgazer.plots_pass_network import render_pass_network
+    from goalgazer.plots_shot_map import render_shot_map, render_shot_proxy
+    from goalgazer.plots_heatmap import render_touch_heatmap
+    from goalgazer.plots_timeline import render_match_timeline
+    from goalgazer.plots_stats import render_stats_comparison
+    from goalgazer.compose_article import (
+        build_article_json,
+        derive_metrics,
+        summarize_pass_network,
+        summarize_shots,
+        write_article,
+        build_data_provenance,
+    )
+    from goalgazer.llm_generate import generate_llm_output
+else:
+    from .config import settings
+    from .fetch_api_football import fetch_events, fetch_fixture, fetch_lineups, fetch_stats, fetch_players
+    from .normalize import load_mock_match, normalize_api_payload
+    from .plots_pass_network import render_pass_network
+    from .plots_shot_map import render_shot_map, render_shot_proxy
+    from .plots_heatmap import render_touch_heatmap
+    from .plots_timeline import render_match_timeline
+    from .plots_stats import render_stats_comparison
+    from .compose_article import (
+        build_article_json,
+        derive_metrics,
+        summarize_pass_network,
+        summarize_shots,
+        write_article,
+        build_data_provenance,
+    )
+    from .llm_generate import generate_llm_output
 
 
 def run_pipeline(match_id: str, league: str) -> None:

@@ -11,7 +11,7 @@ async function main() {
   const season = getArgValue(args, "--season", "2023");
   const matchIdArg = getArgValue(args, "--matchId", "");
   const incremental = args.includes("--incremental") || !args.includes("--full");
-  const pythonScript = path.resolve(__dirname, "../python/goalgazer/__main__.py");
+  const pythonModule = "goalgazer";
   const fetchFixturesScript = path.resolve(__dirname, "../python/fetch_fixtures.py");
   const pythonCwd = path.resolve(__dirname, "../python");
 
@@ -36,11 +36,8 @@ async function main() {
   }
 
   if (!fs.existsSync(getGeneratedContentPath(matchId, "en"))) {
-    const pythonResult = spawnSync(
-      "python",
-      [pythonScript, "--matchId", matchId, "--league", league],
-      { stdio: "inherit", cwd: pythonCwd }
-    );
+    const pythonArgs = ["-m", pythonModule, "--matchId", matchId, ...args];
+    const pythonResult = spawnSync("python", pythonArgs, { stdio: "inherit", cwd: pythonCwd });
     if (pythonResult.status !== 0) {
       console.error(`\n❌ Pipeline failed with exit code ${pythonResult.status}`);
       process.exit(pythonResult.status || 1);
