@@ -1,50 +1,80 @@
-import { loadIndex } from "../../lib/content";
+import type { Metadata } from "next";
+import { loadIndexLocalized } from "../../../lib/content";
+import { buildLocalizedPath, createTranslator, getMessages, normalizeLanguage } from "../../../i18n";
 
-export default function HomePage() {
-  const articles = loadIndex();
+interface HomePageProps {
+  params: { lang: string };
+}
+
+export function generateMetadata({ params }: HomePageProps): Metadata {
+  const lang = normalizeLanguage(params.lang);
+  const messages = getMessages(lang);
+  return {
+    title: messages.seo.pages.home.title,
+    description: messages.seo.pages.home.description,
+    openGraph: {
+      title: messages.seo.pages.home.title,
+      description: messages.seo.pages.home.description,
+    },
+    twitter: {
+      title: messages.seo.pages.home.title,
+      description: messages.seo.pages.home.description,
+    },
+    alternates: {
+      languages: {
+        en: "/en",
+        zh: "/zh",
+        ja: "/ja",
+      },
+    },
+  };
+}
+
+export default function HomePage({ params }: HomePageProps) {
+  const lang = normalizeLanguage(params.lang);
+  const messages = getMessages(lang);
+  const t = createTranslator(messages, lang);
+  const locale = messages.formats.locale;
+  const articles = loadIndexLocalized(lang);
+  const matchLabel =
+    articles.length === 1 ? t("home.matchLabelSingular") : t("home.matchLabelPlural");
 
   return (
     <div>
-      {/* Hero Section */}
       <section className="hero">
-        <h1>Data-Driven Football Tactical Analysis</h1>
-        <p>
-          Explore in-depth match breakdowns powered by structured data,
-          original visualizations, and transparent editorial standards.
-          Every insight backed by evidence.
-        </p>
+        <h1>{t("home.heroTitle")}</h1>
+        <p>{t("home.heroDescription")}</p>
         <div className="flex justify-center gap-md" style={{ marginTop: "2rem" }}>
           <a href="#matches" className="btn btn-primary">
-            View Latest Matches
+            {t("home.viewLatestMatches")}
           </a>
-          <a href="/about" className="btn btn-outline">
-            Learn More
+          <a href={buildLocalizedPath(lang, "/about")} className="btn btn-outline">
+            {t("home.learnMore")}
           </a>
         </div>
       </section>
 
-      {/* Featured Matches Section */}
       <section id="matches">
         <div className="flex justify-between items-center mb-xl">
           <div>
-            <h2 style={{ marginBottom: "0.5rem" }}>Latest Tactical Reviews</h2>
+            <h2 style={{ marginBottom: "0.5rem" }}>{t("home.latestTitle")}</h2>
             <p style={{ color: "var(--color-text-muted)", marginBottom: 0 }}>
-              {articles.length} match{articles.length !== 1 ? "es" : ""} analyzed with data-backed insights
+              {t("home.matchCount", { count: articles.length, matchLabel })}
             </p>
           </div>
         </div>
 
         {articles.length === 0 ? (
           <div className="card text-center" style={{ padding: "3rem" }}>
-            <h3>No matches available yet</h3>
-            <p>Check back soon for tactical analysis of the latest matches.</p>
+            <h3>{t("home.noMatchesTitle")}</h3>
+            <p>{t("home.noMatchesDescription")}</p>
           </div>
         ) : (
           <div className="grid grid-2">
             {articles.map((article, index) => (
               <a
                 key={article.matchId}
-                href={`/matches/${article.matchId}`}
+                href={buildLocalizedPath(lang, `/matches/${article.matchId}`)}
                 className="card card-interactive fade-in"
                 style={{
                   animationDelay: `${index * 100}ms`,
@@ -60,7 +90,7 @@ export default function HomePage() {
                       color: "var(--color-text-light)",
                     }}
                   >
-                    {new Date(article.date).toLocaleDateString("en-US", {
+                    {new Date(article.date).toLocaleDateString(locale, {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
@@ -81,7 +111,7 @@ export default function HomePage() {
                 <p
                   style={{
                     color: "var(--color-text-muted)",
-                    lineHeight: "1.6",
+                    lineHeight: 1.6,
                     marginBottom: "1rem",
                   }}
                 >
@@ -96,7 +126,7 @@ export default function HomePage() {
                     fontWeight: 600,
                   }}
                 >
-                  Read Analysis
+                  {t("home.readAnalysis")}
                   <span style={{ fontSize: "1.125rem" }}>→</span>
                 </div>
               </a>
@@ -105,27 +135,25 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* Ad Placeholder */}
       <div className="ad-container" style={{ marginTop: "3rem" }}>
-        <div className="ad-placeholder">Advertisement</div>
+        <div className="ad-placeholder">{t("common.advertisement")}</div>
       </div>
 
-      {/* CTA Section */}
       <section
         className="card text-center"
         style={{
           marginTop: "3rem",
-          background: "linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-secondary-light) 100%)",
+          background:
+            "linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-secondary-light) 100%)",
           border: "none",
         }}
       >
-        <h2>Stay Updated with Latest Analysis</h2>
+        <h2>{t("home.ctaTitle")}</h2>
         <p style={{ maxWidth: "600px", margin: "0 auto 1.5rem" }}>
-          Get notified when new tactical breakdowns are published. Never miss
-          an in-depth match analysis.
+          {t("home.ctaDescription")}
         </p>
-        <a href="/contact" className="btn btn-primary">
-          Get in Touch
+        <a href={buildLocalizedPath(lang, "/contact")} className="btn btn-primary">
+          {t("home.getInTouch")}
         </a>
       </section>
     </div>
