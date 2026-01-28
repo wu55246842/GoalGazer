@@ -14,6 +14,7 @@ STAT_SOURCE_MAP = {
     "possession": "Ball Possession",
     "total_shots": "Total Shots",
     "shots_on_target": "Shots on Goal",
+    "shots_off_target": "Shots off Goal",
     "corners": "Corner Kicks",
     "fouls": "Fouls",
     "yellow_cards": "Yellow Cards",
@@ -21,7 +22,50 @@ STAT_SOURCE_MAP = {
     "offsides": "Offsides",
     "passes_total": "Total passes",
     "pass_accuracy": "Passes %",
+    "xg": "expected_goals",
+    "gk_saves": "Goalkeeper Saves",
+    "shots_inside_box": "Shots insidebox",
+    "shots_outside_box": "Shots outsidebox",
+    "blocked_shots": "Blocked Shots",
 }
+
+PLAYER_SOURCE_MAP = {
+    "rating": "fixtures/players.statistics[].games.rating",
+    "shots": "fixtures/players.statistics[].shots.total",
+    "key_passes": "fixtures/players.statistics[].passes.key",
+    "passes": "fixtures/players.statistics[].passes.accuracy",
+    "tackles": "fixtures/players.statistics[].tackles.total",
+    "duels_won": "fixtures/players.statistics[].duels.won",
+}
+
+
+def _parse_xg_value(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    if isinstance(value, str):
+        cleaned = value.strip()
+        if cleaned == "":
+            return None
+        try:
+            return float(cleaned)
+        except ValueError:
+            return None
+    return None
+
+
+def _has_xg_from_stats(stats_payload: Dict[str, Any], match: MatchData) -> bool:
+    for team_data in stats_payload.get("response", []):
+        for item in team_data.get("statistics", []):
+            stat_type = str(item.get("type", "")).lower()
+            if "xg" in stat_type or "expected goals" in stat_type:
+                if _parse_xg_value(item.get("value")) is not None:
+                    return True
+    for team_stats in (match.aggregates.normalized or {}).values():
+        if team_stats.get("xg") is not None:
+            return True
+    return False
 
 
 def build_data_provenance(
@@ -46,13 +90,7 @@ def build_data_provenance(
         if has_players:
             break
 
-    has_xg = False
-    for team_data in stats_payload.get("response", []):
-        for item in team_data.get("statistics", []):
-            stat_type = str(item.get("type", "")).lower()
-            if "xg" in stat_type or "expected goals" in stat_type:
-                has_xg = True
-                break
+    has_xg = _has_xg_from_stats(stats_payload, match)
 
     if events_payload.get("response"):
         has_shot_locations = any(
@@ -203,6 +241,48 @@ def _build_limitations(availability: Dict[str, bool]) -> List[str]:
     return limitations
 
 
+def _filter_limitations(limitations: List[str], availability: Dict[str, bool]) -> List[str]:
+    filtered: List[str] = []
+    for item in limitations:
+        lowered = item.lower()
+        if availability.get("has_xg") and ("xg" in lowered or "expected goals" in lowered):
+            continue
+        if availability.get("has_players") and ("player" in lowered or "rating" in lowered):
+            continue
+        if availability.get("has_shot_locations") and "shot location" in lowered:
+            continue
+        if availability.get("has_statistics") and "team-level statistics" in lowered:
+            continue
+        filtered.append(item)
+    return filtered
+
+
+def _find_player_row(
+    players_output: Optional[Dict[str, List[Dict[str, Any]]]],
+    team_name: str,
+    player_name: str,
+) -> Optional[tuple[str, int, Dict[str, Any]]]:
+    if not players_output:
+        return None
+    team_key = team_name.strip().lower()
+    for side, players in players_output.items():
+        for idx, player in enumerate(players):
+            if player.get("name", "").strip().lower() == player_name.strip().lower():
+                return side, idx, player
+    return None
+
+
+def _extract_rating_from_summary(summary: str) -> Optional[str]:
+    match = re.search(r"(\d+(?:\.\d+)?)\s*rating", summary, re.IGNORECASE)
+    if match:
+        return match.group(1)
+    return None
+
+
+def _strip_rating_from_summary(summary: str) -> str:
+    return re.sub(r"\s*\(?\b\d+(?:\.\d+)?\s*rating\b\)?", "", summary, flags=re.IGNORECASE).strip()
+
+
 def build_article_json(
     match: MatchData,
     llm_output: LLMOutput,
@@ -225,18 +305,37 @@ def build_article_json(
 
     player_notes = []
     for note in llm_output.player_notes:
+        summary = note.summary
         rating_value = note.rating if availability.get("has_players") else None
+        rating_in_summary = _extract_rating_from_summary(summary)
+        evidence = list(note.evidence)
+
+        if availability.get("has_players") and rating_in_summary and not rating_value:
+            player_row = _find_player_row(players_output, note.team, note.player)
+            if player_row and player_row[2].get("rating") is not None:
+                rating_value = str(player_row[2].get("rating"))
+                rating_path = f"players.{player_row[0]}.{player_row[1]}.rating={rating_value}"
+                if not any(".rating" in item for item in evidence):
+                    evidence.append(rating_path)
+            else:
+                summary = _strip_rating_from_summary(summary)
+        elif rating_value and not any(".rating" in item for item in evidence):
+            player_row = _find_player_row(players_output, note.team, note.player)
+            if player_row and player_row[2].get("rating") is not None:
+                rating_path = f"players.{player_row[0]}.{player_row[1]}.rating={rating_value}"
+                evidence.append(rating_path)
         player_notes.append(
             {
                 "player": note.player,
                 "team": note.team,
-                "summary": note.summary,
-                "evidence": note.evidence,
+                "summary": summary,
+                "evidence": evidence,
                 **({"rating": rating_value} if rating_value else {}),
             }
         )
 
-    data_limitations = list(dict.fromkeys(llm_output.data_limitations + _build_limitations(availability)))
+    combined_limitations = llm_output.data_limitations + _build_limitations(availability)
+    data_limitations = list(dict.fromkeys(_filter_limitations(combined_limitations, availability)))
 
     frontmatter = {
         "title": llm_output.title,
@@ -354,35 +453,20 @@ def _build_provenance_notes(article: Dict[str, Any], evidence_catalog: Dict[str,
 
     availability = article["data_provenance"]["availability"]
     if availability.get("has_events"):
-        notes.append("timeline.* sourced from fixtures/events (time, type, team, player, detail)")
+        notes.append("timeline[*] sourced from fixtures/events (time, type, team, player, detail)")
     if availability.get("has_statistics"):
-        for team_id, stats in (article.get("team_stats", {}).get("normalized") or {}).items():
-            for key in stats.keys():
-                source_label = STAT_SOURCE_MAP.get(key, key)
-                notes.append(
-                    f"team_stats.normalized.{team_id}.{key} sourced from fixtures/statistics.statistics['{source_label}']"
-                )
+        stat_keys = set()
+        for stats in (article.get("team_stats", {}).get("normalized") or {}).values():
+            stat_keys.update(stats.keys())
+        for stat_key in sorted(stat_keys):
+            source_label = STAT_SOURCE_MAP.get(stat_key, stat_key)
+            notes.append(
+                f"team_stats.normalized[*].{stat_key} sourced from fixtures/statistics.statistics['{source_label}']"
+            )
     if availability.get("has_players"):
-        notes.append("players.* sourced from fixtures/players.statistics")
-
-    used_paths = set()
-    for section in article.get("sections", []):
-        for claim in section.get("claims", []):
-            used_paths.update(_extract_paths(claim.get("evidence", [])))
-    for note in article.get("player_notes", []):
-        used_paths.update(_extract_paths(note.get("evidence", [])))
-
-    for path in sorted(used_paths):
-        if path.startswith("match."):
-            continue
-        if path.startswith("timeline."):
-            notes.append(f"{path} sourced from fixtures/events")
-        elif path.startswith("team_stats."):
-            notes.append(f"{path} sourced from fixtures/statistics")
-        elif path.startswith("players."):
-            notes.append(f"{path} sourced from fixtures/players")
-        else:
-            notes.append(f"{path} sourced from fixtures")
+        notes.append("players[*] sourced from fixtures/players.statistics")
+        for key, source in PLAYER_SOURCE_MAP.items():
+            notes.append(f"players[*].{key} sourced from {source}")
 
     return notes
 

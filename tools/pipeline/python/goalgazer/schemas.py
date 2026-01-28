@@ -84,6 +84,7 @@ class TeamNormalizedStats(BaseModel):
     possession: Optional[int] = None
     total_shots: Optional[int] = None
     shots_on_target: Optional[int] = None
+    shots_off_target: Optional[int] = None
     corners: Optional[int] = None
     fouls: Optional[int] = None
     yellow_cards: Optional[int] = None
@@ -91,6 +92,11 @@ class TeamNormalizedStats(BaseModel):
     offsides: Optional[int] = None
     passes_total: Optional[int] = None
     pass_accuracy: Optional[int] = None
+    xg: Optional[float] = None
+    gk_saves: Optional[int] = None
+    shots_inside_box: Optional[int] = None
+    shots_outside_box: Optional[int] = None
+    blocked_shots: Optional[int] = None
 
 
 class Aggregates(BaseModel):
