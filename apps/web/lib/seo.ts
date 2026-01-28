@@ -1,25 +1,37 @@
 import type { Metadata } from "next";
-import type { ArticleContent } from "./content";
-import type { SupportedLanguage } from "../i18n";
+import { buildLocalizedPath, DEFAULT_LANG, SUPPORTED_LANGS, type Lang } from "@/i18n";
+import type { MatchArticle } from "@/lib/content";
 
-const baseUrl = "https://www.goalgazer.example";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.goalgazer.example";
 
-export function buildArticleMetadata(article: ArticleContent, lang: SupportedLanguage): Metadata {
+export function buildLanguageAlternates(pathname: string) {
+  const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  const entries = Object.fromEntries(
+    SUPPORTED_LANGS.map((lang) => [lang, buildLocalizedPath(lang, normalized)])
+  );
+  return {
+    ...entries,
+    "x-default": buildLocalizedPath(DEFAULT_LANG, normalized),
+  };
+}
+
+export function buildCanonicalUrl(lang: Lang, pathname: string) {
+  const localized = buildLocalizedPath(lang, pathname);
+  return new URL(localized, baseUrl).toString();
+}
+
+export function buildArticleMetadata(article: MatchArticle, lang: Lang): Metadata {
   const title = article.frontmatter.title;
   const description = article.frontmatter.description;
-  const image = article.frontmatter.heroImage ?? article.sections[0]?.figures[0]?.src;
-  const canonical = `${baseUrl}/${lang}/matches/${article.frontmatter.matchId}`;
+  const image = article.frontmatter.heroImage ?? article.sections?.[0]?.figures?.[0]?.src;
+  const canonical = buildCanonicalUrl(lang, `/matches/${article.frontmatter.matchId}`);
 
   return {
     title,
     description,
     alternates: {
       canonical,
-      languages: {
-        en: `${baseUrl}/en/matches/${article.frontmatter.matchId}`,
-        zh: `${baseUrl}/zh/matches/${article.frontmatter.matchId}`,
-        ja: `${baseUrl}/ja/matches/${article.frontmatter.matchId}`,
-      },
+      languages: buildLanguageAlternates(`/matches/${article.frontmatter.matchId}`),
     },
     openGraph: {
       title,
@@ -37,8 +49,8 @@ export function buildArticleMetadata(article: ArticleContent, lang: SupportedLan
   };
 }
 
-export function buildJsonLd(article: ArticleContent, lang: SupportedLanguage) {
-  const url = `${baseUrl}/${lang}/matches/${article.frontmatter.matchId}`;
+export function buildJsonLd(article: MatchArticle, lang: Lang) {
+  const url = buildCanonicalUrl(lang, `/matches/${article.frontmatter.matchId}`);
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -55,8 +67,8 @@ export function buildJsonLd(article: ArticleContent, lang: SupportedLanguage) {
 }
 
 export function buildBreadcrumbJsonLd(
-  article: ArticleContent,
-  lang: SupportedLanguage,
+  article: MatchArticle,
+  lang: Lang,
   labels: { home: string }
 ) {
   return {
@@ -67,19 +79,19 @@ export function buildBreadcrumbJsonLd(
         "@type": "ListItem",
         position: 1,
         name: labels.home,
-        item: `${baseUrl}/${lang}`,
+        item: buildCanonicalUrl(lang, "/"),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: article.frontmatter.league,
-        item: `${baseUrl}/${lang}/leagues/${article.frontmatter.league}`,
+        item: buildCanonicalUrl(lang, `/leagues/${article.frontmatter.league}`),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: article.frontmatter.title,
-        item: `${baseUrl}/${lang}/matches/${article.frontmatter.matchId}`,
+        item: buildCanonicalUrl(lang, `/matches/${article.frontmatter.matchId}`),
       },
     ],
   };

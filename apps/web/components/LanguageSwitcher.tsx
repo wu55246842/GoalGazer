@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { languageLabels, replaceLanguageInPath, supportedLanguages } from "../i18n";
-import { useLang, useT } from "../i18n/I18nProvider";
+import { LANGUAGE_LABELS, replaceLanguageInPath, SUPPORTED_LANGS } from "@/i18n";
+import { useLang, useT } from "@/i18n/I18nProvider";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function LanguageSwitcher() {
 
   useEffect(() => {
     const stored = window.localStorage.getItem("goalgazer-lang");
-    if (stored && stored !== lang && supportedLanguages.includes(stored as typeof lang)) {
+    if (stored && stored !== lang && SUPPORTED_LANGS.includes(stored as typeof lang)) {
       const target = replaceLanguageInPath(pathname, stored as typeof lang);
       router.replace(buildQueryPath(target, searchParams.toString()));
     }
@@ -48,9 +48,9 @@ export default function LanguageSwitcher() {
           fontWeight: 600,
         }}
       >
-        {supportedLanguages.map((option) => (
+        {SUPPORTED_LANGS.map((option) => (
           <option key={option} value={option}>
-            {languageLabels[option]}
+            {LANGUAGE_LABELS[option]}
           </option>
         ))}
       </select>

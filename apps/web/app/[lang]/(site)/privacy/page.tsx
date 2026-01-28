@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { createTranslator, getMessages, normalizeLanguage } from "../../../i18n";
+import { getT, normalizeLang } from "@/i18n";
+import { buildCanonicalUrl, buildLanguageAlternates } from "@/lib/seo";
 
 interface PrivacyPageProps {
   params: { lang: string };
 }
 
-export function generateMetadata({ params }: PrivacyPageProps): Metadata {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
+export async function generateMetadata({ params }: PrivacyPageProps): Promise<Metadata> {
+  const lang = normalizeLang(params.lang);
+  const { messages } = await getT(lang);
   return {
     title: messages.seo.pages.privacy.title,
     description: messages.seo.pages.privacy.description,
@@ -19,13 +20,16 @@ export function generateMetadata({ params }: PrivacyPageProps): Metadata {
       title: messages.seo.pages.privacy.title,
       description: messages.seo.pages.privacy.description,
     },
+    alternates: {
+      canonical: buildCanonicalUrl(lang, "/privacy"),
+      languages: buildLanguageAlternates("/privacy"),
+    },
   };
 }
 
-export default function PrivacyPage({ params }: PrivacyPageProps) {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
-  const t = createTranslator(messages, lang);
+export default async function PrivacyPage({ params }: PrivacyPageProps) {
+  const lang = normalizeLang(params.lang);
+  const { t, messages } = await getT(lang);
 
   return (
     <section className="card">

@@ -1,11 +1,11 @@
 import "./globals.css";
 import { cookies, headers } from "next/headers";
-import { defaultLanguage, normalizeLanguage } from "../i18n";
+import { DEFAULT_LANG, normalizeLang } from "@/i18n";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const headerLang = headers().get("x-goalgazer-lang");
   const cookieLang = cookies().get("GG_LANG")?.value;
-  const lang = normalizeLanguage(headerLang ?? cookieLang ?? defaultLanguage);
+  const lang = normalizeLang(headerLang ?? cookieLang ?? DEFAULT_LANG);
 
   return (
     <html lang={lang}>

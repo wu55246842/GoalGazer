@@ -1,0 +1,262 @@
+{
+  "formats": {
+    "locale": "zh-CN"
+  },
+  "seo": {
+    "siteTitle": "GoalGazer｜数据驱动的足球战术分析",
+    "siteDescription": "GoalGazer 提供基于数据的足球战术解读，包含原创可视化、透明信息来源与编辑规范。探索英超等赛事的深度分析。",
+    "siteTagline": "以结构化数据与原创图表驱动的自动化战术复盘，并经编辑校验。",
+    "author": "GoalGazer 团队",
+    "keywords": [
+      "足球分析",
+      "战术解读",
+      "比赛分析",
+      "足球统计",
+      "英超",
+      "足球战术",
+      "数据可视化"
+    ],
+    "pages": {
+      "home": {
+        "title": "GoalGazer｜数据驱动的足球战术分析",
+        "description": "探索由结构化数据、原创可视化与透明编辑标准驱动的比赛复盘。"
+      },
+      "about": {
+        "title": "关于 GoalGazer",
+        "description": "了解 GoalGazer 如何结合结构化足球数据与编辑规范提供战术洞察。"
+      },
+      "contact": {
+        "title": "联系 GoalGazer",
+        "description": "如有编辑问题或数据纠错需求，请联系 GoalGazer 团队。"
+      },
+      "privacy": {
+        "title": "隐私政策",
+        "description": "了解 GoalGazer 的数据分析与隐私处理方式。"
+      },
+      "terms": {
+        "title": "服务条款",
+        "description": "GoalGazer 数据驱动足球分析平台的服务条款。"
+      },
+      "sources": {
+        "title": "数据来源",
+        "description": "了解 GoalGazer 使用的授权数据源与分析工具。"
+      },
+      "editorialPolicy": {
+        "title": "编辑政策",
+        "description": "了解 GoalGazer 如何保障基于数据的足球分析。"
+      },
+      "leagues": {
+        "title": "联赛比赛复盘",
+        "description": "按联赛浏览 GoalGazer 的比赛复盘。"
+      }
+    }
+  },
+  "nav": {
+    "home": "首页",
+    "about": "关于",
+    "contact": "联系",
+    "privacy": "隐私",
+    "terms": "条款",
+    "sources": "数据来源",
+    "editorialPolicy": "编辑政策"
+  },
+  "common": {
+    "brandName": "GoalGazer",
+    "languageLabel": "语言",
+    "readAnalysis": "阅读分析",
+    "advertisement": "广告"
+  },
+  "footer": {
+    "aboutTitle": "关于 GoalGazer",
+    "aboutDescription": "提供透明来源与原创可视化的数据驱动足球战术分析。",
+    "aboutSubtext": "结合结构化比赛数据与编辑监督，输出有洞察力的比赛复盘。",
+    "quickLinks": "快速链接",
+    "legal": "法律",
+    "followUs": "关注我们",
+    "followDescription": "获取最新战术洞察",
+    "rights": "保留所有权利。",
+    "dataNotice": "所有比赛数据与统计来自授权数据提供方。可视化与分析为原创内容。",
+    "social": {
+      "twitter": "Twitter",
+      "github": "GitHub"
+    }
+  },
+  "home": {
+    "heroTitle": "数据驱动的足球战术分析",
+    "heroDescription": "探索由结构化数据、原创可视化与透明编辑标准驱动的深入比赛复盘。每一条结论都有证据支撑。",
+    "viewLatestMatches": "查看最新比赛",
+    "learnMore": "了解更多",
+    "latestTitle": "最新战术复盘",
+    "matchCount": "已分析 {count} 场比赛，提供数据支撑的洞察",
+    "matchLabelSingular": "场比赛",
+    "matchLabelPlural": "场比赛",
+    "noMatchesTitle": "暂无比赛分析",
+    "noMatchesDescription": "稍后回来查看最新比赛的战术分析。",
+    "readAnalysis": "阅读分析",
+    "ctaTitle": "获取最新分析更新",
+    "ctaDescription": "当新的战术复盘发布时获取通知，不错过任何深度分析。",
+    "getInTouch": "联系我们"
+  },
+  "match": {
+    "tagLabel": "战术复盘",
+    "shareLabel": "分享",
+    "shareLinks": {
+      "x": "X",
+      "linkedIn": "LinkedIn"
+    },
+    "matchVisuals": "比赛图表",
+    "playerPerformances": "球员表现",
+    "dataLimitations": "数据限制",
+    "backToMatches": "← 返回全部比赛",
+    "learnProcess": "了解我们的流程",
+    "dataCitations": "数据引用",
+    "confidence": "置信度",
+    "venue": "球场",
+    "kickoff": "开球时间",
+    "status": "比赛状态",
+    "fullTime": "全场结束",
+    "fallbackNotice": "该语言版本暂不可用，已显示英文内容。"
+  },
+  "leagues": {
+    "title": "{league} 比赛复盘",
+    "empty": "该联赛暂无比赛复盘。"
+  },
+  "about": {
+    "title": "关于 GoalGazer",
+    "paragraphs": [
+      "GoalGazer 是一个自动化的战术分析项目，结合结构化足球数据与透明的编辑框架。每篇文章都基于比赛事件数据与原创可视化生成。",
+      "我们的目标是提供可读、可验证的比赛洞察，避免虚构叙事或使用受版权保护的素材。"
+    ]
+  },
+  "contact": {
+    "title": "联系",
+    "intro": "如有编辑问题、数据纠错或合作需求，请联系",
+    "introSuffix": "。",
+    "outro": "我们不接受要求更改数据结论的赞助或内容投放。"
+  },
+  "privacy": {
+    "title": "隐私政策",
+    "paragraphs": [
+      "GoalGazer 不收集可识别个人身份的信息。我们使用基础分析来了解页面表现并改进编辑覆盖。",
+      "如启用分析，其数据为汇总形式且不包含营销标识。我们不会出售用户数据或与第三方广告共享。"
+    ]
+  },
+  "sources": {
+    "title": "数据来源",
+    "intro": "GoalGazer 依赖授权的比赛数据提供方。默认流水线在提供凭据时连接 API-Football (API-FOOTBALL)。",
+    "list": [
+      "比赛赛程、阵容与事件来自 API-Football。",
+      "衍生指标在本地基于事件数据计算。",
+      "使用 mplsoccer 与 matplotlib 生成原创可视化。"
+    ],
+    "outro": "数据限制或缺失字段会在每篇文章中明确说明。"
+  },
+  "editorialPolicy": {
+    "title": "编辑政策",
+    "paragraphs": [
+      "GoalGazer 文章由结构化比赛数据生成并经过清晰度审查。我们禁止虚构结论、臆测战术判断以及任何博彩相关表述。",
+      "每条战术结论均附带与数据字段对应的证据列表。当证据不完整时，文章会明确标注限制。",
+      "我们避免使用俱乐部徽章或球员图像等受版权保护的素材，改用中性图表与文字洞察。"
+    ]
+  },
+  "terms": {
+    "title": "服务条款",
+    "lastUpdated": "最后更新：{date}",
+    "sections": [
+      {
+        "title": "1. 接受条款",
+        "paragraphs": [
+          "访问和使用 GoalGazer（\"服务\"）即表示您接受并同意遵守本协议条款。如不同意这些服务条款，请勿使用本服务。"
+        ]
+      },
+      {
+        "title": "2. 使用许可",
+        "paragraphs": [
+          "允许您以个人、非商业、临时浏览的方式访问 GoalGazer 的材料（信息或软件）。这是许可而非所有权转让。在该许可下您不得："
+        ],
+        "bullets": [
+          "修改或复制材料",
+          "将材料用于任何商业目的或公开展示",
+          "试图反向工程 GoalGazer 上的任何软件",
+          "删除材料中的版权或其他专有标识",
+          "将材料转移给他人或在其他服务器上\"镜像\"材料"
+        ]
+      },
+      {
+        "title": "3. 内容所有权",
+        "paragraphs": [
+          "GoalGazer 发布的所有内容（包括但不限于文本、图形、标识、图片与软件）均为 GoalGazer 或其内容提供方所有，并受国际版权法保护。",
+          "比赛数据与统计来自授权的第三方提供方。所有可视化与战术分析均为 GoalGazer 原创内容。"
+        ]
+      },
+      {
+        "title": "4. 免责声明",
+        "paragraphs": [
+          "GoalGazer 上的材料按“原样”提供。GoalGazer 不作任何明示或暗示的保证，并否认包括但不限于适销性、特定用途适用性或不侵权在内的所有保证。",
+          "GoalGazer 不保证材料的准确性、预期结果或使用可靠性，也不对与本站链接的其他网站材料作出任何陈述。"
+        ]
+      },
+      {
+        "title": "5. 责任限制",
+        "paragraphs": [
+          "在任何情况下，GoalGazer 或其供应商均不对因使用或无法使用 GoalGazer 材料而导致的任何损害（包括但不限于数据或利润损失、业务中断）承担责任，即使已被告知可能发生此类损害。"
+        ]
+      },
+      {
+        "title": "6. 材料准确性",
+        "paragraphs": [
+          "GoalGazer 网站上的材料可能包含技术、排版或摄影错误。GoalGazer 不保证网站材料准确、完整或最新，并可随时更改而无需通知。"
+        ]
+      },
+      {
+        "title": "7. 链接",
+        "paragraphs": [
+          "GoalGazer 未审查所有链接网站，对其内容不承担责任。链接并不代表 GoalGazer 对该站点的认可，使用任何链接网站均由用户自担风险。"
+        ]
+      },
+      {
+        "title": "8. 修改",
+        "paragraphs": [
+          "GoalGazer 可随时修改本服务条款，且无需通知。使用本网站即表示您同意遵守当时生效的条款版本。"
+        ]
+      },
+      {
+        "title": "9. 适用法律",
+        "paragraphs": [
+          "这些条款受相关法律管辖并依其解释，您不可撤销地同意提交至该地点法院的专属管辖。"
+        ]
+      },
+      {
+        "title": "10. 联系信息",
+        "paragraphs": [
+          "如对本服务条款有任何问题，请通过以下方式联系："
+        ]
+      }
+    ],
+    "contactEmailLabel": "电子邮箱：",
+    "questionsTitle": "有问题？",
+    "questionsBody": "如对我们的服务条款有任何疑问，欢迎",
+    "questionsLinkText": "联系我们",
+    "questionsSuffix": "。"
+  },
+  "buttons": {
+    "primary": "主要",
+    "secondary": "次要",
+    "submit": "提交",
+    "cancel": "取消",
+    "viewMore": "查看更多"
+  },
+  "errors": {
+    "notFound": "页面未找到",
+    "generic": "出现错误，请稍后再试。"
+  },
+  "time": {
+    "updatedAt": "更新于 {date}",
+    "minutes": "{count} 分钟",
+    "hours": "{count} 小时"
+  },
+  "league": {
+    "title": "联赛",
+    "season": "赛季"
+  }
+}

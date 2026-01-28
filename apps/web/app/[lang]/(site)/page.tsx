@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { loadIndexLocalized } from "../../../lib/content";
-import { buildLocalizedPath, createTranslator, getMessages, normalizeLanguage } from "../../../i18n";
+import { readMatchIndexLocalized } from "@/lib/content";
+import { buildLocalizedPath, getT, normalizeLang } from "@/i18n";
+import { buildCanonicalUrl, buildLanguageAlternates } from "@/lib/seo";
 
 interface HomePageProps {
   params: { lang: string };
 }
 
-export function generateMetadata({ params }: HomePageProps): Metadata {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
+export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
+  const lang = normalizeLang(params.lang);
+  const { messages } = await getT(lang);
   return {
     title: messages.seo.pages.home.title,
     description: messages.seo.pages.home.description,
@@ -21,21 +22,17 @@ export function generateMetadata({ params }: HomePageProps): Metadata {
       description: messages.seo.pages.home.description,
     },
     alternates: {
-      languages: {
-        en: "/en",
-        zh: "/zh",
-        ja: "/ja",
-      },
+      canonical: buildCanonicalUrl(lang, "/"),
+      languages: buildLanguageAlternates("/"),
     },
   };
 }
 
-export default function HomePage({ params }: HomePageProps) {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
-  const t = createTranslator(messages, lang);
+export default async function HomePage({ params }: HomePageProps) {
+  const lang = normalizeLang(params.lang);
+  const { t, messages } = await getT(lang);
   const locale = messages.formats.locale;
-  const articles = loadIndexLocalized(lang);
+  const articles = await readMatchIndexLocalized(lang);
   const matchLabel =
     articles.length === 1 ? t("home.matchLabelSingular") : t("home.matchLabelPlural");
 

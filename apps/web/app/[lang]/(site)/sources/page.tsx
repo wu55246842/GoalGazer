@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { createTranslator, getMessages, normalizeLanguage } from "../../../i18n";
+import { getT, normalizeLang } from "@/i18n";
+import { buildCanonicalUrl, buildLanguageAlternates } from "@/lib/seo";
 
 interface SourcesPageProps {
   params: { lang: string };
 }
 
-export function generateMetadata({ params }: SourcesPageProps): Metadata {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
+export async function generateMetadata({ params }: SourcesPageProps): Promise<Metadata> {
+  const lang = normalizeLang(params.lang);
+  const { messages } = await getT(lang);
   return {
     title: messages.seo.pages.sources.title,
     description: messages.seo.pages.sources.description,
@@ -19,13 +20,16 @@ export function generateMetadata({ params }: SourcesPageProps): Metadata {
       title: messages.seo.pages.sources.title,
       description: messages.seo.pages.sources.description,
     },
+    alternates: {
+      canonical: buildCanonicalUrl(lang, "/sources"),
+      languages: buildLanguageAlternates("/sources"),
+    },
   };
 }
 
-export default function SourcesPage({ params }: SourcesPageProps) {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
-  const t = createTranslator(messages, lang);
+export default async function SourcesPage({ params }: SourcesPageProps) {
+  const lang = normalizeLang(params.lang);
+  const { t, messages } = await getT(lang);
 
   return (
     <section className="card">

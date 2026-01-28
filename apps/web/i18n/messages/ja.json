@@ -1,0 +1,262 @@
+{
+  "formats": {
+    "locale": "ja-JP"
+  },
+  "seo": {
+    "siteTitle": "GoalGazer｜データ駆動のサッカー戦術分析",
+    "siteDescription": "GoalGazer はデータに基づくサッカー戦術分析を提供します。独自ビジュアル、透明な情報源、編集方針で英プレミアリーグなどの深掘り分析を届けます。",
+    "siteTagline": "構造化データと独自ビジュアルに支えられた編集監修付きの戦術レビュー。",
+    "author": "GoalGazer チーム",
+    "keywords": [
+      "サッカー分析",
+      "戦術レビュー",
+      "試合分析",
+      "サッカー統計",
+      "プレミアリーグ",
+      "サッカー戦術",
+      "データ可視化"
+    ],
+    "pages": {
+      "home": {
+        "title": "GoalGazer｜データ駆動のサッカー戦術分析",
+        "description": "構造化データと独自ビジュアル、透明な編集基準で試合を深掘り。"
+      },
+      "about": {
+        "title": "GoalGazer について",
+        "description": "GoalGazer が構造化データと編集方針で戦術洞察を届ける仕組みを紹介します。"
+      },
+      "contact": {
+        "title": "お問い合わせ",
+        "description": "編集に関する質問やデータ修正は GoalGazer チームまでご連絡ください。"
+      },
+      "privacy": {
+        "title": "プライバシーポリシー",
+        "description": "GoalGazer の解析データとプライバシー対応について。"
+      },
+      "terms": {
+        "title": "利用規約",
+        "description": "GoalGazer のデータ駆動サッカー分析プラットフォームの利用規約。"
+      },
+      "sources": {
+        "title": "データソース",
+        "description": "GoalGazer の分析に使われるライセンス済みデータ提供元とツール。"
+      },
+      "editorialPolicy": {
+        "title": "編集方針",
+        "description": "GoalGazer がデータ根拠を守るための編集方針を説明します。"
+      },
+      "leagues": {
+        "title": "リーグ別レビュー",
+        "description": "リーグ別に GoalGazer の試合レビューを閲覧できます。"
+      }
+    }
+  },
+  "nav": {
+    "home": "ホーム",
+    "about": "概要",
+    "contact": "連絡先",
+    "privacy": "プライバシー",
+    "terms": "利用規約",
+    "sources": "データソース",
+    "editorialPolicy": "編集方針"
+  },
+  "common": {
+    "brandName": "GoalGazer",
+    "languageLabel": "言語",
+    "readAnalysis": "分析を読む",
+    "advertisement": "広告"
+  },
+  "footer": {
+    "aboutTitle": "GoalGazer について",
+    "aboutDescription": "透明な情報源と独自ビジュアルに基づくデータ駆動の戦術分析。",
+    "aboutSubtext": "構造化された試合データと編集監修で洞察に満ちたレビューを提供します。",
+    "quickLinks": "クイックリンク",
+    "legal": "法的情報",
+    "followUs": "フォローする",
+    "followDescription": "最新の戦術インサイトを受け取る",
+    "rights": "All rights reserved.",
+    "dataNotice": "試合データと統計はライセンス済み提供元から取得。可視化と分析はオリジナルです。",
+    "social": {
+      "twitter": "Twitter",
+      "github": "GitHub"
+    }
+  },
+  "home": {
+    "heroTitle": "データ駆動のサッカー戦術分析",
+    "heroDescription": "構造化データと独自ビジュアル、透明な編集基準で試合を深掘り。すべての洞察は根拠に基づきます。",
+    "viewLatestMatches": "最新の試合を見る",
+    "learnMore": "詳しく見る",
+    "latestTitle": "最新の戦術レビュー",
+    "matchCount": "{count} {matchLabel}の試合を分析しました",
+    "matchLabelSingular": "件",
+    "matchLabelPlural": "件",
+    "noMatchesTitle": "試合レビューがまだありません",
+    "noMatchesDescription": "最新の戦術分析は近日公開予定です。",
+    "readAnalysis": "分析を読む",
+    "ctaTitle": "最新分析の更新を受け取る",
+    "ctaDescription": "新しい戦術レビューの公開時に通知を受け取れます。",
+    "getInTouch": "お問い合わせ"
+  },
+  "match": {
+    "tagLabel": "戦術レビュー",
+    "shareLabel": "共有",
+    "shareLinks": {
+      "x": "X",
+      "linkedIn": "LinkedIn"
+    },
+    "matchVisuals": "試合ビジュアル",
+    "playerPerformances": "選手パフォーマンス",
+    "dataLimitations": "データ制限",
+    "backToMatches": "← すべての試合へ戻る",
+    "learnProcess": "分析プロセスについて",
+    "dataCitations": "データ出典",
+    "confidence": "信頼度",
+    "venue": "会場",
+    "kickoff": "キックオフ",
+    "status": "試合状況",
+    "fullTime": "フルタイム",
+    "fallbackNotice": "この言語はまだ利用できません。英語を表示しています。"
+  },
+  "leagues": {
+    "title": "{league} 試合レビュー",
+    "empty": "このリーグのレビューはまだありません。"
+  },
+  "about": {
+    "title": "GoalGazer について",
+    "paragraphs": [
+      "GoalGazer は構造化されたサッカーデータと透明な編集方針を組み合わせた自動戦術分析プロジェクトです。各記事は試合イベントデータと独自ビジュアルから生成されます。",
+      "私たちは、根拠に基づいた読みやすい洞察を提供し、作り話や著作権素材の使用を避けます。"
+    ]
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "intro": "編集に関する質問、データ修正、提携のご相談は",
+    "introSuffix": "までご連絡ください。",
+    "outro": "データ結論の変更を求めるスポンサーやコンテンツ掲載は受け付けていません。"
+  },
+  "privacy": {
+    "title": "プライバシーポリシー",
+    "paragraphs": [
+      "GoalGazer は個人を特定できる情報を収集しません。ページのパフォーマンス把握と編集改善のために基本的な解析を行います。",
+      "解析が有効な場合でも集計データのみを扱い、マーケティング識別子は含みません。ユーザーデータの販売や広告目的の共有は行いません。"
+    ]
+  },
+  "sources": {
+    "title": "データソース",
+    "intro": "GoalGazer はライセンス済みの試合データ提供元に依存しています。既定のパイプラインは資格情報がある場合に API-Football (API-FOOTBALL) に接続します。",
+    "list": [
+      "試合日程、ラインナップ、イベントは API-Football から取得。",
+      "派生指標はイベントデータをもとにローカルで算出。",
+      "mplsoccer と matplotlib により独自ビジュアルを生成。"
+    ],
+    "outro": "データの制限や不足項目は各記事内で明示します。"
+  },
+  "editorialPolicy": {
+    "title": "編集方針",
+    "paragraphs": [
+      "GoalGazer の記事は構造化試合データから生成され、明瞭さの観点でレビューされます。虚偽の主張や推測的な戦術断定、賭博関連の表現は禁止しています。",
+      "各戦術主張にはデータ項目に紐づく証拠リストを付与し、証拠が不十分な場合は明示します。",
+      "クラブのエンブレムや選手画像などの著作権素材は避け、中立的な図表とテキスト中心の洞察を提供します。"
+    ]
+  },
+  "terms": {
+    "title": "利用規約",
+    "lastUpdated": "最終更新日: {date}",
+    "sections": [
+      {
+        "title": "1. 規約への同意",
+        "paragraphs": [
+          "GoalGazer（\"本サービス\"）にアクセスし利用することで、本規約に同意したものとみなされます。規約に同意しない場合はサービスをご利用にならないでください。"
+        ]
+      },
+      {
+        "title": "2. 使用許諾",
+        "paragraphs": [
+          "GoalGazer の資料（情報またはソフトウェア）へのアクセスは、個人的かつ非商用の一時的閲覧に限り許可されます。これは所有権の移転ではなく使用許諾です。以下の行為は禁止されます。"
+        ],
+        "bullets": [
+          "資料の変更または複製",
+          "商用目的または公的表示での使用",
+          "GoalGazer 上のソフトウェアのリバースエンジニアリング",
+          "著作権やその他の表示の削除",
+          "資料の他者への譲渡、または他サーバーへの\"ミラー\""
+        ]
+      },
+      {
+        "title": "3. コンテンツの所有権",
+        "paragraphs": [
+          "GoalGazer に掲載されるすべてのコンテンツ（テキスト、グラフィック、ロゴ、画像、ソフトウェア等）は GoalGazer または提供者に帰属し、国際著作権法で保護されます。",
+          "試合データと統計はライセンス済みの第三者提供元から取得しています。可視化と戦術分析は GoalGazer のオリジナルです。"
+        ]
+      },
+      {
+        "title": "4. 免責事項",
+        "paragraphs": [
+          "GoalGazer の資料は現状有姿で提供されます。GoalGazer は明示または黙示の保証を行わず、商品性、特定目的への適合性、非侵害等の保証を含め一切否認します。",
+          "GoalGazer は資料の正確性、結果、信頼性について一切の表明を行いません。リンク先サイトの内容にも責任を負いません。"
+        ]
+      },
+      {
+        "title": "5. 責任の制限",
+        "paragraphs": [
+          "GoalGazer または提供者は、資料の使用または使用不能により生じる損害（データ損失、利益損失、業務中断など）について、通知を受けていた場合でも一切の責任を負いません。"
+        ]
+      },
+      {
+        "title": "6. 資料の正確性",
+        "paragraphs": [
+          "GoalGazer の資料には技術的、表記上、写真上の誤りが含まれる場合があります。GoalGazer は資料が正確、完全、最新であることを保証せず、予告なく変更する場合があります。"
+        ]
+      },
+      {
+        "title": "7. リンク",
+        "paragraphs": [
+          "GoalGazer はリンク先サイトをすべて確認しているわけではなく、その内容に責任を負いません。リンクは推奨を意味しません。リンク先の利用は自己責任です。"
+        ]
+      },
+      {
+        "title": "8. 規約の変更",
+        "paragraphs": [
+          "GoalGazer は本規約を予告なく改定する場合があります。利用者は最新の規約に拘束されます。"
+        ]
+      },
+      {
+        "title": "9. 準拠法",
+        "paragraphs": [
+          "本規約は適用法に準拠し解釈され、利用者は該当する裁判所の専属的管轄に服するものとします。"
+        ]
+      },
+      {
+        "title": "10. 連絡先",
+        "paragraphs": [
+          "本規約についてご質問がある場合は、以下までご連絡ください。"
+        ]
+      }
+    ],
+    "contactEmailLabel": "メール:",
+    "questionsTitle": "ご質問はありますか？",
+    "questionsBody": "利用規約に関するご質問があれば、",
+    "questionsLinkText": "お問い合わせください",
+    "questionsSuffix": "。"
+  },
+  "buttons": {
+    "primary": "メイン",
+    "secondary": "サブ",
+    "submit": "送信",
+    "cancel": "キャンセル",
+    "viewMore": "もっと見る"
+  },
+  "errors": {
+    "notFound": "ページが見つかりません",
+    "generic": "問題が発生しました。"
+  },
+  "time": {
+    "updatedAt": "更新日 {date}",
+    "minutes": "{count} 分",
+    "hours": "{count} 時間"
+  },
+  "league": {
+    "title": "リーグ",
+    "season": "シーズン"
+  }
+}
