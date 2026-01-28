@@ -1,7 +1,11 @@
-export default function ShareBar() {
+interface ShareBarProps {
+  label?: string;
+}
+
+export default function ShareBar({ label = "Share" }: ShareBarProps) {
   return (
     <div style={{ marginTop: "1rem", fontSize: "0.9rem", color: "#6b7280" }}>
-      <span>Share: </span>
+      <span>{label}: </span>
       <a href="https://x.com/intent/tweet" target="_blank" rel="noreferrer">
         X
       </a>

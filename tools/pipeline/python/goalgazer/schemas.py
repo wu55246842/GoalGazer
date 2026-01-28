@@ -161,3 +161,18 @@ class LLMOutput(BaseModel):
     player_notes: List[LLMPlayerNote]
     data_limitations: List[str]
     cta: str
+
+
+TRANSLATABLE_TEXT_PATHS = [
+    "frontmatter.title",
+    "frontmatter.description",
+    "sections[].heading",
+    "sections[].paragraphs[]",
+    "sections[].bullets[]",
+    "sections[].claims[].claim",
+    "player_notes[].summary",
+    "figures[].alt",
+    "figures[].caption",
+    "data_limitations[]",
+    "cta",
+]
