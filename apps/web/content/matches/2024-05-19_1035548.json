@@ -1,0 +1,1314 @@
+{
+  "frontmatter": {
+    "title": "Chelsea 2-1 Bournemouth: Blues Edge Out Cherries in Tense Premier League Finale",
+    "description": "Chelsea secured a narrow victory over Bournemouth in the final match of the 2023 Premier League season, with key goals from Caicedo and Sterling proving decisive despite Bournemouth's higher xG.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035548",
+    "league": "premier-league",
+    "teams": [
+      "Chelsea",
+      "Bournemouth"
+    ],
+    "tags": [
+      "Premier League",
+      "Chelsea",
+      "Bournemouth",
+      "Match Analysis",
+      "Tactical Breakdown"
+    ],
+    "heroImage": "/generated/matches/1035548/shot_proxy.png"
+  },
+  "match": {
+    "id": "1035548",
+    "date_utc": "2024-05-19T15:00:00+00:00",
+    "league": "Premier League",
+    "season": "2023",
+    "round": "Regular Season - 38",
+    "homeTeam": {
+      "id": "49",
+      "name": "Chelsea"
+    },
+    "awayTeam": {
+      "id": "35",
+      "name": "Bournemouth"
+    },
+    "score": {
+      "home": 2,
+      "away": 1,
+      "ht_home": 1,
+      "ht_away": 0
+    },
+    "venue": "Stamford Bridge"
+  },
+  "data_provenance": {
+    "provider": "api-football",
+    "endpoints_used": [
+      "fixtures",
+      "fixtures/events",
+      "fixtures/lineups",
+      "fixtures/players",
+      "fixtures/statistics"
+    ],
+    "fetched_at_utc": "2026-01-28T04:42:14.038278+00:00",
+    "availability": {
+      "has_events": true,
+      "has_statistics": true,
+      "has_lineups": true,
+      "has_players": true,
+      "has_xg": true,
+      "has_shot_locations": false
+    },
+    "notes": [
+      "match.* sourced from fixtures (teams, score, venue, kickoff)",
+      "timeline[*] sourced from fixtures/events (time, type, team, player, detail)",
+      "team_stats.normalized[*].blocked_shots sourced from fixtures/statistics.statistics['Blocked Shots']",
+      "team_stats.normalized[*].corners sourced from fixtures/statistics.statistics['Corner Kicks']",
+      "team_stats.normalized[*].fouls sourced from fixtures/statistics.statistics['Fouls']",
+      "team_stats.normalized[*].gk_saves sourced from fixtures/statistics.statistics['Goalkeeper Saves']",
+      "team_stats.normalized[*].offsides sourced from fixtures/statistics.statistics['Offsides']",
+      "team_stats.normalized[*].pass_accuracy sourced from fixtures/statistics.statistics['Passes %']",
+      "team_stats.normalized[*].passes_total sourced from fixtures/statistics.statistics['Total passes']",
+      "team_stats.normalized[*].possession sourced from fixtures/statistics.statistics['Ball Possession']",
+      "team_stats.normalized[*].red_cards sourced from fixtures/statistics.statistics['Red Cards']",
+      "team_stats.normalized[*].shots_inside_box sourced from fixtures/statistics.statistics['Shots insidebox']",
+      "team_stats.normalized[*].shots_off_target sourced from fixtures/statistics.statistics['Shots off Goal']",
+      "team_stats.normalized[*].shots_on_target sourced from fixtures/statistics.statistics['Shots on Goal']",
+      "team_stats.normalized[*].shots_outside_box sourced from fixtures/statistics.statistics['Shots outsidebox']",
+      "team_stats.normalized[*].total_shots sourced from fixtures/statistics.statistics['Total Shots']",
+      "team_stats.normalized[*].xg sourced from fixtures/statistics.statistics['expected_goals']",
+      "team_stats.normalized[*].yellow_cards sourced from fixtures/statistics.statistics['Yellow Cards']",
+      "players[*] sourced from fixtures/players.statistics",
+      "players[*].rating sourced from fixtures/players.statistics[].games.rating",
+      "players[*].shots sourced from fixtures/players.statistics[].shots.total",
+      "players[*].key_passes sourced from fixtures/players.statistics[].passes.key",
+      "players[*].passes sourced from fixtures/players.statistics[].passes.accuracy",
+      "players[*].tackles sourced from fixtures/players.statistics[].tackles.total",
+      "players[*].duels_won sourced from fixtures/players.statistics[].duels.won"
+    ]
+  },
+  "timeline": [
+    {
+      "minute": 17,
+      "type": "goal",
+      "teamId": "49",
+      "teamName": "Chelsea",
+      "playerId": "116117",
+      "playerName": "M. Caicedo",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Normal Goal",
+      "score_after": {
+        "home": 1,
+        "away": 0
+      }
+    },
+    {
+      "minute": 27,
+      "type": "card",
+      "teamId": "49",
+      "teamName": "Chelsea",
+      "playerId": "47380",
+      "playerName": "Marc Cucurella",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 27,
+      "type": "card",
+      "teamId": "35",
+      "teamName": "Bournemouth",
+      "playerId": "19281",
+      "playerName": "Antoine Semenyo",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 30,
+      "type": "card",
+      "teamId": "35",
+      "teamName": "Bournemouth",
+      "playerId": "206254",
+      "playerName": "Milo\u0161 Kerkez",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 48,
+      "type": "goal",
+      "teamId": "49",
+      "teamName": "Chelsea",
+      "playerId": "645",
+      "playerName": "R. Sterling",
+      "assistId": "152982",
+      "assistName": "C. Palmer",
+      "detail": "Normal Goal",
+      "score_after": {
+        "home": 2,
+        "away": 0
+      }
+    },
+    {
+      "minute": 49,
+      "type": "goal",
+      "teamId": "35",
+      "teamName": "Bournemouth",
+      "playerId": "95",
+      "playerName": "B. Badiashile",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Own Goal",
+      "score_after": {
+        "home": 2,
+        "away": 1
+      }
+    },
+    {
+      "minute": 59,
+      "type": "subst",
+      "teamId": "35",
+      "teamName": "Bournemouth",
+      "playerId": "19245",
+      "playerName": "M. Tavernier",
+      "assistId": "284797",
+      "assistName": "Dango Ouattara",
+      "detail": "Substitution 1",
+      "score_after": null
+    },
+    {
+      "minute": 60,
+      "type": "subst",
+      "teamId": "35",
+      "teamName": "Bournemouth",
+      "playerId": "792",
+      "playerName": "J. Kluivert",
+      "assistId": "18883",
+      "assistName": "D. Solanke",
+      "detail": "Substitution 2",
+      "score_after": null
+    },
+    {
+      "minute": 64,
+      "type": "subst",
+      "teamId": "49",
+      "teamName": "Chelsea",
+      "playerId": "116117",
+      "playerName": "M. Caicedo",
+      "assistId": "270508",
+      "assistName": "L. Ugochukwu",
+      "detail": "Substitution 1",
+      "score_after": null
+    },
+    {
+      "minute": 64,
+      "type": "subst",
+      "teamId": "49",
+      "teamName": "Chelsea",
+      "playerId": "645",
+      "playerName": "R. Sterling",
+      "assistId": "269",
+      "assistName": "C. Nkunku",
+      "detail": "Substitution 2",
+      "score_after": null
+    },
+    {
+      "minute": 64,
+      "type": "subst",
+      "teamId": "49",
+      "teamName": "Chelsea",
+      "playerId": "136723",
+      "playerName": "N. Madueke",
+      "assistId": "161907",
+      "assistName": "M. Gusto",
+      "detail": "Substitution 3",
+      "score_after": null
+    },
+    {
+      "minute": 69,
+      "type": "subst",
+      "teamId": "35",
+      "teamName": "Bournemouth",
+      "playerId": "19070",
+      "playerName": "M. Aarons",
+      "assistId": "304853",
+      "assistName": "A. Scott",
+      "detail": "Substitution 3",
+      "score_after": null
+    },
+    {
+      "minute": 70,
+      "type": "subst",
+      "teamId": "35",
+      "teamName": "Bournemouth",
+      "playerId": "47499",
+      "playerName": "E. \u00dcnal",
+      "assistId": "2734",
+      "assistName": "P. Billing",
+      "detail": "Substitution 4",
+      "score_after": null
+    },
+    {
+      "minute": 78,
+      "type": "card",
+      "teamId": "49",
+      "teamName": "Chelsea",
+      "playerId": "161907",
+      "playerName": "Malo Gusto",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 80,
+      "type": "card",
+      "teamId": "35",
+      "teamName": "Bournemouth",
+      "playerId": "6610",
+      "playerName": "Marcos Senesi",
+      "assistId": null,
+      "assistName": null,
+      "detail": "Yellow Card",
+      "score_after": null
+    },
+    {
+      "minute": 84,
+      "type": "subst",
+      "teamId": "35",
+      "teamName": "Bournemouth",
+      "playerId": "6610",
+      "playerName": "M. Senesi",
+      "assistId": "19263",
+      "assistName": "L. Kelly",
+      "detail": "Substitution 5",
+      "score_after": null
+    },
+    {
+      "minute": 89,
+      "type": "subst",
+      "teamId": "49",
+      "teamName": "Chelsea",
+      "playerId": "152982",
+      "playerName": "C. Palmer",
+      "assistId": "270507",
+      "assistName": "C. Casadei",
+      "detail": "Substitution 4",
+      "score_after": null
+    }
+  ],
+  "team_stats": {
+    "raw": {
+      "49": {
+        "team": {
+          "id": 49,
+          "name": "Chelsea",
+          "logo": "https://media.api-sports.io/football/teams/49.png"
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 6
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 4
+          },
+          {
+            "type": "Total Shots",
+            "value": 16
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 6
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 11
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 5
+          },
+          {
+            "type": "Fouls",
+            "value": 5
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 6
+          },
+          {
+            "type": "Offsides",
+            "value": 0
+          },
+          {
+            "type": "Ball Possession",
+            "value": "61%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 2
+          },
+          {
+            "type": "Red Cards",
+            "value": null
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 5
+          },
+          {
+            "type": "Total passes",
+            "value": 533
+          },
+          {
+            "type": "Passes accurate",
+            "value": 457
+          },
+          {
+            "type": "Passes %",
+            "value": "86%"
+          },
+          {
+            "type": "expected_goals",
+            "value": "1.14"
+          },
+          {
+            "type": "goals_prevented",
+            "value": 0
+          }
+        ]
+      },
+      "35": {
+        "team": {
+          "id": 35,
+          "name": "Bournemouth",
+          "logo": "https://media.api-sports.io/football/teams/35.png"
+        },
+        "statistics": [
+          {
+            "type": "Shots on Goal",
+            "value": 5
+          },
+          {
+            "type": "Shots off Goal",
+            "value": 13
+          },
+          {
+            "type": "Total Shots",
+            "value": 22
+          },
+          {
+            "type": "Blocked Shots",
+            "value": 4
+          },
+          {
+            "type": "Shots insidebox",
+            "value": 14
+          },
+          {
+            "type": "Shots outsidebox",
+            "value": 8
+          },
+          {
+            "type": "Fouls",
+            "value": 9
+          },
+          {
+            "type": "Corner Kicks",
+            "value": 5
+          },
+          {
+            "type": "Offsides",
+            "value": 1
+          },
+          {
+            "type": "Ball Possession",
+            "value": "39%"
+          },
+          {
+            "type": "Yellow Cards",
+            "value": 3
+          },
+          {
+            "type": "Red Cards",
+            "value": null
+          },
+          {
+            "type": "Goalkeeper Saves",
+            "value": 4
+          },
+          {
+            "type": "Total passes",
+            "value": 320
+          },
+          {
+            "type": "Passes accurate",
+            "value": 261
+          },
+          {
+            "type": "Passes %",
+            "value": "82%"
+          },
+          {
+            "type": "expected_goals",
+            "value": "2.22"
+          },
+          {
+            "type": "goals_prevented",
+            "value": 0
+          }
+        ]
+      }
+    },
+    "normalized": {
+      "49": {
+        "possession": 61,
+        "total_shots": 16,
+        "shots_on_target": 6,
+        "shots_off_target": 4,
+        "corners": 6,
+        "fouls": 5,
+        "yellow_cards": 2,
+        "red_cards": null,
+        "offsides": 0,
+        "passes_total": 533,
+        "pass_accuracy": 86,
+        "xg": 1.14,
+        "gk_saves": 5,
+        "shots_inside_box": 11,
+        "shots_outside_box": 5,
+        "blocked_shots": 6
+      },
+      "35": {
+        "possession": 39,
+        "total_shots": 22,
+        "shots_on_target": 5,
+        "shots_off_target": 13,
+        "corners": 5,
+        "fouls": 9,
+        "yellow_cards": 3,
+        "red_cards": null,
+        "offsides": 1,
+        "passes_total": 320,
+        "pass_accuracy": 82,
+        "xg": 2.22,
+        "gk_saves": 4,
+        "shots_inside_box": 14,
+        "shots_outside_box": 8,
+        "blocked_shots": 4
+      }
+    }
+  },
+  "players": {
+    "home": [
+      {
+        "id": "21998",
+        "name": "A. Disasi",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "284406",
+        "name": "A. Gilchrist",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "95",
+        "name": "B. Badiashile",
+        "minutes": 90,
+        "goals": 1,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.7,
+        "shots": null,
+        "key_passes": 1,
+        "passes": 55,
+        "tackles": 1,
+        "duels_won": 2
+      },
+      {
+        "id": "270507",
+        "name": "C. Casadei",
+        "minutes": 9,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": null,
+        "key_passes": null,
+        "passes": 4,
+        "tackles": 3,
+        "duels_won": 4
+      },
+      {
+        "id": "138935",
+        "name": "C. Chukwuemeka",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "67972",
+        "name": "C. Gallagher",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.6,
+        "shots": 2,
+        "key_passes": null,
+        "passes": 50,
+        "tackles": 1,
+        "duels_won": 9
+      },
+      {
+        "id": "269",
+        "name": "C. Nkunku",
+        "minutes": 26,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 7.0,
+        "shots": 2,
+        "key_passes": null,
+        "passes": 17,
+        "tackles": null,
+        "duels_won": 2
+      },
+      {
+        "id": "152982",
+        "name": "C. Palmer",
+        "minutes": 89,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 7.3,
+        "shots": 1,
+        "key_passes": 4,
+        "passes": 25,
+        "tackles": 1,
+        "duels_won": 3
+      },
+      {
+        "id": "152953",
+        "name": "L. Colwill",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "270508",
+        "name": "L. Ugochukwu",
+        "minutes": 26,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 7.0,
+        "shots": null,
+        "key_passes": 2,
+        "passes": 14,
+        "tackles": 2,
+        "duels_won": 2
+      },
+      {
+        "id": "19012",
+        "name": "M. Bettinelli",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "116117",
+        "name": "M. Caicedo",
+        "minutes": 64,
+        "goals": 1,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.9,
+        "shots": 1,
+        "key_passes": 1,
+        "passes": 44,
+        "tackles": 6,
+        "duels_won": 7
+      },
+      {
+        "id": "161907",
+        "name": "M. Gusto",
+        "minutes": 26,
+        "goals": null,
+        "assists": 1,
+        "yellow": 1,
+        "red": null,
+        "rating": 7.0,
+        "shots": 1,
+        "key_passes": null,
+        "passes": 14,
+        "tackles": 2,
+        "duels_won": 2
+      },
+      {
+        "id": "47380",
+        "name": "Marc Cucurella",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": 1,
+        "red": null,
+        "rating": 7.5,
+        "shots": null,
+        "key_passes": 1,
+        "passes": 46,
+        "tackles": 6,
+        "duels_won": 11
+      },
+      {
+        "id": "283058",
+        "name": "N. Jackson",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.3,
+        "shots": 1,
+        "key_passes": 2,
+        "passes": 17,
+        "tackles": null,
+        "duels_won": 7
+      },
+      {
+        "id": "136723",
+        "name": "N. Madueke",
+        "minutes": 64,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.6,
+        "shots": null,
+        "key_passes": null,
+        "passes": 19,
+        "tackles": 1,
+        "duels_won": 4
+      },
+      {
+        "id": "645",
+        "name": "R. Sterling",
+        "minutes": 64,
+        "goals": 1,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.7,
+        "shots": 2,
+        "key_passes": 3,
+        "passes": 21,
+        "tackles": 1,
+        "duels_won": 5
+      },
+      {
+        "id": "19720",
+        "name": "T. Chalobah",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": null,
+        "key_passes": null,
+        "passes": 44,
+        "tackles": 1,
+        "duels_won": 2
+      },
+      {
+        "id": "259",
+        "name": "Thiago Silva",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": null,
+        "key_passes": null,
+        "passes": 52,
+        "tackles": null,
+        "duels_won": 3
+      },
+      {
+        "id": "118307",
+        "name": "\u0110. Petrovi\u0107",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.3,
+        "shots": null,
+        "key_passes": null,
+        "passes": 35,
+        "tackles": null,
+        "duels_won": null
+      }
+    ],
+    "away": [
+      {
+        "id": "304853",
+        "name": "A. Scott",
+        "minutes": 20,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.5,
+        "shots": null,
+        "key_passes": null,
+        "passes": 12,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "19281",
+        "name": "A. Semenyo",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": 1,
+        "red": null,
+        "rating": 7.9,
+        "shots": 3,
+        "key_passes": 2,
+        "passes": 26,
+        "tackles": 2,
+        "duels_won": 11
+      },
+      {
+        "id": "18869",
+        "name": "A. Smith",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "18883",
+        "name": "D. Solanke",
+        "minutes": 31,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.2,
+        "shots": 2,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "284797",
+        "name": "Dango Ouattara",
+        "minutes": 31,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 7.0,
+        "shots": 2,
+        "key_passes": 1,
+        "passes": 7,
+        "tackles": 2,
+        "duels_won": 4
+      },
+      {
+        "id": "47499",
+        "name": "E. \u00dcnal",
+        "minutes": 69,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.2,
+        "shots": 4,
+        "key_passes": 2,
+        "passes": 8,
+        "tackles": null,
+        "duels_won": 6
+      },
+      {
+        "id": "161671",
+        "name": "I. Zabarnyi",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": null,
+        "key_passes": null,
+        "passes": 33,
+        "tackles": 1,
+        "duels_won": 4
+      },
+      {
+        "id": "20093",
+        "name": "J. Hill",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "792",
+        "name": "J. Kluivert",
+        "minutes": 59,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.3,
+        "shots": 2,
+        "key_passes": null,
+        "passes": 7,
+        "tackles": 1,
+        "duels_won": 1
+      },
+      {
+        "id": "18872",
+        "name": "L. Cook",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.3,
+        "shots": 1,
+        "key_passes": 2,
+        "passes": 33,
+        "tackles": 1,
+        "duels_won": 3
+      },
+      {
+        "id": "19263",
+        "name": "L. Kelly",
+        "minutes": 14,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.7,
+        "shots": null,
+        "key_passes": null,
+        "passes": 4,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "19070",
+        "name": "M. Aarons",
+        "minutes": 70,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.3,
+        "shots": null,
+        "key_passes": null,
+        "passes": 14,
+        "tackles": null,
+        "duels_won": 1
+      },
+      {
+        "id": "206254",
+        "name": "M. Kerkez",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": 1,
+        "red": null,
+        "rating": 6.0,
+        "shots": null,
+        "key_passes": 2,
+        "passes": 13,
+        "tackles": 1,
+        "duels_won": 1
+      },
+      {
+        "id": "6610",
+        "name": "M. Senesi",
+        "minutes": 84,
+        "goals": null,
+        "assists": null,
+        "yellow": 1,
+        "red": null,
+        "rating": 8.0,
+        "shots": 1,
+        "key_passes": 3,
+        "passes": 31,
+        "tackles": 6,
+        "duels_won": 10
+      },
+      {
+        "id": "19245",
+        "name": "M. Tavernier",
+        "minutes": 59,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 7.5,
+        "shots": 1,
+        "key_passes": 4,
+        "passes": 26,
+        "tackles": 3,
+        "duels_won": 3
+      },
+      {
+        "id": "18860",
+        "name": "M. Travers",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "912",
+        "name": "Neto",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.9,
+        "shots": null,
+        "key_passes": null,
+        "passes": 18,
+        "tackles": null,
+        "duels_won": null
+      },
+      {
+        "id": "2734",
+        "name": "P. Billing",
+        "minutes": 21,
+        "goals": null,
+        "assists": 1,
+        "yellow": null,
+        "red": null,
+        "rating": 6.6,
+        "shots": 1,
+        "key_passes": null,
+        "passes": 4,
+        "tackles": 1,
+        "duels_won": 1
+      },
+      {
+        "id": "1125",
+        "name": "R. Christie",
+        "minutes": 90,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": 6.5,
+        "shots": 1,
+        "key_passes": 1,
+        "passes": 25,
+        "tackles": 4,
+        "duels_won": 4
+      },
+      {
+        "id": "84082",
+        "name": "R. Faivre",
+        "minutes": 0,
+        "goals": null,
+        "assists": null,
+        "yellow": null,
+        "red": null,
+        "rating": null,
+        "shots": null,
+        "key_passes": null,
+        "passes": null,
+        "tackles": null,
+        "duels_won": null
+      }
+    ]
+  },
+  "figures": [
+    {
+      "id": "shot_proxy",
+      "src": "/generated/matches/1035548/shot_proxy.png",
+      "alt": "Shot proxy chart comparing Chelsea and Bournemouth total shots and shots on target.",
+      "caption": "Shot proxy chart based on team totals when shot locations are unavailable.",
+      "width": 1200,
+      "height": 800,
+      "kind": "shot_proxy"
+    },
+    {
+      "id": "timeline",
+      "src": "/generated/matches/1035548/goals_timeline.png",
+      "alt": "Vertical timeline of match events for Chelsea vs Bournemouth.",
+      "caption": "Match timeline showing goals, cards, and substitutions.",
+      "width": 1200,
+      "height": 1600,
+      "kind": "timeline"
+    },
+    {
+      "id": "stats_comparison",
+      "src": "/generated/matches/1035548/stats_comparison.png",
+      "alt": "Statistical comparison between Chelsea and Bournemouth.",
+      "caption": "Comparison of core team metrics including possession, shots, and accuracy.",
+      "width": 1600,
+      "height": 1000,
+      "kind": "stats_comparison"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Match Overview",
+      "paragraphs": [
+        "Chelsea hosted Bournemouth at Stamford Bridge in the final round of the 2023 Premier League season, emerging with a 2-1 victory that reflected their control of the ball but vulnerability under pressure. The home side enjoyed 61% possession as per team_stats.normalized.49.possession=61, allowing them to dictate the tempo with 533 total passes at 86% accuracy (team_stats.normalized.49.passes_total=533, team_stats.normalized.49.pass_accuracy=86). Bournemouth, despite only 39% possession (team_stats.normalized.35.possession=39), generated more scoring chances, registering 22 total shots compared to Chelsea's 16 (team_stats.normalized.35.total_shots=22, team_stats.normalized.49.total_shots=16). This disparity was evident in expected goals, where Bournemouth's 2.22 xG outpaced Chelsea's 1.14 (team_stats.normalized.35.xg=2.22, team_stats.normalized.49.xg=1.14), suggesting the Cherries were unfortunate not to equalize. Goalkeeper \u0110. Petrovi\u0107's five saves (team_stats.normalized.49.gk_saves=5) were crucial in maintaining the lead, while Bournemouth's Neto made four (team_stats.normalized.35.gk_saves=4).",
+        "The match's physicality was underscored by five yellow cards and nine fouls committed by Bournemouth (team_stats.normalized.35.fouls=9), contrasting Chelsea's cleaner five fouls (team_stats.normalized.49.fouls=5). Chelsea's six corners to Bournemouth's five (team_stats.normalized.49.corners=6, team_stats.normalized.35.corners=5) provided set-piece opportunities, though only two goals resulted from open play. Bournemouth's 14 shots inside the box (team_stats.normalized.35.shots_inside_box=14) pressured Chelsea's defense, leading to six blocked shots (team_stats.normalized.49.blocked_shots=6). No red cards were issued (team_stats.normalized.49.red_cards=None, team_stats.normalized.35.red_cards=None), and offsides were minimal with Chelsea at zero and Bournemouth at one (team_stats.normalized.49.offsides=0, team_stats.normalized.35.offsides=1). Overall, Chelsea's efficiency in converting chances into a win highlighted their tactical maturity against a resilient opponent."
+      ],
+      "bullets": [
+        "Chelsea dominated possession at 61% but faced 22 shots from Bournemouth.",
+        "Bournemouth's xG of 2.22 exceeded Chelsea's 1.14, yet Chelsea scored twice.",
+        "The game featured five yellow cards and multiple substitutions after halftime."
+      ],
+      "claims": [
+        {
+          "claim": "Chelsea's possession dominance did not translate to shot superiority, as Bournemouth outshot them 22-16.",
+          "evidence": [
+            "team_stats.normalized.49.possession=61",
+            "team_stats.normalized.35.total_shots=22",
+            "team_stats.normalized.49.total_shots=16"
+          ],
+          "confidence": 0.95
+        },
+        {
+          "claim": "Bournemouth's higher xG indicates they created better chances despite less possession.",
+          "evidence": [
+            "team_stats.normalized.35.xg=2.22",
+            "team_stats.normalized.49.xg=1.14",
+            "team_stats.normalized.35.possession=39"
+          ],
+          "confidence": 0.9
+        }
+      ]
+    },
+    {
+      "heading": "Key Moments",
+      "paragraphs": [
+        "The first key moment arrived in the 17th minute when Mois\u00e9s Caicedo scored a normal goal for Chelsea, putting them ahead 1-0 (timeline.0.minute=17, timeline.0.type=goal, timeline.0.playerName=M. Caicedo, timeline.0.detail=Normal Goal, match.score.home=2 after updates). This strike, without an assist, showcased Chelsea's midfield penetration early on, as Caicedo had been active with one shot and six tackles in his 64 minutes (players.home.11.shots=1, players.home.11.tackles=6). The goal shifted momentum, allowing Chelsea to build on their possession advantage. Bournemouth responded with defensive resolve but couldn't prevent the early deficit. By halftime, the score was 1-0 (match_context.score.ht_home=1, match_context.score.ht_away=0), setting a tense tone for the second half.",
+        "Post-halftime drama unfolded rapidly: Raheem Sterling extended Chelsea's lead to 2-0 in the 48th minute with a normal goal assisted by Cole Palmer (timeline.4.minute=48, timeline.4.type=goal, timeline.4.playerName=R. Sterling, timeline.4.assistName=C. Palmer, timeline.4.detail=Normal Goal). Just a minute later, Beno\u00eet Badiashile's own goal for Bournemouth made it 2-1 (timeline.5.minute=49, timeline.5.type=goal, timeline.5.playerName=B. Badiashile, timeline.5.detail=Own Goal), injecting urgency into the visitors' performance. This sequence highlighted defensive lapses, with Badiashile playing the full 90 minutes but contributing to the own goal (players.home.2.minutes=90, players.home.2.goals=1 as own goal). Yellow cards followed, including Marc Cucurella's in the 27th minute (timeline.1.minute=27, timeline.1.type=card, timeline.1.playerName=Marc Cucurella, timeline.1.detail=Yellow Card), adding to the game's intensity. Substitutions from the 59th minute onward, like Bournemouth bringing on M. Tavernier (timeline.6.minute=59, timeline.6.type=subst, timeline.6.playerName=M. Tavernier), aimed to chase the equalizer but couldn't break through."
+      ],
+      "bullets": [
+        "Caicedo's 17th-minute goal opened the scoring for Chelsea.",
+        "Sterling's quick follow-up in the 48th minute made it 2-0, assisted by Palmer.",
+        "Badiashile's own goal in the 49th minute gave Bournemouth hope.",
+        "Multiple substitutions around the 60th minute shifted the game's momentum."
+      ],
+      "claims": [
+        {
+          "claim": "The rapid 2-0 to 2-1 shift in minutes 48-49 was pivotal, turning potential dominance into a contest.",
+          "evidence": [
+            "timeline.4.minute=48",
+            "timeline.4.type=goal",
+            "timeline.5.minute=49",
+            "timeline.5.type=goal",
+            "timeline.5.detail=Own Goal"
+          ],
+          "confidence": 0.98
+        },
+        {
+          "claim": "Early yellow cards, including two in the 27th minute, disrupted flow and heightened tension.",
+          "evidence": [
+            "timeline.1.minute=27",
+            "timeline.1.type=card",
+            "timeline.2.minute=27",
+            "timeline.2.type=card",
+            "team_stats.normalized.49.yellow_cards=2",
+            "team_stats.normalized.35.yellow_cards=3"
+          ],
+          "confidence": 0.92
+        }
+      ]
+    },
+    {
+      "heading": "Tactical Notes",
+      "paragraphs": [
+        "Tactically, Chelsea employed a possession-based approach, completing 533 passes at 86% accuracy (team_stats.normalized.49.passes_total=533, team_stats.normalized.49.pass_accuracy=86), which allowed players like Conor Gallagher to orchestrate play with 50 passes and nine duels won in 90 minutes (players.home.5.passes=50, players.home.5.duels_won=9). This control facilitated 11 shots inside the box (team_stats.normalized.49.shots_inside_box=11), though their six on target (team_stats.normalized.49.shots_on_target=6) were converted efficiently into two goals. Bournemouth countered with a high-pressing game, committing nine fouls and earning three yellow cards (team_stats.normalized.35.fouls=9, team_stats.normalized.35.yellow_cards=3), which disrupted Chelsea's rhythm. Their 14 inside-box shots (team_stats.normalized.35.shots_inside_box=14) stemmed from quick transitions, as seen in Antoine Semenyo's three shots and 11 duels won (players.away.1.shots=3, players.away.1.duels_won=11). Chelsea's defense, bolstered by Marc Cucurella's six tackles and 11 duels won (players.home.13.tackles=6, players.home.13.duels_won=11), absorbed this pressure effectively.",
+        "Substitutions played a critical role in maintaining structure; Chelsea's triple change at the 64th minute, bringing on L. Ugochukwu, C. Nkunku, and M. Gusto (timeline.8.minute=64, timeline.9.minute=64, timeline.10.minute=64), refreshed their attack with Nkunku adding two shots in 26 minutes (players.home.6.shots=2). Bournemouth responded with changes like introducing E. \u00dcnal, who took four shots in 69 minutes (players.away.5.shots=4, timeline.12.minute=70), aiming to exploit fatigue. Chelsea's six blocked shots (team_stats.normalized.49.blocked_shots=6) reflected solid defensive organization, while Bournemouth's four (team_stats.normalized.35.blocked_shots=4) showed their persistence. The visitors' 82% pass accuracy on 320 passes (team_stats.normalized.35.pass_accuracy=82, team_stats.normalized.35.passes_total=320) supported their direct style. Ultimately, Chelsea's tactical flexibility in substitutions and defensive duels secured the points against Bournemouth's shot-heavy assault."
+      ],
+      "bullets": [
+        "Chelsea's high pass accuracy (86%) enabled midfield control, led by Gallagher's 50 passes.",
+        "Bournemouth's counter-attacking style produced 14 inside-box shots, pressuring Chelsea's backline.",
+        "Substitutions like Nkunku for Sterling injected energy, with Chelsea making three changes at once in the 64th minute."
+      ],
+      "claims": [
+        {
+          "claim": "Chelsea's midfield passing network, exemplified by Gallagher, underpinned their 61% possession.",
+          "evidence": [
+            "team_stats.normalized.49.possession=61",
+            "players.home.5.passes=50",
+            "team_stats.normalized.49.pass_accuracy=86"
+          ],
+          "confidence": 0.93
+        },
+        {
+          "claim": "Bournemouth's pressing led to more fouls and yellows, but also higher inside-box opportunities.",
+          "evidence": [
+            "team_stats.normalized.35.fouls=9",
+            "team_stats.normalized.35.yellow_cards=3",
+            "team_stats.normalized.35.shots_inside_box=14"
+          ],
+          "confidence": 0.91
+        }
+      ]
+    }
+  ],
+  "player_notes": [
+    {
+      "player": "M. Caicedo",
+      "team": "Chelsea",
+      "summary": "Caicedo was instrumental in midfield, scoring the opener and providing defensive solidity before his substitution.",
+      "evidence": [
+        "players.home.11.goals=1",
+        "players.home.11.rating=7.9",
+        "players.home.11.tackles=6",
+        "players.home.11.duels_won=7",
+        "timeline.0.playerName=M. Caicedo"
+      ]
+    },
+    {
+      "player": "R. Sterling",
+      "team": "Chelsea",
+      "summary": "Sterling's goal and key passes highlighted his attacking threat in limited minutes.",
+      "evidence": [
+        "players.home.16.goals=1",
+        "players.home.16.rating=7.7",
+        "players.home.16.key_passes=3",
+        "players.home.16.shots=2",
+        "timeline.4.playerName=R. Sterling"
+      ]
+    },
+    {
+      "player": "A. Semenyo",
+      "team": "Bournemouth",
+      "summary": "Semenyo stood out for Bournemouth with strong duels and shots, earning a yellow but driving their attack.",
+      "evidence": [
+        "players.away.1.rating=7.9",
+        "players.away.1.shots=3",
+        "players.away.1.duels_won=11",
+        "players.away.1.yellow=1",
+        "players.away.1.key_passes=2"
+      ]
+    },
+    {
+      "player": "M. Senesi",
+      "team": "Bournemouth",
+      "summary": "Senesi was Bournemouth's top performer, excelling in tackles and duels before substitution.",
+      "evidence": [
+        "players.away.13.rating=8.0",
+        "players.away.13.tackles=6",
+        "players.away.13.duels_won=10",
+        "players.away.13.key_passes=3",
+        "players.away.13.yellow=1"
+      ]
+    },
+    {
+      "player": "Marc Cucurella",
+      "team": "Chelsea",
+      "summary": "Cucurella anchored the defense with high duel success and tackles, despite a yellow card.",
+      "evidence": [
+        "players.home.13.rating=7.5",
+        "players.home.13.tackles=6",
+        "players.home.13.duels_won=11",
+        "players.home.13.yellow=1",
+        "players.home.13.key_passes=1"
+      ]
+    }
+  ],
+  "data_limitations": [
+    "No detailed shot locations available (availability.has_shot_locations=false)",
+    "Shot locations were not available; spatial charts were downgraded."
+  ],
+  "cta": "Subscribe for more in-depth Premier League tactical analyses and match breakdowns."
+}
