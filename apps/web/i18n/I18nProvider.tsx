@@ -1,19 +1,19 @@
 "use client";
 
 import { createContext, useContext, useMemo } from "react";
-import { createTranslator, defaultLanguage, type Messages, type SupportedLanguage } from "./index";
-import en from "./messages/en";
+import enMessages from "./messages/en.json";
+import { createTranslator, DEFAULT_LANG, type Lang, type Messages, type TFunction } from "./index";
 
 interface I18nContextValue {
-  lang: SupportedLanguage;
+  lang: Lang;
   messages: Messages;
-  t: (key: string, params?: Record<string, string | number>) => string;
+  t: TFunction;
 }
 
 const I18nContext = createContext<I18nContextValue>({
-  lang: defaultLanguage,
-  messages: en,
-  t: createTranslator(en, defaultLanguage),
+  lang: DEFAULT_LANG,
+  messages: enMessages,
+  t: createTranslator(enMessages, DEFAULT_LANG),
 });
 
 export function I18nProvider({
@@ -21,7 +21,7 @@ export function I18nProvider({
   messages,
   children,
 }: {
-  lang: SupportedLanguage;
+  lang: Lang;
   messages: Messages;
   children: React.ReactNode;
 }) {

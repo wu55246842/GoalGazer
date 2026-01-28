@@ -1,40 +1,65 @@
-import en from "./messages/en";
-import zh from "./messages/zh";
-import ja from "./messages/ja";
+import enMessages from "./messages/en.json";
+import zhMessages from "./messages/zh.json";
+import jaMessages from "./messages/ja.json";
 
-export type SupportedLanguage = "en" | "zh" | "ja";
+export type Lang = "en" | "zh" | "ja";
 
-export const supportedLanguages: SupportedLanguage[] = ["en", "zh", "ja"];
-export const defaultLanguage: SupportedLanguage = "en";
+export const SUPPORTED_LANGS = ["en", "zh", "ja"] as const;
+export const DEFAULT_LANG: Lang = "en";
 
-export const languageLabels: Record<SupportedLanguage, string> = {
+export const LANGUAGE_LABELS: Record<Lang, string> = {
   en: "English",
   zh: "中文",
   ja: "日本語",
 };
 
-export type Messages = typeof en;
+export type Messages = typeof enMessages;
 
-const dictionaries: Record<SupportedLanguage, Messages> = {
-  en,
-  zh,
-  ja,
+type NonArrayObject = Record<string, unknown>;
+
+type NestedMessageKey<T> = {
+  [K in keyof T & string]: T[K] extends string
+    ? K
+    : T[K] extends NonArrayObject
+      ? T[K] extends Array<unknown>
+        ? never
+        : `${K}.${NestedMessageKey<T[K]>}`
+      : never;
+}[keyof T & string];
+
+export type MessageKey = NestedMessageKey<Messages>;
+
+export type TFunction = (key: MessageKey, vars?: Record<string, string | number>) => string;
+
+const dictionaries: Record<Lang, Messages> = {
+  en: enMessages,
+  zh: zhMessages,
+  ja: jaMessages,
 };
 
-export function normalizeLanguage(lang?: string | null): SupportedLanguage {
-  if (lang && supportedLanguages.includes(lang as SupportedLanguage)) {
-    return lang as SupportedLanguage;
-  }
-  return defaultLanguage;
+export function isLang(value?: string | null): value is Lang {
+  return SUPPORTED_LANGS.includes(value as Lang);
 }
 
-export function getMessages(lang: SupportedLanguage): Messages {
-  return dictionaries[lang] ?? en;
+export function normalizeLang(input?: string | null): Lang {
+  return isLang(input) ? input : DEFAULT_LANG;
 }
 
-export function createTranslator(messages: Messages, lang: SupportedLanguage) {
-  return (key: string, params?: Record<string, string | number>): string => {
-    const value = resolveKey(messages, key) ?? resolveKey(en, key);
+export async function getMessages(lang: Lang): Promise<Messages> {
+  return dictionaries[lang] ?? enMessages;
+}
+
+export async function getT(lang: Lang): Promise<{ t: TFunction; messages: Messages }> {
+  const messages = await getMessages(lang);
+  return {
+    t: createTranslator(messages, lang),
+    messages,
+  };
+}
+
+export function createTranslator(messages: Messages, lang: Lang): TFunction {
+  return (key: MessageKey, params?: Record<string, string | number>): string => {
+    const value = resolveKey(messages, key) ?? resolveKey(enMessages, key);
     if (value === undefined) {
       if (process.env.NODE_ENV !== "production") {
         console.warn(`[i18n] Missing translation key: ${key} (${lang})`);
@@ -51,7 +76,7 @@ export function createTranslator(messages: Messages, lang: SupportedLanguage) {
   };
 }
 
-export function buildLocalizedPath(lang: SupportedLanguage, path: string): string {
+export function buildLocalizedPath(lang: Lang, path: string): string {
   const normalized = path.startsWith("/") ? path : `/${path}`;
   if (normalized === "/") {
     return `/${lang}`;
@@ -62,18 +87,18 @@ export function buildLocalizedPath(lang: SupportedLanguage, path: string): strin
   return `/${lang}${normalized}`;
 }
 
-export function replaceLanguageInPath(pathname: string, lang: SupportedLanguage): string {
+export function replaceLanguageInPath(pathname: string, lang: Lang): string {
   const segments = pathname.split("/");
-  if (segments.length > 1 && supportedLanguages.includes(segments[1] as SupportedLanguage)) {
+  if (segments.length > 1 && SUPPORTED_LANGS.includes(segments[1] as Lang)) {
     segments[1] = lang;
     return segments.join("/") || "/";
   }
   return buildLocalizedPath(lang, pathname);
 }
 
-export function getPreferredLanguage(acceptLanguageHeader?: string | null): SupportedLanguage {
+export function getPreferredLanguage(acceptLanguageHeader?: string | null): Lang {
   if (!acceptLanguageHeader) {
-    return defaultLanguage;
+    return DEFAULT_LANG;
   }
   const lowered = acceptLanguageHeader.toLowerCase();
   if (lowered.includes("zh")) {
@@ -82,10 +107,10 @@ export function getPreferredLanguage(acceptLanguageHeader?: string | null): Supp
   if (lowered.includes("ja")) {
     return "ja";
   }
-  return defaultLanguage;
+  return DEFAULT_LANG;
 }
 
-function resolveKey(messages: Messages, key: string): string | undefined {
+function resolveKey(messages: Messages, key: MessageKey): string | undefined {
   return key.split(".").reduce<unknown>((acc, part) => {
     if (acc && typeof acc === "object" && part in acc) {
       return (acc as Record<string, unknown>)[part];

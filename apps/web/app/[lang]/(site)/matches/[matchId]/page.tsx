@@ -1,41 +1,34 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import ArticleLayout from "../../../../../components/ArticleLayout";
-import MatchHeader from "../../../../../components/MatchHeader";
-import ChartFigure from "../../../../../components/ChartFigure";
-import { buildArticleMetadata, buildBreadcrumbJsonLd, buildJsonLd } from "../../../../../lib/seo";
-import { loadArticleLocalized, listMatchIds } from "../../../../../lib/content";
-import {
-  buildLocalizedPath,
-  createTranslator,
-  getMessages,
-  normalizeLanguage,
-  supportedLanguages,
-} from "../../../../../i18n";
+import ArticleLayout from "@/components/ArticleLayout";
+import MatchHeader from "@/components/MatchHeader";
+import ChartFigure from "@/components/ChartFigure";
+import { buildArticleMetadata, buildBreadcrumbJsonLd, buildJsonLd } from "@/lib/seo";
+import { listMatchIds, readMatchArticle } from "@/lib/content";
+import { buildLocalizedPath, getT, normalizeLang, SUPPORTED_LANGS } from "@/i18n";
 
 interface MatchPageProps {
   params: { lang: string; matchId: string };
 }
 
 export async function generateStaticParams() {
-  const matchIds = listMatchIds();
-  return supportedLanguages.flatMap((lang) => matchIds.map((matchId) => ({ lang, matchId })));
+  const matchIds = await listMatchIds();
+  return SUPPORTED_LANGS.flatMap((lang) => matchIds.map((matchId) => ({ lang, matchId })));
 }
 
-export function generateMetadata({ params }: MatchPageProps): Metadata {
-  const lang = normalizeLanguage(params.lang);
-  const { article } = loadArticleLocalized(params.matchId, lang);
+export async function generateMetadata({ params }: MatchPageProps): Promise<Metadata> {
+  const lang = normalizeLang(params.lang);
+  const { article } = await readMatchArticle(params.matchId, lang);
   if (!article) {
     return {};
   }
   return buildArticleMetadata(article, lang);
 }
 
-export default function MatchPage({ params }: MatchPageProps) {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
-  const t = createTranslator(messages, lang);
-  const { article, fallback } = loadArticleLocalized(params.matchId, lang);
+export default async function MatchPage({ params }: MatchPageProps) {
+  const lang = normalizeLang(params.lang);
+  const { t, messages } = await getT(lang);
+  const { article, fallback } = await readMatchArticle(params.matchId, lang);
   const showFallbackNotice = fallback && lang !== "en";
   const shareLinks = [
     { href: "https://x.com/intent/tweet", label: messages.match.shareLinks.x },
@@ -75,17 +68,19 @@ export default function MatchPage({ params }: MatchPageProps) {
       <MatchHeader
         homeTeam={
           typeof article.match.homeTeam === "object"
-            ? (article.match.homeTeam as any).name
+            ? (article.match.homeTeam as { name: string }).name
             : article.match.homeTeam
         }
         awayTeam={
           typeof article.match.awayTeam === "object"
-            ? (article.match.awayTeam as any).name
+            ? (article.match.awayTeam as { name: string }).name
             : article.match.awayTeam
         }
         score={
           typeof article.match.score === "object"
-            ? `${(article.match.score as any).home}-${(article.match.score as any).away}`
+            ? `${(article.match.score as { home: number; away: number }).home}-${
+                (article.match.score as { home: number; away: number }).away
+              }`
             : article.match.score
         }
         dateUtc={article.match.date_utc}
@@ -147,7 +142,7 @@ export default function MatchPage({ params }: MatchPageProps) {
           </h2>
           <div className="grid grid-2">
             {(article.player_notes || []).map((note) => {
-              const rating = parseFloat(note.rating);
+              const rating = parseFloat(note.rating ?? "0");
               const isHome = article.match.homeTeam === note.team;
               const ratingColor =
                 rating >= 7.5
@@ -256,7 +251,10 @@ export default function MatchPage({ params }: MatchPageProps) {
       </footer>
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
     </ArticleLayout>
   );
 }

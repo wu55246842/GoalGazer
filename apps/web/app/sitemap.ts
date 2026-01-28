@@ -1,29 +1,37 @@
-import { loadIndex } from "../lib/content";
-import { supportedLanguages } from "../i18n";
 import type { MetadataRoute } from "next";
+import { readMatchIndex } from "@/lib/content";
+import { buildLocalizedPath, SUPPORTED_LANGS } from "@/i18n";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.goalgazer.example";
-  const entries = loadIndex();
-  const staticPaths = ["/", "/about", "/contact", "/privacy", "/terms", "/sources", "/editorial-policy"];
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.goalgazer.example";
+  const entries = await readMatchIndex();
+  const staticPaths = [
+    "/",
+    "/about",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/sources",
+    "/editorial-policy",
+  ];
 
-  const staticEntries = supportedLanguages.flatMap((lang) =>
+  const staticEntries = SUPPORTED_LANGS.flatMap((lang) =>
     staticPaths.map((path) => ({
-      url: `${baseUrl}/${lang}${path === "/" ? "" : path}`,
+      url: new URL(buildLocalizedPath(lang, path), baseUrl).toString(),
       lastModified: new Date(),
     }))
   );
 
-  const leagueEntries = supportedLanguages.flatMap((lang) =>
+  const leagueEntries = SUPPORTED_LANGS.flatMap((lang) =>
     entries.map((entry) => ({
-      url: `${baseUrl}/${lang}/leagues/${entry.league}`,
+      url: new URL(buildLocalizedPath(lang, `/leagues/${entry.league}`), baseUrl).toString(),
       lastModified: new Date(entry.date),
     }))
   );
 
-  const matchEntries = supportedLanguages.flatMap((lang) =>
+  const matchEntries = SUPPORTED_LANGS.flatMap((lang) =>
     entries.map((entry) => ({
-      url: `${baseUrl}/${lang}/matches/${entry.matchId}`,
+      url: new URL(buildLocalizedPath(lang, `/matches/${entry.matchId}`), baseUrl).toString(),
       lastModified: new Date(entry.date),
     }))
   );

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { createTranslator, getMessages, normalizeLanguage } from "../../../i18n";
+import { getT, normalizeLang } from "@/i18n";
+import { buildCanonicalUrl, buildLanguageAlternates } from "@/lib/seo";
 
 interface ContactPageProps {
   params: { lang: string };
 }
 
-export function generateMetadata({ params }: ContactPageProps): Metadata {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
+export async function generateMetadata({ params }: ContactPageProps): Promise<Metadata> {
+  const lang = normalizeLang(params.lang);
+  const { messages } = await getT(lang);
   return {
     title: messages.seo.pages.contact.title,
     description: messages.seo.pages.contact.description,
@@ -19,20 +20,23 @@ export function generateMetadata({ params }: ContactPageProps): Metadata {
       title: messages.seo.pages.contact.title,
       description: messages.seo.pages.contact.description,
     },
+    alternates: {
+      canonical: buildCanonicalUrl(lang, "/contact"),
+      languages: buildLanguageAlternates("/contact"),
+    },
   };
 }
 
-export default function ContactPage({ params }: ContactPageProps) {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
-  const t = createTranslator(messages, lang);
-  const email = "hello@goalgazer.example";
+export default async function ContactPage({ params }: ContactPageProps) {
+  const lang = normalizeLang(params.lang);
+  const { t } = await getT(lang);
 
   return (
     <section className="card">
       <h1>{t("contact.title")}</h1>
       <p>
-        {t("contact.intro")}<a href={`mailto:${email}`}>{email}</a>
+        {t("contact.intro")}
+        <a href="mailto:editorial@goalgazer.example">editorial@goalgazer.example</a>
         {t("contact.introSuffix")}
       </p>
       <p>{t("contact.outro")}</p>

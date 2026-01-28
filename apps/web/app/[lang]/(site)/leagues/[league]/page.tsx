@@ -1,43 +1,45 @@
 import type { Metadata } from "next";
-import { loadIndex, loadIndexLocalized } from "../../../../lib/content";
-import {
-  buildLocalizedPath,
-  createTranslator,
-  getMessages,
-  normalizeLanguage,
-  supportedLanguages,
-} from "../../../../i18n";
+import { readLeagueIndex, readMatchIndex, readMatchIndexLocalized } from "@/lib/content";
+import { buildLocalizedPath, getT, normalizeLang, SUPPORTED_LANGS } from "@/i18n";
+import { buildCanonicalUrl, buildLanguageAlternates } from "@/lib/seo";
 
 interface LeaguePageProps {
   params: { lang: string; league: string };
 }
 
 export async function generateStaticParams() {
-  const leagues = Array.from(new Set(loadIndex().map((entry) => entry.league)));
-  return supportedLanguages.flatMap((lang) => leagues.map((league) => ({ lang, league })));
+  const entries = await readMatchIndex();
+  const leagues = Array.from(new Set(entries.map((entry) => entry.league)));
+  return SUPPORTED_LANGS.flatMap((lang) => leagues.map((league) => ({ lang, league })));
 }
 
-export function generateMetadata({ params }: LeaguePageProps): Metadata {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
+export async function generateMetadata({ params }: LeaguePageProps): Promise<Metadata> {
+  const lang = normalizeLang(params.lang);
+  const { messages } = await getT(lang);
+  const leagueTitle = params.league.toUpperCase();
   return {
-    title: `${params.league.toUpperCase()} | ${messages.seo.pages.leagues.title}`,
+    title: `${leagueTitle} | ${messages.seo.pages.leagues.title}`,
     description: messages.seo.pages.leagues.description,
+    alternates: {
+      canonical: buildCanonicalUrl(lang, `/leagues/${params.league}`),
+      languages: buildLanguageAlternates(`/leagues/${params.league}`),
+    },
   };
 }
 
-export default function LeaguePage({ params }: LeaguePageProps) {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
-  const t = createTranslator(messages, lang);
+export default async function LeaguePage({ params }: LeaguePageProps) {
+  const lang = normalizeLang(params.lang);
+  const { t, messages } = await getT(lang);
   const locale = messages.formats.locale;
-  const entries = loadIndexLocalized(lang).filter(
+  const entries = (await readMatchIndexLocalized(lang)).filter(
     (entry) => entry.league.toLowerCase() === params.league.toLowerCase()
   );
+  const leagueContent = await readLeagueIndex(params.league, lang);
 
   return (
     <section>
       <h1>{t("leagues.title", { league: params.league.toUpperCase() })}</h1>
+      {leagueContent.content?.description && <p>{leagueContent.content.description}</p>}
       {entries.length === 0 ? (
         <p>{t("leagues.empty")}</p>
       ) : (

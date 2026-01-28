@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
-import LanguageSwitcher from "../../components/LanguageSwitcher";
-import { I18nProvider } from "../../i18n/I18nProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { I18nProvider } from "@/i18n/I18nProvider";
 import {
   buildLocalizedPath,
-  createTranslator,
   getMessages,
-  normalizeLanguage,
-  supportedLanguages,
-} from "../../i18n";
+  getT,
+  normalizeLang,
+  SUPPORTED_LANGS,
+} from "@/i18n";
+import { buildCanonicalUrl, buildLanguageAlternates } from "@/lib/seo";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.goalgazer.example";
 
 export async function generateMetadata({
   params,
 }: {
   params: { lang: string };
 }): Promise<Metadata> {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
+  const lang = normalizeLang(params.lang);
+  const messages = await getMessages(lang);
 
   return {
     title: {
@@ -23,7 +26,7 @@ export async function generateMetadata({
       template: `%s | ${messages.common.brandName}`,
     },
     description: messages.seo.siteDescription,
-    metadataBase: new URL("https://www.goalgazer.example"),
+    metadataBase: new URL(siteUrl),
     keywords: messages.seo.keywords,
     authors: [{ name: messages.seo.author }],
     openGraph: {
@@ -43,29 +46,25 @@ export async function generateMetadata({
       follow: true,
     },
     alternates: {
-      languages: {
-        en: buildLocalizedPath("en", "/"),
-        zh: buildLocalizedPath("zh", "/"),
-        ja: buildLocalizedPath("ja", "/"),
-      },
+      canonical: buildCanonicalUrl(lang, "/"),
+      languages: buildLanguageAlternates("/"),
     },
   };
 }
 
 export async function generateStaticParams() {
-  return supportedLanguages.map((lang) => ({ lang }));
+  return SUPPORTED_LANGS.map((lang) => ({ lang }));
 }
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: { lang: string };
 }) {
-  const lang = normalizeLanguage(params.lang);
-  const messages = getMessages(lang);
-  const t = createTranslator(messages, lang);
+  const lang = normalizeLang(params.lang);
+  const { t, messages } = await getT(lang);
   const currentYear = new Date().getFullYear();
 
   const navLinks = [
@@ -135,9 +134,7 @@ export default function LocaleLayout({
                 <h4>{t("footer.quickLinks")}</h4>
                 <ul className="footer-links">
                   <li>
-                    <a href={buildLocalizedPath(lang, "/")}>
-                      {t("nav.home")}
-                    </a>
+                    <a href={buildLocalizedPath(lang, "/")}>{t("nav.home")}</a>
                   </li>
                   <li>
                     <a href={buildLocalizedPath(lang, "/about")}>{t("nav.about")}</a>
@@ -161,9 +158,7 @@ export default function LocaleLayout({
                     <a href={buildLocalizedPath(lang, "/terms")}>{t("nav.terms")}</a>
                   </li>
                   <li>
-                    <a href={buildLocalizedPath(lang, "/editorial-policy")}>
-                      {t("nav.editorialPolicy")}
-                    </a>
+                    <a href={buildLocalizedPath(lang, "/editorial-policy")}>{t("nav.editorialPolicy")}</a>
                   </li>
                 </ul>
               </div>
