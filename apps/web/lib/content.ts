@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { contentPaths } from "./paths";
+import { contentPaths, generatedContentPaths } from "./paths";
 
 export interface FigureMeta {
   src: string;
@@ -38,11 +38,11 @@ export interface ArticleContent {
     date_utc: string;
     league: string;
     season: string;
-    round: string;
-    homeTeam: string;
-    awayTeam: string;
-    score: string;
-    venue: string;
+    round?: string | null;
+    homeTeam: { id?: string; name: string } | string;
+    awayTeam: { id?: string; name: string } | string;
+    score: { home: number; away: number; ht_home?: number; ht_away?: number } | string;
+    venue?: string | null;
   };
   figures?: FigureMeta[];
   sections: ArticleSection[];
@@ -51,10 +51,10 @@ export interface ArticleContent {
     team: string;
     summary: string;
     evidence: string[];
-    rating: string;
+    rating?: string | null;
   }[];
   data_limitations: string[];
-  data_citations: string[];
+  data_citations?: string[];
   cta: string;
 }
 
@@ -87,6 +87,35 @@ export function loadArticle(matchId: string): ArticleContent | null {
   }
   const raw = fs.readFileSync(path.join(contentPaths.matches, target), "utf-8");
   return JSON.parse(raw) as ArticleContent;
+}
+
+export function loadArticleLocalized(
+  matchId: string,
+  lang: string
+): { article: ArticleContent | null; resolvedLang: string; fallback: boolean } {
+  const supportedLangs = ["en", "zh", "ja"];
+  const normalizedLang = supportedLangs.includes(lang) ? lang : "en";
+  const requestedPath = generatedContentPaths.matchContentFile(matchId, normalizedLang);
+  if (fs.existsSync(requestedPath)) {
+    const raw = fs.readFileSync(requestedPath, "utf-8");
+    return {
+      article: JSON.parse(raw) as ArticleContent,
+      resolvedLang: normalizedLang,
+      fallback: false,
+    };
+  }
+
+  const fallbackPath = generatedContentPaths.matchContentFile(matchId, "en");
+  if (fs.existsSync(fallbackPath)) {
+    const raw = fs.readFileSync(fallbackPath, "utf-8");
+    return {
+      article: JSON.parse(raw) as ArticleContent,
+      resolvedLang: "en",
+      fallback: normalizedLang !== "en",
+    };
+  }
+
+  return { article: loadArticle(matchId), resolvedLang: "en", fallback: true };
 }
 
 export function listMatchIds(): string[] {

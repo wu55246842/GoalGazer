@@ -6,6 +6,13 @@ interface MatchHeaderProps {
   league: string;
   round: string;
   venue: string;
+  labels: {
+    venue: string;
+    kickoff: string;
+    status: string;
+    fullTime: string;
+  };
+  locale: string;
 }
 
 export default function MatchHeader({
@@ -16,6 +23,8 @@ export default function MatchHeader({
   league,
   round,
   venue,
+  labels,
+  locale,
 }: MatchHeaderProps) {
   const [homeScore, awayScore] = score.split("-").map((s) => s.trim());
   const matchDate = new Date(dateUtc);
@@ -38,7 +47,7 @@ export default function MatchHeader({
           <span>•</span>
           <span>{round}</span>
           <span>•</span>
-          <span>{matchDate.toLocaleDateString("en-US", {
+          <span>{matchDate.toLocaleDateString(locale, {
             month: "short",
             day: "numeric",
             year: "numeric"
@@ -218,7 +227,7 @@ export default function MatchHeader({
             <span style={{ fontSize: "1.25rem" }}>📍</span>
             <div>
               <div style={{ fontSize: "0.75rem", color: "var(--color-text-light)", fontWeight: 500 }}>
-                VENUE
+                {labels.venue}
               </div>
               <div style={{ fontSize: "0.9375rem", fontWeight: 600, color: "var(--color-text)" }}>
                 {venue}
@@ -238,10 +247,10 @@ export default function MatchHeader({
             <span style={{ fontSize: "1.25rem" }}>🕐</span>
             <div>
               <div style={{ fontSize: "0.75rem", color: "var(--color-text-light)", fontWeight: 500 }}>
-                KICK-OFF
+                {labels.kickoff}
               </div>
               <div style={{ fontSize: "0.9375rem", fontWeight: 600, color: "var(--color-text)" }}>
-                {matchDate.toLocaleTimeString("en-US", {
+                {matchDate.toLocaleTimeString(locale, {
                   hour: "2-digit",
                   minute: "2-digit",
                   timeZoneName: "short"
@@ -262,10 +271,10 @@ export default function MatchHeader({
             <span style={{ fontSize: "1.25rem" }}>⚽</span>
             <div>
               <div style={{ fontSize: "0.75rem", color: "var(--color-text-light)", fontWeight: 500 }}>
-                STATUS
+                {labels.status}
               </div>
               <div style={{ fontSize: "0.9375rem", fontWeight: 600, color: "var(--color-success)" }}>
-                Full Time
+                {labels.fullTime}
               </div>
             </div>
           </div>

@@ -3,14 +3,20 @@ name: Update Match Content
 on:
   workflow_dispatch:
     inputs:
-      matchId:
-        description: 'Match ID to analyze'
-        required: true
-        type: string
       league:
         description: 'League Code (e.g., epl, ucl)'
         required: false
         default: 'epl'
+      season:
+        description: 'Season year (e.g., 2023)'
+        required: false
+        default: '2023'
+      matchId:
+        description: 'Match ID to analyze (optional, otherwise latest finished match)'
+        required: false
+        type: string
+  schedule:
+    - cron: '0 * * * *'
 
 jobs:
   update-content:
@@ -28,6 +34,15 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node Dependencies
+        run: npm ci
+
       - name: Install Python Dependencies
         working-directory: ./tools/pipeline/python
         run: |
@@ -38,10 +53,8 @@ jobs:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
-        working-directory: ./tools/pipeline/python
         run: |
-          # The script is expected to write to apps/web/content and apps/web/public
-          python -m goalgazer --matchId "${{ inputs.matchId }}" --league "${{ inputs.league }}"
+          npm run pipeline -- --league "${{ inputs.league || 'epl' }}" --season "${{ inputs.season || '2023' }}" ${{ inputs.matchId && format('--matchId {0}', inputs.matchId) || '' }}
 
       - name: Commit and Push Changes
         run: |
