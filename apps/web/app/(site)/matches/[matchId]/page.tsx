@@ -61,6 +61,14 @@ export default function MatchPage({ params }: MatchPageProps) {
         round={article.match.round}
         venue={article.match.venue}
       />
+      {(article.figures || []).length > 0 && (
+        <section style={{ marginTop: "2rem" }}>
+          <h2>Match Visuals</h2>
+          {(article.figures || []).map((figure) => (
+            <ChartFigure key={figure.src} {...figure} />
+          ))}
+        </section>
+      )}
       {(article.sections || []).map((section) => (
         <section key={section.heading} style={{ marginTop: "2rem" }}>
           <h2>{section.heading}</h2>
