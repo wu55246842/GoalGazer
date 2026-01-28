@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -9,6 +10,8 @@ from .schemas import (
     Event, EventQualifier, Aggregates, TimelineEvent, TeamNormalizedStats
 )
 
+logger = logging.getLogger(__name__)
+
 
 def load_mock_match(match_id: str) -> MatchData:
     mock_path = Path(__file__).parent / "mock_data" / f"match_{match_id}.json"
@@ -16,39 +19,86 @@ def load_mock_match(match_id: str) -> MatchData:
     return MatchData.model_validate(data)
 
 
+def _parse_stat_value(value: Any, *, allow_float: bool = True) -> Optional[float | int]:
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return value
+    if isinstance(value, str):
+        cleaned = value.strip().replace("%", "")
+        if cleaned == "":
+            return None
+        try:
+            parsed = float(cleaned)
+        except ValueError:
+            return None
+        if not allow_float:
+            return int(parsed)
+        if parsed.is_integer():
+            return int(parsed)
+        return parsed
+    return None
+
+
+def _normalize_stat_type(stat_type: str) -> str:
+    return stat_type.strip().lower().replace("_", " ")
+
+
 def _normalize_team_stats(stats_data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     """Convert API-Football stats to normalized format."""
     mapping = {
-        "Ball Possession": "possession",
-        "Total Shots": "total_shots",
-        "Shots on Goal": "shots_on_target",
-        "Corner Kicks": "corners",
-        "Fouls": "fouls",
-        "Yellow Cards": "yellow_cards",
-        "Red Cards": "red_cards",
-        "Offsides": "offsides",
-        "Total passes": "passes_total",
-        "Passes %": "pass_accuracy"
+        "ball possession": "possession",
+        "total shots": "total_shots",
+        "shots on goal": "shots_on_target",
+        "corner kicks": "corners",
+        "fouls": "fouls",
+        "yellow cards": "yellow_cards",
+        "red cards": "red_cards",
+        "offsides": "offsides",
+        "total passes": "passes_total",
+        "passes %": "pass_accuracy",
+        "goalkeeper saves": "gk_saves",
+        "shots insidebox": "shots_inside_box",
+        "shots outsidebox": "shots_outside_box",
+        "blocked shots": "blocked_shots",
+        "shots off goal": "shots_off_target",
+        "expected goals": "xg",
+        "expected goals (xg)": "xg",
+        "xg": "xg",
     }
-    
-    normalized = {}
+
+    normalized: Dict[str, Dict[str, Any]] = {}
     for team_data in stats_data.get("response", []):
         team_id = str(team_data["team"]["id"])
-        stats_obj = {}
+        stats_obj: Dict[str, Any] = {}
         for item in team_data.get("statistics", []):
-            key = mapping.get(item["type"])
-            if key:
-                val = item["value"]
-                if isinstance(val, str) and "%" in val:
-                    val = int(val.replace("%", ""))
-                stats_obj[key] = val
+            stat_type = _normalize_stat_type(str(item.get("type", "")))
+            key = mapping.get(stat_type)
+            if not key:
+                continue
+            raw_value = item.get("value")
+            if key == "pass_accuracy":
+                parsed = _parse_stat_value(raw_value, allow_float=False)
+            elif key == "xg":
+                parsed = _parse_stat_value(raw_value, allow_float=True)
+            else:
+                parsed = _parse_stat_value(raw_value, allow_float=True)
+            if key == "xg" and parsed is None and raw_value is not None:
+                logger.warning("Unable to parse expected goals value for team %s: %s", team_id, raw_value)
+            if parsed is not None:
+                stats_obj[key] = parsed
         normalized[team_id] = TeamNormalizedStats.model_validate(stats_obj).model_dump()
     return normalized
 
 
-def _extract_timeline(events_data: Dict[str, Any]) -> list[TimelineEvent]:
+def _extract_timeline(
+    events_data: Dict[str, Any],
+    home_team_id: str,
+    away_team_id: str,
+    final_score: Dict[str, Optional[int]],
+) -> list[TimelineEvent]:
     timeline = []
-    
+
     for item in events_data.get("response", []):
         etype = item["type"].lower()
         if etype not in ["goal", "card", "subst", "var"]:
@@ -68,7 +118,38 @@ def _extract_timeline(events_data: Dict[str, Any]) -> list[TimelineEvent]:
                 score_after=None
             )
         )
-    return sorted(timeline, key=lambda x: x.minute)
+    type_order = {"var": 0, "card": 1, "goal": 2, "subst": 3, "other": 4}
+    timeline = sorted(
+        timeline,
+        key=lambda x: (x.minute, type_order.get(x.type, 4)),
+    )
+
+    home_goals = 0
+    away_goals = 0
+    for event in timeline:
+        if event.type == "goal" and event.teamId:
+            if event.teamId == home_team_id:
+                home_goals += 1
+            elif event.teamId == away_team_id:
+                away_goals += 1
+            event.score_after = {"home": home_goals, "away": away_goals}
+        else:
+            event.score_after = None
+
+    expected_home = final_score.get("home") if final_score else None
+    expected_away = final_score.get("away") if final_score else None
+    if expected_home is not None and expected_away is not None:
+        if home_goals != expected_home or away_goals != expected_away:
+            logger.error(
+                "Timeline goal count mismatch (home=%s, away=%s) vs match score (home=%s, away=%s)",
+                home_goals,
+                away_goals,
+                expected_home,
+                expected_away,
+            )
+            raise ValueError("Timeline goal tally does not match match score.")
+
+    return timeline
 
 
 def _merge_detailed_players(players: list[PlayerInfo], players_data: Dict[str, Any]) -> list[PlayerInfo]:
@@ -218,7 +299,7 @@ def normalize_api_payload(
         aggregates.shotsOnTarget[prefix] = nstats.get("shots_on_target")
 
     # Timeline
-    timeline = _extract_timeline(events)
+    timeline = _extract_timeline(events, match.homeTeam["id"], match.awayTeam["id"], score)
     
     # Merge detailed players
     final_players = _merge_detailed_players(base_players, players_detailed)

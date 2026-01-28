@@ -118,13 +118,19 @@
               "possession": {"type": ["number", "null"]},
               "total_shots": {"type": ["number", "null"]},
               "shots_on_target": {"type": ["number", "null"]},
+              "shots_off_target": {"type": ["number", "null"]},
               "corners": {"type": ["number", "null"]},
               "fouls": {"type": ["number", "null"]},
               "yellow_cards": {"type": ["number", "null"]},
               "red_cards": {"type": ["number", "null"]},
               "offsides": {"type": ["number", "null"]},
               "passes_total": {"type": ["number", "null"]},
-              "pass_accuracy": {"type": ["number", "null"]}
+              "pass_accuracy": {"type": ["number", "null"]},
+              "xg": {"type": ["number", "null"]},
+              "gk_saves": {"type": ["number", "null"]},
+              "shots_inside_box": {"type": ["number", "null"]},
+              "shots_outside_box": {"type": ["number", "null"]},
+              "blocked_shots": {"type": ["number", "null"]}
             }
           }
         }
