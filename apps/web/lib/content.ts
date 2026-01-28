@@ -44,6 +44,7 @@ export interface ArticleContent {
     score: string;
     venue: string;
   };
+  figures?: FigureMeta[];
   sections: ArticleSection[];
   player_notes: {
     player: string;
