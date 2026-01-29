@@ -3,8 +3,9 @@ import { readMatchIndex } from "@/lib/content";
 import { buildLocalizedPath, SUPPORTED_LANGS } from "@/i18n";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.goalgazer.example";
-  const entries = await readMatchIndex();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://goalgazer.xyz";
+  const { articles } = await readMatchIndex({ limit: 1000 });
+  const entries = Array.isArray(articles) ? articles : [];
   const staticPaths = [
     "/",
     "/about",
