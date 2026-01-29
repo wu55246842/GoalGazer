@@ -8,6 +8,7 @@ from mplsoccer import Pitch
 from matplotlib.patches import Patch
 
 from .schemas import MatchData, FigureMeta
+from .figure_paths import build_src_relative
 
 
 def _shot_size(shot_x: float, shot_y: float) -> float:
@@ -74,7 +75,7 @@ def render_shot_map(match: MatchData, out_path: Path) -> FigureMeta:
 
     return FigureMeta(
         id="shot_map",
-        src_relative=str(out_path).split("public")[1].replace("\\", "/"),
+        src_relative=build_src_relative(out_path),
         alt=f"Shot map for {match.match.homeTeam['name']} vs {match.match.awayTeam['name']} showing all shot attempts and outcomes.",
         caption="Shot map with outcomes: Gold (Goal), Blue (Saved), Red (Miss), Orange (Blocked). Size indicates distance to goal.",
         width=1600,
@@ -131,7 +132,7 @@ def render_shot_proxy(match: MatchData, out_path: Path) -> FigureMeta:
 
     return FigureMeta(
         id="shot_proxy",
-        src_relative=str(out_path).split("public")[1].replace("\\", "/"),
+        src_relative=build_src_relative(out_path),
         alt=f"Shot proxy chart comparing {home_team.name} and {away_team.name} total shots and shots on target.",
         caption="Shot proxy chart based on team totals when shot locations are unavailable.",
         width=1200,

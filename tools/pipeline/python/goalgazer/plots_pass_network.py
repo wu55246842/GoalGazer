@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from mplsoccer import Pitch
 
 from .schemas import MatchData, FigureMeta
+from .figure_paths import build_src_relative
 
 
 def _compute_pass_links(match: MatchData, team_id: str) -> Tuple[Counter, Counter]:
@@ -147,7 +148,7 @@ def render_pass_network(match: MatchData, team_side: str, out_path: Path) -> Fig
 
     return FigureMeta(
         id=f"pass_network_{team_side}",
-        src_relative=str(out_path).split("public")[1].replace("\\", "/"),
+        src_relative=build_src_relative(out_path),
         alt=f"Pass network and formation for {team.name} showing player positions and passing connections.",
         caption=f"{team.name} pass network with average player positions and key passing links.",
         width=1600,

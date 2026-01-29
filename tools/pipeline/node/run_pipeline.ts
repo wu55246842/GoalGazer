@@ -48,7 +48,7 @@ async function uploadFiguresToR2(matchId: string, article: Record<string, any>) 
     return;
   }
 
-  const publicRoot = path.resolve(process.cwd(), "apps/web/public");
+  const figuresRoot = path.resolve(process.cwd(), "tools/pipeline/.cache");
   const uploadedMap = new Map<string, string>();
 
   for (const figure of figures) {
@@ -59,7 +59,7 @@ async function uploadFiguresToR2(matchId: string, article: Record<string, any>) 
       continue;
     }
     const relativeSrc = figure.src.startsWith("/") ? figure.src.slice(1) : figure.src;
-    const filePath = path.join(publicRoot, relativeSrc);
+    const filePath = path.join(figuresRoot, relativeSrc);
     if (!fs.existsSync(filePath)) {
       console.warn(`⚠️  Figure file missing for ${matchId}: ${filePath}`);
       continue;
@@ -74,6 +74,7 @@ async function uploadFiguresToR2(matchId: string, article: Record<string, any>) 
       if (figure.src !== relativeSrc) {
         uploadedMap.set(`/${relativeSrc}`, uploadedUrl);
       }
+      await fs.promises.unlink(filePath);
     } catch (err) {
       console.warn(`⚠️  Failed to upload ${filePath} to R2:`, err);
     }

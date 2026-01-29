@@ -23,8 +23,12 @@ class Settings:
         return self.output_root / "apps" / "web" / "content"
 
     @property
-    def web_public_dir(self) -> Path:
-        return self.output_root / "apps" / "web" / "public" / "generated" / "matches"
+    def figure_output_base_dir(self) -> Path:
+        return self.output_root / "tools" / "pipeline" / ".cache" / "generated"
+
+    @property
+    def figure_output_dir(self) -> Path:
+        return self.figure_output_base_dir / "matches"
 
     @property
     def cache_dir(self) -> Path:

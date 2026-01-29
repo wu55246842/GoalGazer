@@ -6,6 +6,7 @@ from mplsoccer import Pitch
 import numpy as np
 
 from .schemas import MatchData, FigureMeta
+from .figure_paths import build_src_relative
 
 
 def render_touch_heatmap(match: MatchData, team_side: str, out_path: Path) -> FigureMeta:
@@ -28,7 +29,7 @@ def render_touch_heatmap(match: MatchData, team_side: str, out_path: Path) -> Fi
 
     return FigureMeta(
         id=f"touch_heatmap_{team_side}",
-        src_relative=str(out_path).split("public")[1].replace("\\", "/"),
+        src_relative=build_src_relative(out_path),
         alt=f"Touch heatmap for {team.name}.",
         caption=f"Touch heatmap for {team.name} across all events.",
         width=1600,
