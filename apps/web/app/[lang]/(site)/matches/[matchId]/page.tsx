@@ -41,6 +41,7 @@ export default async function MatchPage({ params }: MatchPageProps) {
 
   const articleJsonLd = buildJsonLd(article, lang);
   const breadcrumbJsonLd = buildBreadcrumbJsonLd(article, lang, { home: t("nav.home") });
+  const heroImage = article.frontmatter.heroImage ?? article.frontmatter.image;
 
   return (
     <ArticleLayout
@@ -64,6 +65,29 @@ export default async function MatchPage({ params }: MatchPageProps) {
             {t("match.fallbackNotice")}
           </p>
         </div>
+      )}
+      {heroImage && (
+        <figure
+          className="card"
+          style={{
+            marginTop: "1.5rem",
+            padding: 0,
+            overflow: "hidden",
+            border: "1px solid var(--color-border)",
+          }}
+        >
+          <img
+            src={heroImage}
+            alt={article.frontmatter.title}
+            loading="lazy"
+            style={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+              borderRadius: "var(--radius-lg)",
+            }}
+          />
+        </figure>
       )}
       <MatchHeader
         homeTeam={

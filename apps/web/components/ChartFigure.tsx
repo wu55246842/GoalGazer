@@ -1,5 +1,10 @@
 'use client';
 
+const R2_PUBLIC_URL =
+  process.env.NEXT_PUBLIC_R2_PUBLIC_URL ??
+  process.env.R2_PUBLIC_URL ??
+  "https://pub-97ef9c6706fb4d328dd4f5c8ab4f8f1b.r2.dev";
+
 interface ChartFigureProps {
   src: string;
   alt: string;
@@ -15,6 +20,11 @@ export default function ChartFigure({
   width,
   height,
 }: ChartFigureProps) {
+  const normalizedSrc =
+    src.startsWith("http://") || src.startsWith("https://") || src.startsWith("/")
+      ? src
+      : `${R2_PUBLIC_URL.replace(/\/$/, "")}/${src.replace(/^\/+/, "")}`;
+
   return (
     <figure style={{
       margin: "2.5rem 0",
@@ -32,7 +42,7 @@ export default function ChartFigure({
         background: "var(--color-bg-alt)",
       }}>
         <img
-          src={src}
+          src={normalizedSrc}
           alt={alt}
           width={width}
           height={height}

@@ -7,6 +7,9 @@ import { normalizeLang, type Lang } from "@/i18n";
 import sql from "@/lib/db";
 import type { LeagueIndexContent, MatchArticle, MatchIndexEntry, SitePageContent } from "@/lib/content";
 
+const R2_PUBLIC_URL =
+  process.env.R2_PUBLIC_URL ?? "https://pub-97ef9c6706fb4d328dd4f5c8ab4f8f1b.r2.dev";
+
 async function fileExists(filePath: string): Promise<boolean> {
   try {
     await fs.access(filePath);
@@ -28,6 +31,41 @@ export async function readContentJson<T>(relativePath: string): Promise<T> {
   const fullPath = path.join(contentRoot, relativePath);
   const raw = await fs.readFile(fullPath, "utf-8");
   return JSON.parse(raw) as T;
+}
+
+function ensureAbsoluteImageUrl(url?: string | null): string | undefined {
+  if (!url) {
+    return undefined;
+  }
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("/")) {
+    return url;
+  }
+  return `${R2_PUBLIC_URL.replace(/\/$/, "")}/${url.replace(/^\/+/, "")}`;
+}
+
+function normalizeArticleImages(article: MatchArticle) {
+  const frontmatter = article.frontmatter ?? {};
+  if (frontmatter.heroImage) {
+    frontmatter.heroImage = ensureAbsoluteImageUrl(frontmatter.heroImage) ?? frontmatter.heroImage;
+  }
+  if (frontmatter.image) {
+    frontmatter.image = ensureAbsoluteImageUrl(frontmatter.image) ?? frontmatter.image;
+  }
+  if (article.figures?.length) {
+    article.figures = article.figures.map((figure) => ({
+      ...figure,
+      src: ensureAbsoluteImageUrl(figure.src) ?? figure.src,
+    }));
+  }
+  if (article.sections?.length) {
+    article.sections = article.sections.map((section) => ({
+      ...section,
+      figures: section.figures?.map((figure) => ({
+        ...figure,
+        src: ensureAbsoluteImageUrl(figure.src) ?? figure.src,
+      })),
+    }));
+  }
 }
 
 
@@ -57,8 +95,13 @@ export async function readMatchArticle(
     if (rows.length > 0) {
       const article = rows[0].content as MatchArticle;
       if (rows[0].image) {
-        article.frontmatter = { ...article.frontmatter, image: rows[0].image };
+        article.frontmatter = {
+          ...article.frontmatter,
+          image: rows[0].image,
+          heroImage: article.frontmatter.heroImage ?? rows[0].image,
+        };
       }
+      normalizeArticleImages(article);
       return {
         article,
         resolvedLang: normalizedLang,
@@ -78,8 +121,13 @@ export async function readMatchArticle(
       if (fallbackRows.length > 0) {
         const article = fallbackRows[0].content as MatchArticle;
         if (fallbackRows[0].image) {
-          article.frontmatter = { ...article.frontmatter, image: fallbackRows[0].image };
+          article.frontmatter = {
+            ...article.frontmatter,
+            image: fallbackRows[0].image,
+            heroImage: article.frontmatter.heroImage ?? fallbackRows[0].image,
+          };
         }
+        normalizeArticleImages(article);
         return {
           article,
           resolvedLang: "en",
@@ -150,7 +198,8 @@ export async function readMatchIndex(options: MatchListOptions = {}): Promise<{ 
       title: row.title,
       description: row.description,
       slug: row.slug,
-      teams: [row.home_team, row.away_team]
+      teams: [row.home_team, row.away_team],
+      image: row.image
     })) as MatchIndexEntry[];
 
     return { articles, total };

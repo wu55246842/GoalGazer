@@ -27,6 +27,73 @@ function loadEnv() {
   }
 }
 
+function getImageContentType(filePath: string) {
+  const ext = path.extname(filePath).toLowerCase();
+  switch (ext) {
+    case ".jpg":
+    case ".jpeg":
+      return "image/jpeg";
+    case ".webp":
+      return "image/webp";
+    case ".svg":
+      return "image/svg+xml";
+    default:
+      return "image/png";
+  }
+}
+
+async function uploadFiguresToR2(matchId: string, article: Record<string, any>) {
+  const figures = Array.isArray(article.figures) ? article.figures : [];
+  if (!figures.length) {
+    return;
+  }
+
+  const publicRoot = path.resolve(process.cwd(), "apps/web/public");
+  const uploadedMap = new Map<string, string>();
+
+  for (const figure of figures) {
+    if (!figure?.src || typeof figure.src !== "string") {
+      continue;
+    }
+    if (figure.src.startsWith("http://") || figure.src.startsWith("https://")) {
+      continue;
+    }
+    const relativeSrc = figure.src.startsWith("/") ? figure.src.slice(1) : figure.src;
+    const filePath = path.join(publicRoot, relativeSrc);
+    if (!fs.existsSync(filePath)) {
+      console.warn(`⚠️  Figure file missing for ${matchId}: ${filePath}`);
+      continue;
+    }
+    try {
+      const body = await fs.promises.readFile(filePath);
+      const key = relativeSrc.replace(/^\/+/, "");
+      const contentType = getImageContentType(filePath);
+      const uploadedUrl = await uploadToR2(key, body, contentType);
+      figure.src = uploadedUrl;
+      uploadedMap.set(relativeSrc, uploadedUrl);
+      if (figure.src !== relativeSrc) {
+        uploadedMap.set(`/${relativeSrc}`, uploadedUrl);
+      }
+    } catch (err) {
+      console.warn(`⚠️  Failed to upload ${filePath} to R2:`, err);
+    }
+  }
+
+  if (article.frontmatter?.heroImage) {
+    const heroImage = article.frontmatter.heroImage as string;
+    article.frontmatter.heroImage = uploadedMap.get(heroImage) ?? heroImage;
+  }
+  if (article.sections?.length) {
+    article.sections = article.sections.map((section: any) => ({
+      ...section,
+      figures: section.figures?.map((figure: any) => ({
+        ...figure,
+        src: uploadedMap.get(figure.src) ?? figure.src,
+      })),
+    }));
+  }
+}
+
 // ... imports
 
 async function main() {
@@ -146,6 +213,8 @@ async function processSingleMatch(matchId: string, league: string, season: strin
     console.error("❌ Failed to parse Python stdout:", pythonResult.stdout);
     throw new Error(`Unable to parse generated article for matchId ${matchId}.`);
   }
+
+  await uploadFiguresToR2(matchId, englishPayload);
 
   // 2. Generate AI Match Illustration (English phase)
   console.log(`   🎨 Generating AI illustration for ${matchId}...`);
