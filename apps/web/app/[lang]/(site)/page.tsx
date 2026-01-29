@@ -1,38 +1,48 @@
 import type { Metadata } from "next";
-import { readMatchIndexLocalized } from "@/lib/content";
+import { readMatchIndexLocalized, readMatchIndex } from "@/lib/content";
 import { buildLocalizedPath, getT, normalizeLang } from "@/i18n";
 import { buildCanonicalUrl, buildLanguageAlternates } from "@/lib/seo";
 
+const LEAGUES = [
+  { id: 'all' },
+  { id: 'epl' },
+  { id: 'laliga' },
+  { id: 'bundesliga' },
+  { id: 'seriea' },
+  { id: 'ligue1' },
+];
+
+const LEAGUE_DB_MAP: Record<string, string> = {
+  epl: 'premier-league',
+  laliga: 'la-liga',
+  bundesliga: 'bundesliga',
+  seriea: 'serie-a',
+  ligue1: 'ligue-1'
+};
+
 interface HomePageProps {
   params: { lang: string };
+  searchParams: { league?: string; page?: string };
 }
 
-export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
-  const lang = normalizeLang(params.lang);
-  const { messages } = await getT(lang);
-  return {
-    title: messages.seo.pages.home.title,
-    description: messages.seo.pages.home.description,
-    openGraph: {
-      title: messages.seo.pages.home.title,
-      description: messages.seo.pages.home.description,
-    },
-    twitter: {
-      title: messages.seo.pages.home.title,
-      description: messages.seo.pages.home.description,
-    },
-    alternates: {
-      canonical: buildCanonicalUrl(lang, "/"),
-      languages: buildLanguageAlternates("/"),
-    },
-  };
-}
-
-export default async function HomePage({ params }: HomePageProps) {
+export default async function HomePage({ params, searchParams }: HomePageProps) {
   const lang = normalizeLang(params.lang);
   const { t, messages } = await getT(lang);
   const locale = messages.formats.locale;
-  const articles = await readMatchIndexLocalized(lang);
+
+  const currentLeagueId = searchParams.league || 'all';
+  const dbLeague = currentLeagueId === 'all' ? undefined : (LEAGUE_DB_MAP[currentLeagueId] || currentLeagueId);
+  const currentPage = parseInt(searchParams.page || '1', 10);
+  const limit = 12;
+
+  const { articles, total } = await readMatchIndex({ // Note: readMatchIndex is now imported from @/lib/content via index.ts or direct
+    lang,
+    league: dbLeague,
+    page: currentPage,
+    limit
+  });
+
+  const totalPages = Math.ceil(total / limit);
   const matchLabel =
     articles.length === 1 ? t("home.matchLabelSingular") : t("home.matchLabelPlural");
 
@@ -52,12 +62,29 @@ export default async function HomePage({ params }: HomePageProps) {
       </section>
 
       <section id="matches">
-        <div className="flex justify-between items-center mb-xl">
+        <div className="match-header">
           <div>
             <h2 style={{ marginBottom: "0.5rem" }}>{t("home.latestTitle")}</h2>
             <p style={{ color: "var(--color-text-muted)", marginBottom: 0 }}>
-              {t("home.matchCount", { count: articles.length, matchLabel })}
+              {t("home.matchCount", { count: total, matchLabel })}
             </p>
+          </div>
+
+          <div className="league-tabs">
+            {LEAGUES.map((league) => {
+              const isActive = currentLeagueId === league.id;
+              const href = buildLocalizedPath(lang, "/") + (league.id === 'all' ? '' : `?league=${league.id}`);
+              return (
+                <a
+                  key={league.id}
+                  href={href}
+                  className={`league-tab ${isActive ? 'active' : ''}`}
+                >
+                  {/* @ts-ignore */}
+                  {t(`leagueNames.${league.id}`)}
+                </a>
+              );
+            })}
           </div>
         </div>
 
@@ -67,68 +94,106 @@ export default async function HomePage({ params }: HomePageProps) {
             <p>{t("home.noMatchesDescription")}</p>
           </div>
         ) : (
-          <div className="grid grid-2">
-            {articles.map((article, index) => (
-              <a
-                key={article.matchId}
-                href={buildLocalizedPath(lang, `/matches/${article.matchId}`)}
-                className="card card-interactive fade-in"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                  textDecoration: "none",
-                }}
-              >
-                <div className="flex justify-between items-center mb-md">
-                  <span className="tag">{article.league}</span>
-                  <time
-                    dateTime={article.date}
+          <>
+            <div className="grid grid-2">
+              {articles.map((article, index) => (
+                <a
+                  key={article.matchId}
+                  href={buildLocalizedPath(lang, `/matches/${article.matchId}`)}
+                  className="card card-interactive fade-in"
+                  style={{
+                    animationDelay: `${index * 100}ms`,
+                    textDecoration: "none",
+                  }}
+                >
+                  {article.image && (
+                    <div className="card-image-container" style={{ margin: "-1.5rem -1.5rem 1.5rem", borderRadius: "1rem 1rem 0 0", overflow: "hidden", height: "200px" }}>
+                      <img src={article.image} alt={article.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center mb-md">
+                    <span className="tag capitalize">{article.league}</span>
+                    <time
+                      dateTime={article.date}
+                      style={{
+                        fontSize: "0.875rem",
+                        color: "var(--color-text-light)",
+                      }}
+                    >
+                      {new Date(article.date).toLocaleDateString(locale, {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </time>
+                  </div>
+
+                  <h3
                     style={{
-                      fontSize: "0.875rem",
-                      color: "var(--color-text-light)",
+                      marginBottom: "0.75rem",
+                      fontSize: "1.25rem",
+                      color: "var(--color-text)",
                     }}
                   >
-                    {new Date(article.date).toLocaleDateString(locale, {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </time>
-                </div>
+                    {article.title}
+                  </h3>
 
-                <h3
-                  style={{
-                    marginBottom: "0.75rem",
-                    fontSize: "1.25rem",
-                    color: "var(--color-text)",
-                  }}
-                >
-                  {article.title}
-                </h3>
+                  <p
+                    style={{
+                      color: "var(--color-text-muted)",
+                      lineHeight: 1.6,
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    {article.description}
+                  </p>
 
-                <p
-                  style={{
-                    color: "var(--color-text-muted)",
-                    lineHeight: 1.6,
-                    marginBottom: "1rem",
-                  }}
-                >
-                  {article.description}
-                </p>
+                  <div
+                    className="flex items-center gap-sm"
+                    style={{
+                      color: "var(--color-primary)",
+                      fontSize: "0.9375rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {t("home.readAnalysis")}
+                    <span style={{ fontSize: "1.125rem" }}>→</span>
+                  </div>
+                </a>
+              ))}
+            </div>
 
-                <div
-                  className="flex items-center gap-sm"
-                  style={{
-                    color: "var(--color-primary)",
-                    fontSize: "0.9375rem",
-                    fontWeight: 600,
-                  }}
-                >
-                  {t("home.readAnalysis")}
-                  <span style={{ fontSize: "1.125rem" }}>→</span>
-                </div>
-              </a>
-            ))}
-          </div>
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-4 mt-8" style={{ marginTop: '2rem' }}>
+                {currentPage > 1 && (
+                  <a
+                    href={`${buildLocalizedPath(lang, "/")}?${new URLSearchParams({
+                      ...(currentLeagueId !== 'all' ? { league: currentLeagueId } : {}),
+                      page: (currentPage - 1).toString()
+                    }).toString()}`}
+                    className="btn btn-outline"
+                  >
+                    Select Previous
+                  </a>
+                )}
+                <span className="text-text-muted">
+                  Page {currentPage} of {totalPages}
+                </span>
+                {currentPage < totalPages && (
+                  <a
+                    href={`${buildLocalizedPath(lang, "/")}?${new URLSearchParams({
+                      ...(currentLeagueId !== 'all' ? { league: currentLeagueId } : {}),
+                      page: (currentPage + 1).toString()
+                    }).toString()}`}
+                    className="btn btn-outline"
+                  >
+                    Next
+                  </a>
+                )}
+              </div>
+            )}
+          </>
         )}
       </section>
 

@@ -123,6 +123,7 @@ def run_pipeline(match_id: str, league: str) -> None:
         article,
         settings.web_content_dir / "matches",
         settings.web_content_dir / "index.json",
+        lang="en"
     )
 
     print("Generated article:", article_path)

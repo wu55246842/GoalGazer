@@ -12,6 +12,9 @@ export default function LanguageSwitcher() {
   const lang = useLang();
   const t = useT();
 
+  // Removed client-side auto-redirect to prevent loops. 
+  // URL should be the single source of truth.
+  /* 
   useEffect(() => {
     const stored = window.localStorage.getItem("goalgazer-lang");
     if (stored && stored !== lang && SUPPORTED_LANGS.includes(stored as typeof lang)) {
@@ -19,6 +22,7 @@ export default function LanguageSwitcher() {
       router.replace(buildQueryPath(target, searchParams.toString()));
     }
   }, [lang, pathname, router, searchParams]);
+  */
 
   useEffect(() => {
     window.localStorage.setItem("goalgazer-lang", lang);

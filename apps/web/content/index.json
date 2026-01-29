@@ -1,5 +1,653 @@
 [
   {
+    "title": "Lyon Secure Hard-Fought Victory Over 10-Man Brest",
+    "description": "Lyon claimed a narrow 2-1 victory against Stade Brestois 29 in a Ligue 1 encounter marked by a red card for the visitors and a strong second-half fightback.",
+    "date": "2026-01-18T19:45:00+00:00",
+    "matchId": "1387853",
+    "slug": "2026-01-18_1387853",
+    "teams": [
+      "Lyon",
+      "Stade Brestois 29"
+    ],
+    "league": "ligue-1"
+  },
+  {
+    "title": "Auxerre vs Paris Saint Germain - Match Analysis",
+    "description": "A detailed tactical analysis of the Ligue 1 match between Auxerre and Paris Saint Germain.",
+    "date": "2026-01-23T19:00:00+00:00",
+    "matchId": "1387860",
+    "slug": "2026-01-23_1387860",
+    "teams": [
+      "Auxerre",
+      "Paris Saint Germain"
+    ],
+    "league": "ligue-1"
+  },
+  {
+    "title": "Rennes vs Lorient - Match Analysis",
+    "description": "A detailed tactical analysis of the Ligue 1 match between Rennes and Lorient, highlighting key moments and tactical insights.",
+    "date": "2026-01-24T16:00:00+00:00",
+    "matchId": "1387868",
+    "slug": "2026-01-24_1387868",
+    "teams": [
+      "Rennes",
+      "Lorient"
+    ],
+    "league": "ligue-1"
+  },
+  {
+    "title": "Marseille vs Lens - Match Analysis",
+    "description": "A detailed tactical analysis of the Ligue 1 match between Marseille and Lens, highlighting key moments and player performances.",
+    "date": "2026-01-24T20:05:00+00:00",
+    "matchId": "1387864",
+    "slug": "2026-01-24_1387864",
+    "teams": [
+      "Marseille",
+      "Lens"
+    ],
+    "league": "ligue-1"
+  },
+  {
+    "title": "Nantes vs Nice - Match Analysis",
+    "description": "A detailed tactical analysis of the Ligue 1 match between Nantes and Nice, highlighting key moments and player performances.",
+    "date": "2026-01-25T14:00:00+00:00",
+    "matchId": "1387866",
+    "slug": "2026-01-25_1387866",
+    "teams": [
+      "Nantes",
+      "Nice"
+    ],
+    "league": "ligue-1"
+  },
+  {
+    "title": "Match Analysis: Paris FC vs Angers",
+    "description": "A detailed tactical analysis of the Ligue 1 match between Paris FC and Angers, highlighting key moments and player performances.",
+    "date": "2026-01-25T16:15:00+00:00",
+    "matchId": "1387867",
+    "slug": "2026-01-25_1387867",
+    "teams": [
+      "Paris FC",
+      "Angers"
+    ],
+    "league": "ligue-1"
+  },
+  {
+    "title": "Metz vs Lyon - Match Analysis",
+    "description": "A detailed tactical analysis of the Ligue 1 match between Metz and Lyon, highlighting key moments and player performances.",
+    "date": "2026-01-25T16:15:00+00:00",
+    "matchId": "1387865",
+    "slug": "2026-01-25_1387865",
+    "teams": [
+      "Metz",
+      "Lyon"
+    ],
+    "league": "ligue-1"
+  },
+  {
+    "title": "Match Analysis: Stade Brestois 29 vs Toulouse",
+    "description": "A detailed tactical analysis of the Ligue 1 match between Stade Brestois 29 and Toulouse, highlighting key moments and tactical notes.",
+    "date": "2026-01-25T16:15:00+00:00",
+    "matchId": "1387861",
+    "slug": "2026-01-25_1387861",
+    "teams": [
+      "Stade Brestois 29",
+      "Toulouse"
+    ],
+    "league": "ligue-1"
+  },
+  {
+    "title": "Lille vs Strasbourg - Match Analysis",
+    "description": "A detailed tactical analysis of the Ligue 1 match between Lille and Strasbourg on January 25, 2026.",
+    "date": "2026-01-25T19:45:00+00:00",
+    "matchId": "1387863",
+    "slug": "2026-01-25_1387863",
+    "teams": [
+      "Lille",
+      "Strasbourg"
+    ],
+    "league": "ligue-1"
+  },
+  {
+    "title": "Inter vs Pisa - Serie A Match Analysis",
+    "description": "A detailed tactical analysis of the Serie A match between Inter and Pisa, highlighting key moments and player performances.",
+    "date": "2026-01-23T19:45:00+00:00",
+    "matchId": "1378078",
+    "slug": "2026-01-23_1378078",
+    "teams": [
+      "Inter",
+      "Pisa"
+    ],
+    "league": "serie-a"
+  },
+  {
+    "title": "Serie A Tactical Review: Como vs Torino",
+    "description": "Automated draft based on available match data and original charts.",
+    "date": "2026-01-24T14:00:00+00:00",
+    "matchId": "1378075",
+    "slug": "2026-01-24_1378075",
+    "teams": [
+      "Como",
+      "Torino"
+    ],
+    "league": "serie-a"
+  },
+  {
+    "title": "Cagliari Secures Shock Victory Over Fiorentina in Serie A Clash",
+    "description": "Cagliari stunned Fiorentina with a 2-1 away win in Serie A, capitalizing on key moments and a strong defensive effort.",
+    "date": "2026-01-24T17:00:00+00:00",
+    "matchId": "1378076",
+    "slug": "2026-01-24_1378076",
+    "teams": [
+      "Fiorentina",
+      "Cagliari"
+    ],
+    "league": "serie-a"
+  },
+  {
+    "title": "Match Analysis: Lecce vs Lazio",
+    "description": "A detailed tactical analysis of the Serie A match between Lecce and Lazio, focusing on key moments and player performances.",
+    "date": "2026-01-24T19:45:00+00:00",
+    "matchId": "1378080",
+    "slug": "2026-01-24_1378080",
+    "teams": [
+      "Lecce",
+      "Lazio"
+    ],
+    "league": "serie-a"
+  },
+  {
+    "title": "Sassuolo vs Cremonese - Serie A Match Report",
+    "description": "A detailed analysis of the Serie A match between Sassuolo and Cremonese, highlighting key moments and tactical insights.",
+    "date": "2026-01-25T11:30:00+00:00",
+    "matchId": "1378082",
+    "slug": "2026-01-25_1378082",
+    "teams": [
+      "Sassuolo",
+      "Cremonese"
+    ],
+    "league": "serie-a"
+  },
+  {
+    "title": "Atalanta Dominates Parma with a Comprehensive 4-0 Victory",
+    "description": "Atalanta secured a commanding 4-0 win against Parma in Serie A, showcasing a clinical performance with goals from Scamacca, De Roon, Raspadori, and Krstovic.",
+    "date": "2026-01-25T14:00:00+00:00",
+    "matchId": "1378074",
+    "slug": "2026-01-25_1378074",
+    "teams": [
+      "Atalanta",
+      "Parma"
+    ],
+    "league": "serie-a"
+  },
+  {
+    "title": "Juventus vs Napoli Match Analysis",
+    "description": "A detailed tactical analysis of the Serie A match between Juventus and Napoli on January 25, 2026.",
+    "date": "2026-01-25T17:00:00+00:00",
+    "matchId": "1378079",
+    "slug": "2026-01-25_1378079",
+    "teams": [
+      "Juventus",
+      "Napoli"
+    ],
+    "league": "serie-a"
+  },
+  {
+    "title": "AS Roma vs AC Milan - Match Analysis",
+    "description": "A detailed tactical analysis of the Serie A match between AS Roma and AC Milan.",
+    "date": "2026-01-25T19:45:00+00:00",
+    "matchId": "1378081",
+    "slug": "2026-01-25_1378081",
+    "teams": [
+      "AS Roma",
+      "AC Milan"
+    ],
+    "league": "serie-a"
+  },
+  {
+    "title": "Verona vs Udinese - Serie A Match Analysis",
+    "description": "A detailed analysis of the Serie A match between Verona and Udinese, highlighting key moments and tactical insights.",
+    "date": "2026-01-26T19:45:00+00:00",
+    "matchId": "1378083",
+    "slug": "2026-01-26_1378083",
+    "teams": [
+      "Verona",
+      "Udinese"
+    ],
+    "league": "serie-a"
+  },
+  {
+    "title": "RB Leipzig Dominates Heidenheim in Bundesliga Clash",
+    "description": "A comprehensive analysis of the Bundesliga match where RB Leipzig defeated 1. FC Heidenheim 3-0, highlighting key moments and tactical insights.",
+    "date": "2026-01-24T14:30:00+00:00",
+    "matchId": "1388475",
+    "slug": "2026-01-24_1388475",
+    "teams": [
+      "1. FC Heidenheim",
+      "RB Leipzig"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "Eintracht Frankfurt vs 1899 Hoffenheim - Match Analysis",
+    "description": "A detailed tactical analysis of the Bundesliga match between Eintracht Frankfurt and 1899 Hoffenheim.",
+    "date": "2026-01-24T14:30:00+00:00",
+    "matchId": "1388473",
+    "slug": "2026-01-24_1388473",
+    "teams": [
+      "Eintracht Frankfurt",
+      "1899 Hoffenheim"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "Bayer Leverkusen vs Werder Bremen - Match Analysis",
+    "description": "A detailed tactical analysis of the Bundesliga match between Bayer Leverkusen and Werder Bremen.",
+    "date": "2026-01-24T14:30:00+00:00",
+    "matchId": "1388470",
+    "slug": "2026-01-24_1388470",
+    "teams": [
+      "Bayer Leverkusen",
+      "Werder Bremen"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "FSV Mainz 05 vs VfL Wolfsburg - Match Analysis",
+    "description": "A detailed tactical analysis of the Bundesliga match between FSV Mainz 05 and VfL Wolfsburg.",
+    "date": "2026-01-24T14:30:00+00:00",
+    "matchId": "1388476",
+    "slug": "2026-01-24_1388476",
+    "teams": [
+      "FSV Mainz 05",
+      "VfL Wolfsburg"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "Bayern M\u00fcnchen vs FC Augsburg - Match Analysis",
+    "description": "A detailed tactical analysis of the Bundesliga match between Bayern M\u00fcnchen and FC Augsburg.",
+    "date": "2026-01-24T14:30:00+00:00",
+    "matchId": "1388471",
+    "slug": "2026-01-24_1388471",
+    "teams": [
+      "Bayern M\u00fcnchen",
+      "FC Augsburg"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "Union Berlin vs Borussia Dortmund - Match Analysis",
+    "description": "A detailed tactical analysis of the Bundesliga match between Union Berlin and Borussia Dortmund.",
+    "date": "2026-01-24T17:30:00+00:00",
+    "matchId": "1388478",
+    "slug": "2026-01-24_1388478",
+    "teams": [
+      "Union Berlin",
+      "Borussia Dortmund"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "Levante vs Elche - Match Analysis",
+    "description": "A detailed tactical analysis of the La Liga match between Levante and Elche.",
+    "date": "2026-01-23T20:00:00+00:00",
+    "matchId": "1391023",
+    "slug": "2026-01-23_1391023",
+    "teams": [
+      "Levante",
+      "Elche"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "VfB Stuttgart Dominates Borussia M\u00f6nchengladbach",
+    "description": "A comprehensive analysis of VfB Stuttgart's 3-0 victory over Borussia M\u00f6nchengladbach in the Bundesliga.",
+    "date": "2026-01-25T14:30:00+00:00",
+    "matchId": "1388472",
+    "slug": "2026-01-25_1388472",
+    "teams": [
+      "Borussia M\u00f6nchengladbach",
+      "VfB Stuttgart"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "Rayo Vallecano vs Osasuna - Match Analysis",
+    "description": "Detailed tactical analysis of the La Liga match between Rayo Vallecano and Osasuna.",
+    "date": "2026-01-24T13:00:00+00:00",
+    "matchId": "1391024",
+    "slug": "2026-01-24_1391024",
+    "teams": [
+      "Rayo Vallecano",
+      "Osasuna"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "West Ham vs Sunderland - Premier League Match Analysis",
+    "description": "A detailed tactical analysis of the Premier League match between West Ham and Sunderland, highlighting key moments and player performances.",
+    "date": "2026-01-24T12:30:00+00:00",
+    "matchId": "1379198",
+    "slug": "2026-01-24_1379198",
+    "teams": [
+      "West Ham",
+      "Sunderland"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Valencia vs Espanyol - Match Analysis",
+    "description": "A detailed tactical analysis of the La Liga match between Valencia and Espanyol on January 24, 2026.",
+    "date": "2026-01-24T15:15:00+00:00",
+    "matchId": "1391027",
+    "slug": "2026-01-24_1391027",
+    "teams": [
+      "Valencia",
+      "Espanyol"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "SC Freiburg vs 1. FC K\u00f6ln - Match Analysis",
+    "description": "A detailed tactical analysis of the Bundesliga match between SC Freiburg and 1. FC K\u00f6ln.",
+    "date": "2026-01-25T16:30:00+00:00",
+    "matchId": "1388474",
+    "slug": "2026-01-25_1388474",
+    "teams": [
+      "SC Freiburg",
+      "1. FC K\u00f6ln"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "Manchester City vs Wolves - Match Analysis",
+    "description": "A detailed tactical analysis of the Premier League match between Manchester City and Wolves.",
+    "date": "2026-01-24T15:00:00+00:00",
+    "matchId": "1379196",
+    "slug": "2026-01-24_1379196",
+    "teams": [
+      "Manchester City",
+      "Wolves"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Sevilla vs. Athletic Club - La Liga Match Report",
+    "description": "A detailed tactical analysis of the La Liga match between Sevilla and Athletic Club, focusing on key moments, tactical shifts, and player performances.",
+    "date": "2026-01-24T17:30:00+00:00",
+    "matchId": "1391026",
+    "slug": "2026-01-24_1391026",
+    "teams": [
+      "Sevilla",
+      "Athletic Club"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "FC St. Pauli vs RB Leipzig - Match Analysis",
+    "description": "A detailed tactical analysis of the Bundesliga match between FC St. Pauli and RB Leipzig, highlighting key moments and player performances.",
+    "date": "2026-01-27T19:30:00+00:00",
+    "matchId": "1388449",
+    "slug": "2026-01-27_1388449",
+    "teams": [
+      "FC St. Pauli",
+      "RB Leipzig"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "Burnley vs Tottenham - Premier League 2025 Match Report",
+    "description": "A detailed tactical analysis of the Premier League match between Burnley and Tottenham, ending in a 2-2 draw.",
+    "date": "2026-01-24T15:00:00+00:00",
+    "matchId": "1379192",
+    "slug": "2026-01-24_1379192",
+    "teams": [
+      "Burnley",
+      "Tottenham"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Villarreal vs Real Madrid - Match Analysis",
+    "description": "A detailed tactical analysis of the La Liga match between Villarreal and Real Madrid on January 24, 2026.",
+    "date": "2026-01-24T20:00:00+00:00",
+    "matchId": "1391028",
+    "slug": "2026-01-24_1391028",
+    "teams": [
+      "Villarreal",
+      "Real Madrid"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "Fulham vs Brighton - Premier League Match Analysis",
+    "description": "A detailed analysis of the Premier League match between Fulham and Brighton, highlighting key moments and tactical insights.",
+    "date": "2026-01-24T15:00:00+00:00",
+    "matchId": "1379195",
+    "slug": "2026-01-24_1379195",
+    "teams": [
+      "Fulham",
+      "Brighton"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Bundesliga Match Report: Werder Bremen vs 1899 Hoffenheim",
+    "description": "Analysis of the Bundesliga match between Werder Bremen and 1899 Hoffenheim, focusing on key moments and tactical insights.",
+    "date": "2026-01-27T19:30:00+00:00",
+    "matchId": "1388451",
+    "slug": "2026-01-27_1388451",
+    "teams": [
+      "Werder Bremen",
+      "1899 Hoffenheim"
+    ],
+    "league": "bundesliga"
+  },
+  {
+    "title": "Atletico Madrid vs Mallorca - Match Analysis",
+    "description": "A comprehensive analysis of the La Liga match between Atletico Madrid and Mallorca, highlighting key moments and tactical insights.",
+    "date": "2026-01-25T13:00:00+00:00",
+    "matchId": "1391020",
+    "slug": "2026-01-25_1391020",
+    "teams": [
+      "Atletico Madrid",
+      "Mallorca"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "Bournemouth vs Liverpool - Premier League Match Analysis",
+    "description": "A detailed tactical analysis of the Premier League match between Bournemouth and Liverpool, highlighting key moments and player performances.",
+    "date": "2026-01-24T17:30:00+00:00",
+    "matchId": "1379190",
+    "slug": "2026-01-24_1379190",
+    "teams": [
+      "Bournemouth",
+      "Liverpool"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "La Liga Tactical Review: Barcelona vs Oviedo",
+    "description": "Automated draft based on available match data and original charts.",
+    "date": "2026-01-25T15:15:00+00:00",
+    "matchId": "1391021",
+    "slug": "2026-01-25_1391021",
+    "teams": [
+      "Barcelona",
+      "Oviedo"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "Brentford vs Nottingham Forest - Match Analysis",
+    "description": "A detailed tactical analysis of the Premier League match between Brentford and Nottingham Forest.",
+    "date": "2026-01-25T14:00:00+00:00",
+    "matchId": "1379191",
+    "slug": "2026-01-25_1379191",
+    "teams": [
+      "Brentford",
+      "Nottingham Forest"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Crystal Palace vs Chelsea - Match Analysis",
+    "description": "A detailed tactical analysis of the Premier League match between Crystal Palace and Chelsea.",
+    "date": "2026-01-25T14:00:00+00:00",
+    "matchId": "1379193",
+    "slug": "2026-01-25_1379193",
+    "teams": [
+      "Crystal Palace",
+      "Chelsea"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Real Sociedad vs Celta Vigo - Match Analysis",
+    "description": "A detailed tactical analysis of the La Liga match between Real Sociedad and Celta Vigo, highlighting key moments and player performances.",
+    "date": "2026-01-25T17:30:00+00:00",
+    "matchId": "1391025",
+    "slug": "2026-01-25_1391025",
+    "teams": [
+      "Real Sociedad",
+      "Celta Vigo"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "Newcastle vs Aston Villa - Match Analysis",
+    "description": "A detailed tactical analysis of the Premier League match between Newcastle and Aston Villa.",
+    "date": "2026-01-25T14:00:00+00:00",
+    "matchId": "1379197",
+    "slug": "2026-01-25_1379197",
+    "teams": [
+      "Newcastle",
+      "Aston Villa"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "La Liga Tactical Review: Alaves vs Real Betis",
+    "description": "Automated draft based on available match data and original charts.",
+    "date": "2026-01-25T20:00:00+00:00",
+    "matchId": "1391019",
+    "slug": "2026-01-25_1391019",
+    "teams": [
+      "Alaves",
+      "Real Betis"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "Manchester United Secure Dramatic Away Win Against Arsenal",
+    "description": "A thrilling Premier League encounter saw Manchester United snatch a late victory over Arsenal at the Emirates Stadium, with a late goal sealing a 3-2 win.",
+    "date": "2026-01-25T16:30:00+00:00",
+    "matchId": "1379189",
+    "slug": "2026-01-25_1379189",
+    "teams": [
+      "Arsenal",
+      "Manchester United"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "La Liga Tactical Review: Girona vs Getafe",
+    "description": "Automated draft based on available match data and original charts.",
+    "date": "2026-01-26T20:00:00+00:00",
+    "matchId": "1391022",
+    "slug": "2026-01-26_1391022",
+    "teams": [
+      "Girona",
+      "Getafe"
+    ],
+    "league": "la-liga"
+  },
+  {
+    "title": "Everton vs Leeds: A Tense 1-1 Draw in Premier League Round 23",
+    "description": "Tactical analysis of Everton's home draw against Leeds, highlighting key goals, substitutions, and statistical insights from the match.",
+    "date": "2026-01-26T20:00:00+00:00",
+    "matchId": "1379194",
+    "slug": "2026-01-26_1379194",
+    "teams": [
+      "Everton",
+      "Leeds"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Luton Town 2-4 Fulham: Tactical Breakdown of a High-Scoring Thriller",
+    "description": "Analysis of Luton Town's 2-4 defeat to Fulham in the Premier League, highlighting key moments, tactical insights, and standout performances.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035551",
+    "slug": "2024-05-19_1035551",
+    "teams": [
+      "Luton",
+      "Fulham"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Premier League Tactical Review: Sheffield Utd vs Tottenham",
+    "description": "Automated draft based on available match data and original charts.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035553",
+    "slug": "2024-05-19_1035553",
+    "teams": [
+      "Sheffield Utd",
+      "Tottenham"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Brentford 2-4 Newcastle: Magpies Dominate Late in Thrilling Premier League Encounter",
+    "description": "Newcastle United secured a convincing 4-2 victory over Brentford in the Premier League's final regular season match, showcasing clinical finishing and midfield dominance despite Brentford's possession edge.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035545",
+    "slug": "2024-05-19_1035545",
+    "teams": [
+      "Brentford",
+      "Newcastle"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Crystal Palace 5-0 Aston Villa: Dominant Performance Seals Season Finale",
+    "description": "Crystal Palace delivered a stunning 5-0 victory over Aston Villa in the Premier League's final matchday, showcasing clinical finishing and defensive solidity at Selhurst Park.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035549",
+    "slug": "2024-05-19_1035549",
+    "teams": [
+      "Crystal Palace",
+      "Aston Villa"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Brighton 0-2 Manchester United: Tactical Breakdown - United's Late Surge Secures Victory",
+    "description": "Analysis of Brighton vs Manchester United in the Premier League, highlighting key moments, tactical shifts, and player performances in a 0-2 win for United.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035546",
+    "slug": "2024-05-19_1035546",
+    "teams": [
+      "Brighton",
+      "Manchester United"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Premier League Tactical Review: Manchester City vs West Ham",
+    "description": "Automated draft based on available match data and original charts.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035552",
+    "slug": "2024-05-19_1035552",
+    "teams": [
+      "Manchester City",
+      "West Ham"
+    ],
+    "league": "premier-league"
+  },
+  {
     "title": "Chelsea 2-1 Bournemouth: Blues Edge Out Cherries in Tense Premier League Finale",
     "description": "Chelsea secured a narrow victory over Bournemouth in the final match of the 2023 Premier League season, with key goals from Caicedo and Sterling proving decisive despite Bournemouth's higher xG.",
     "date": "2024-05-19T15:00:00+00:00",
@@ -12,50 +660,38 @@
     "league": "premier-league"
   },
   {
-    "title": "Liverpool 2-0 Wolves: Dominant Anfield Win on Final Day",
-    "description": "Liverpool capped their 2023 Premier League season with a commanding 2-0 victory over Wolves at Anfield, showcasing superior possession and shot volume despite Wolves' resilient goalkeeping.",
+    "title": "Burnley 1-2 Nottingham Forest: Forest Secure Vital Win in Premier League Thriller",
+    "description": "A tactical breakdown of Burnley's 1-2 defeat to Nottingham Forest, highlighting Forest's clinical finishing and Burnley's possession dominance that couldn't convert into points.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035547",
+    "slug": "2024-05-19_1035547",
+    "teams": [
+      "Burnley",
+      "Nottingham Forest"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Arsenal 2-1 Everton: Gunners Secure Vital Win in Tense Premier League Clash",
+    "description": "Arsenal edged out Everton 2-1 in a hard-fought Premier League match, dominating possession and shots while overcoming a resilient defensive display from the visitors.",
+    "date": "2024-05-19T15:00:00+00:00",
+    "matchId": "1035544",
+    "slug": "2024-05-19_1035544",
+    "teams": [
+      "Arsenal",
+      "Everton"
+    ],
+    "league": "premier-league"
+  },
+  {
+    "title": "Liverpool 2-0 Wolves: Dominant Performance Seals Season Finale",
+    "description": "Liverpool capped off their 2023 Premier League season with a commanding 2-0 win over Wolves at Anfield, showcasing superior possession and shot volume despite Wolves' resilient goalkeeping.",
     "date": "2024-05-19T15:00:00+00:00",
     "matchId": "1035550",
     "slug": "2024-05-19_1035550",
     "teams": [
       "Liverpool",
       "Wolves"
-    ],
-    "league": "premier-league"
-  },
-  {
-    "title": "Brentford 1-3 Arsenal: Gunners Overpower Bees in Dominant Second Half",
-    "description": "Arsenal secured a convincing 3-1 victory over Brentford at Gtech Community Stadium, showcasing superior attacking efficiency despite Brentford's early lead and slight possession edge.",
-    "date": "2025-01-01T17:30:00+00:00",
-    "matchId": "1208204",
-    "slug": "2025-01-01_1208204",
-    "teams": [
-      "Brentford",
-      "Arsenal"
-    ],
-    "league": "premier-league"
-  },
-  {
-    "title": "Bournemouth vs Everton Match Analysis - Premier League 2024",
-    "description": "A detailed analysis of the Bournemouth vs Everton match in the Premier League 2024 season, highlighting key events and player performances.",
-    "date": "2025-01-04T15:00:00+00:00",
-    "matchId": "1208213",
-    "slug": "2025-01-04_1208213",
-    "teams": [
-      "Bournemouth",
-      "Everton"
-    ],
-    "league": "premier-league"
-  },
-  {
-    "title": "Match Analysis: Tottenham vs Newcastle - Premier League 2024",
-    "description": "A detailed analysis of the Premier League match between Tottenham and Newcastle, highlighting key events and player performances.",
-    "date": "2025-01-04T12:30:00+00:00",
-    "matchId": "1208221",
-    "slug": "2025-01-04_1208221",
-    "teams": [
-      "Tottenham",
-      "Newcastle"
     ],
     "league": "premier-league"
   }

@@ -12,6 +12,9 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
-    "next-intl": "^4.7.0"
+    "@aws-sdk/client-s3": "^3.975.0",
+    "@aws-sdk/lib-storage": "^3.975.0",
+    "next-intl": "^4.7.0",
+    "postgres": "^3.4.8"
   }
 }

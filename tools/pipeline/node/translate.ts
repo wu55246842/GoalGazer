@@ -6,26 +6,59 @@ import { generateText } from "../../../apps/web/lib/pollinations";
 
 type SupportedLanguage = "zh" | "ja";
 
-const TRANSLATABLE_PATHS = [
-  "frontmatter.title",
-  "frontmatter.description",
-  "sections[].heading",
-  "sections[].paragraphs[]",
-  "sections[].bullets[]",
-  "sections[].claims[].claim",
-  "player_notes[].summary",
-  "figures[].alt",
-  "figures[].caption",
-  "data_limitations[]",
-  "cta",
-];
+const PROMPTS: Record<SupportedLanguage, string> = {
+  zh: `You are a professional sports localization translator and JSON editor.
 
-const LANGUAGE_LABELS: Record<SupportedLanguage, string> = {
-  zh: "Simplified Chinese",
-  ja: "Japanese",
+Task:
+Translate ONLY the human-readable STRING VALUES in the JSON from English to Simplified Chinese (zh-CN).
+Return STRICT JSON only. No extra text.
+
+Hard rules:
+1) Do NOT change any JSON keys, object/array structure, ordering, or indentation style beyond normal JSON formatting.
+2) Do NOT change any numbers, IDs, dates, URLs, filenames, paths, or enum-like codes.
+   - Keep matchId, ids, minute, score values, xg, passes_total, ratings, etc. unchanged.
+   - Keep all URLs and image paths unchanged (e.g., "/generated/matches/...").
+3) Do NOT change names of people/teams in fields that are clearly proper nouns unless they appear inside narrative text.
+   - For player/team names in structured fields like match.homeTeam.name, match.awayTeam.name, players[*].name, timeline[*].playerName/teamName: KEEP AS-IS (do not translate).
+4) Translate the following fields’ string values naturally and accurately:
+   - frontmatter.title, frontmatter.description, frontmatter.tags[*]
+   - figures[*].alt, figures[*].caption
+   - sections[*].heading
+   - sections[*].paragraphs[*]
+   - sections[*].bullets[*]
+   - sections[*].claims[*].claim   (IMPORTANT: keep claims[*].evidence unchanged)
+   - player_notes[*].summary, player_notes[*].player, player_notes[*].team (NOTE: if these are team/player proper nouns, keep as-is)
+   - data_limitations[*], cta
+   - timeline[*].detail can be translated if it is a descriptive phrase like "Red Card", "Yellow Card", "Substitution", but KEEP timeline[*].type unchanged.
+5) Keep diacritics/case for proper nouns if you keep them as-is (e.g., "Nélson Semedo").
+6) Output must be valid JSON that preserves all original non-translated values.`,
+
+  ja: `You are a professional sports localization translator and JSON editor.
+
+Task:
+Translate ONLY the human-readable STRING VALUES in the JSON from English to Japanese (ja-JP).
+Return STRICT JSON only. No extra text.
+
+Hard rules:
+1) Do NOT change any JSON keys, object/array structure, ordering, or indentation style beyond normal JSON formatting.
+2) Do NOT change any numbers, IDs, dates, URLs, filenames, paths, or enum-like codes.
+   - Keep matchId, ids, minute, score values, xg, passes_total, ratings, etc. unchanged.
+   - Keep all URLs and image paths unchanged (e.g., "/generated/matches/...").
+3) Do NOT translate proper nouns in structured identity fields:
+   - Keep match.homeTeam.name, match.awayTeam.name, players[*].name, timeline[*].playerName/teamName exactly as-is.
+4) Translate the following fields’ string values naturally and accurately:
+   - frontmatter.title, frontmatter.description, frontmatter.tags[*]
+   - figures[*].alt, figures[*].caption
+   - sections[*].heading
+   - sections[*].paragraphs[*]
+   - sections[*].bullets[*]
+   - sections[*].claims[*].claim   (IMPORTANT: keep claims[*].evidence unchanged)
+   - player_notes[*].summary, data_limitations[*], cta
+   - timeline[*].detail may be translated when it is a descriptive phrase like "Red Card", "Yellow Card", "Substitution", but KEEP timeline[*].type unchanged.
+5) Output must be valid JSON and preserve all original non-translated values.`
 };
 
-const schemaPath = path.resolve(__dirname, "../python/goalgazer/schema_match_analysis.json");
+const schemaPath = path.resolve(process.cwd(), "tools/pipeline/python/goalgazer/schema_match_analysis.json");
 
 export async function translateArticle(
   englishArticle: Record<string, unknown>,
@@ -41,11 +74,13 @@ export async function translateArticle(
     } catch (error) {
       lastError = error as Error;
       if (attempt < attemptLimit) {
-        console.warn(`⚠️ Translation validation failed. Retrying (${attempt}/${attemptLimit})...`);
+        console.warn(`⚠️ Translation validation failed. Retrying (${attempt}/${attemptLimit})... Error: ${error.message}`);
       }
     }
   }
-  throw lastError ?? new Error("Translation failed.");
+  console.error(`❌ Translation failed for ${targetLanguage} after ${attemptLimit} attempts. Using English fallback.`);
+  console.error("Last Error:", lastError);
+  return englishArticle;
 }
 
 async function requestTranslation(
@@ -55,43 +90,36 @@ async function requestTranslation(
 ): Promise<Record<string, unknown>> {
   const retryNote =
     attempt > 1
-      ? "Retry: output JSON only, preserve ALL non-translated fields exactly, no deviations."
+      ? "\nNOTE: This is a retry. Please ensure strict JSON output and follow all rules carefully."
       : "";
-  const systemPrompt = [
-    "You are a professional football match analyst and translator.",
-    "Translate ONLY the specified text fields from English into the target language.",
-    "Preserve all factual data, IDs, numeric values, timestamps, and arrays exactly.",
-    "Do NOT translate player names, team names, league names, or identifiers.",
-    "Do NOT edit evidence strings, IDs, image paths, or statistical values.",
-    "Do NOT add or remove fields; keep the JSON structure identical.",
-    "If a field is empty or null, keep it empty.",
-    "Output MUST be strict JSON only (no markdown, no comments).",
-    "Tone: professional, accurate, sports analytics style.",
-    `Allowed fields to translate: ${TRANSLATABLE_PATHS.join(", ")}`,
-    retryNote,
-  ].join("\n");
 
-  const userPrompt = JSON.stringify({
-    target_language: LANGUAGE_LABELS[targetLanguage],
-    retry_attempt: attempt,
-    translation_rules: {
-      keep_names_unchanged: true,
-      translate_only_paths: TRANSLATABLE_PATHS,
-      keep_structure: true,
-    },
-    source_json: englishArticle,
-  });
+  const systemPrompt = PROMPTS[targetLanguage] + retryNote;
+
+  const userPrompt = `Input JSON:\n<<<JSON\n${JSON.stringify(englishArticle, null, 2)}\nJSON\n>>>`;
 
   const responseText = await generateText({
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },
     ],
-    model: "nova-fast",
+    model: "gemini-fast",
     jsonMode: true,
   });
 
-  return JSON.parse(responseText);
+  let cleanText = responseText.trim();
+  // Strip markdown code blocks if present (Pollinations/Gemini sometimes wraps JSON in ```json ... ```)
+  if (cleanText.startsWith("```json")) {
+    cleanText = cleanText.replace(/^```json\s*/, "").replace(/\s*```$/, "");
+  } else if (cleanText.startsWith("```")) {
+    cleanText = cleanText.replace(/^```\s*/, "").replace(/\s*```$/, "");
+  }
+
+  try {
+    return JSON.parse(cleanText);
+  } catch (e) {
+    console.error("JSON Parse Error. Response was:", cleanText);
+    throw e;
+  }
 }
 
 function validateTranslation(
@@ -122,7 +150,7 @@ function ensureFactParity(
   englishArticle: Record<string, unknown>,
   translatedArticle: Record<string, unknown>
 ): void {
-  const factKeys = ["match", "timeline", "team_stats", "players", "data_provenance"];
+  const factKeys = ["match", "team_stats", "players", "data_provenance"];
   for (const key of factKeys) {
     if (!deepEqual(englishArticle[key], translatedArticle[key])) {
       throw new Error(`Fact subtree mismatch: ${key}`);
@@ -147,7 +175,7 @@ function ensureFrontmatterParity(
 ): void {
   const englishFrontmatter = (englishArticle.frontmatter || {}) as Record<string, unknown>;
   const translatedFrontmatter = (translatedArticle.frontmatter || {}) as Record<string, unknown>;
-  const lockedKeys = ["date", "matchId", "league", "teams", "tags", "heroImage"];
+  const lockedKeys = ["date", "matchId", "league", "teams", "heroImage"];
   for (const key of lockedKeys) {
     if (!deepEqual(englishFrontmatter[key], translatedFrontmatter[key])) {
       throw new Error(`Frontmatter field changed: ${key}`);
@@ -184,12 +212,17 @@ function validateSchemaWithPython(article: Record<string, unknown>): void {
   const script = [
     "import json, sys",
     "from jsonschema import validate",
-    "schema = json.load(open(sys.argv[1]))",
-    "data = json.load(open(sys.argv[2]))",
+    "schema = json.load(open(sys.argv[1], encoding='utf-8'))",
+    "data = json.load(open(sys.argv[2], encoding='utf-8'))",
     "validate(instance=data, schema=schema)",
   ].join("; ");
 
-  const result = spawnSync("python", ["-c", script, schemaPath, payloadPath], {
+  const venvPython = process.platform === "win32"
+    ? path.resolve(process.cwd(), "venv/Scripts/python.exe")
+    : path.resolve(process.cwd(), "venv/bin/python");
+  const pythonCmd = fs.existsSync(venvPython) ? venvPython : "python";
+
+  const result = spawnSync(pythonCmd, ["-c", script, schemaPath, payloadPath], {
     encoding: "utf-8",
   });
   if (result.status !== 0) {

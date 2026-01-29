@@ -2,17 +2,17 @@ import fs from "fs";
 import path from "path";
 
 const repoRoot = path.resolve(__dirname, "../../..");
-const contentMatchesDir = path.join(repoRoot, "apps", "web", "content", "matches");
-const generatedMatchesDir = path.join(repoRoot, "apps", "web", "public", "generated", "matches");
+const contentRoot = path.join(repoRoot, "apps", "web", "content");
+const contentMatchesDir = path.join(contentRoot, "matches");
 
 export function ensureMatchContentDir(matchId: string): string {
-  const target = path.join(generatedMatchesDir, matchId, "content");
+  const target = path.join(contentMatchesDir, matchId);
   fs.mkdirSync(target, { recursive: true });
   return target;
 }
 
 export function getGeneratedContentPath(matchId: string, lang: string): string {
-  return path.join(generatedMatchesDir, matchId, "content", `${lang}.json`);
+  return path.join(contentMatchesDir, matchId, `index.${lang}.json`);
 }
 
 export function findMatchContentFile(matchId: string): string | null {
@@ -25,4 +25,12 @@ export function findMatchContentFile(matchId: string): string | null {
     return null;
   }
   return path.join(contentMatchesDir, target);
+}
+
+export function getMatchIllustrationPath(matchId: string): string {
+  const publicMatchesDir = path.join(repoRoot, "apps", "web", "public", "generated", "matches");
+  if (!fs.existsSync(publicMatchesDir)) {
+    fs.mkdirSync(publicMatchesDir, { recursive: true });
+  }
+  return path.join(publicMatchesDir, `${matchId}.png`);
 }

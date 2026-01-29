@@ -20,7 +20,7 @@ export const contentPaths = {
 export const generatedContentPaths = {
   matches: generatedMatchesRoot,
   matchContentDir: (matchId: string) =>
-    path.join(generatedMatchesRoot, matchId, "content"),
+    path.join(contentPaths.matches, matchId),
   matchContentFile: (matchId: string, lang: string) =>
-    path.join(generatedMatchesRoot, matchId, "content", `${lang}.json`),
+    path.join(contentPaths.matches, matchId, `index.${lang}.json`),
 };

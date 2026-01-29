@@ -121,6 +121,14 @@
     "title": "{league} 試合レビュー",
     "empty": "このリーグのレビューはまだありません。"
   },
+  "leagueNames": {
+    "all": "全リーグ",
+    "epl": "プレミアリーグ",
+    "laliga": "ラ・リーガ",
+    "bundesliga": "ブンデスリーガ",
+    "seriea": "セリエA",
+    "ligue1": "リーグ・アン"
+  },
   "about": {
     "title": "GoalGazer について",
     "paragraphs": [

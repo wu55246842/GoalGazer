@@ -121,6 +121,14 @@
     "title": "{league} Match Reviews",
     "empty": "No match reviews found for this league."
   },
+  "leagueNames": {
+    "all": "All Leagues",
+    "epl": "Premier League",
+    "laliga": "La Liga",
+    "bundesliga": "Bundesliga",
+    "seriea": "Serie A",
+    "ligue1": "Ligue 1"
+  },
   "about": {
     "title": "About GoalGazer",
     "paragraphs": [

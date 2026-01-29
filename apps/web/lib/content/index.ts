@@ -28,6 +28,7 @@ export interface MatchArticle {
     teams: string[];
     tags: string[];
     heroImage?: string | null;
+    image?: string;
   };
   match: {
     id: string;
@@ -66,6 +67,7 @@ export interface MatchIndexEntry {
   slug: string;
   teams: string[];
   league: string;
+  image?: string;
 }
 
 export interface SitePageContent {

@@ -481,26 +481,37 @@ def _extract_paths(evidence_list: List[str]) -> List[str]:
     return paths
 
 
-def write_article(article: Dict[str, Any], output_dir: Path, index_path: Path) -> Path:
-    output_dir.mkdir(parents=True, exist_ok=True)
-    date_key = article["frontmatter"]["date"].split("T")[0]
+def write_article(article: Dict[str, Any], output_dir: Path, index_path: Path, lang: str = "en") -> Path:
     match_id = article["frontmatter"]["matchId"]
-    file_path = output_dir / f"{date_key}_{match_id}.json"
+    
+    # New structure: content/matches/<match_id>/index.<lang>.json
+    match_dir = output_dir / match_id
+    match_dir.mkdir(parents=True, exist_ok=True)
+    
+    file_path = match_dir / f"index.{lang}.json"
     file_path.write_text(json.dumps(article, indent=2))
 
     existing = []
     if index_path.exists():
-        existing = json.loads(index_path.read_text())
+        try:
+            existing = json.loads(index_path.read_text())
+        except json.JSONDecodeError:
+            existing = []
+            
+    date_key = article["frontmatter"]["date"].split("T")[0]
     entry = {
         "title": article["frontmatter"]["title"],
         "description": article["frontmatter"]["description"],
         "date": article["frontmatter"]["date"],
         "matchId": match_id,
-        "slug": f"{date_key}_{match_id}",
+        "slug": f"{date_key}_{match_id}", # Keep slug consistency for now
         "teams": article["frontmatter"]["teams"],
         "league": article["frontmatter"]["league"],
     }
     existing = [item for item in existing if item.get("matchId") != match_id]
     existing.insert(0, entry)
+    
+    index_path.parent.mkdir(parents=True, exist_ok=True)
     index_path.write_text(json.dumps(existing, indent=2))
+    
     return file_path

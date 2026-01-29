@@ -566,3 +566,58 @@ summary {
 summary:hover {
   color: var(--color-primary);
 }
+/* ===== League Tabs ===== */
+.match-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 769px) {
+  .match-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+.league-tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  max-width: 100%;
+}
+
+.league-tabs::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.league-tab {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all var(--transition-base);
+  border: 1px solid var(--color-border);
+  background: var(--color-card-bg);
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.league-tab.active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.league-tab:hover:not(.active) {
+  background: var(--color-bg-alt);
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+

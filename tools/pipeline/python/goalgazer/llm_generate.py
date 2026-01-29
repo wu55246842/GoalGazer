@@ -125,6 +125,18 @@ def build_prompt(
         "}"
     )
 
+    is_sparse_data = not availability.get("has_shot_locations") or not availability.get("has_xg")
+    
+    inference_instruction = ""
+    if is_sparse_data:
+        inference_instruction = (
+            "\n💡 TACTICAL INFERENCE MODE: Critical data (shot locations or xG) is missing. "
+            "Please use the 'timeline' events and 'aggregates' to infer the tactical narrative. "
+            "Focus on momentum shifts, substitution impacts, and how teams adapted their playstyle "
+            "based on the sequence of events. Provide a richer description of key sequences to "
+            "compensate for the lack of spatial charts."
+        )
+
     user_payload = {
         "match_context": match.match.model_dump(),
         "data_payload": {
@@ -136,6 +148,7 @@ def build_prompt(
         },
         "figure_summaries": figure_summaries,
         "automatically_detected_limitations": _detect_limitations(availability),
+        "inference_instruction": inference_instruction,
         "availability": availability,
         "allowed_evidence": allowed_evidence,
     }
@@ -146,16 +159,32 @@ def build_prompt(
     ]
 
 
-def call_pollinations(messages: List[Dict[str, str]]) -> str:
-    # Fallback to OpenAI if no Pollinations key is set, or just use Pollinations anonymously
+def call_llm(messages: List[Dict[str, str]], use_openai: bool = False) -> str:
+    if use_openai and settings.openai_api_key:
+        print("Using OpenAI for Deep Analysis...")
+        response = requests.post(
+            "https://api.openai.com/v1/chat/completions",
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {settings.openai_api_key}",
+            },
+            json={
+                "model": settings.openai_model,
+                "messages": messages,
+                "temperature": 0.2,
+                "response_format": {"type": "json_object"},
+            },
+            timeout=120,
+        )
+        response.raise_for_status()
+        return response.json()["choices"][0]["message"]["content"]
+
     api_key = settings.pollinations_api_key
-    
-    headers = {
-        "Content-Type": "application/json",
-    }
+    headers = {"Content-Type": "application/json"}
     if api_key:
         headers["Authorization"] = f"Bearer {api_key}"
 
+    print(f"Calling Pollinations AI [{settings.pollinations_model}]...")
     response = requests.post(
         settings.pollinations_endpoint,
         headers=headers,
@@ -165,7 +194,7 @@ def call_pollinations(messages: List[Dict[str, str]]) -> str:
             "temperature": 0.2,
             "response_format": {"type": "json_object"},
         },
-        timeout=60,
+        timeout=120,
     )
     response.raise_for_status()
     return response.json()["choices"][0]["message"]["content"]
@@ -270,12 +299,20 @@ def generate_llm_output(
     allowed_tokens = set(metrics.keys())
     messages = build_prompt(match, metrics, figure_summaries, availability, allowed_evidence)
 
-    if not settings.pollinations_api_key and not settings.openai_api_key:
-        return fallback_output(match, metrics, figure_summaries, availability, allowed_evidence)
+    # Use OpenAI directly for sparse data (Deep Analysis mode)
+    is_sparse_data = not availability.get("has_shot_locations") or not availability.get("has_xg")
+    if is_sparse_data and settings.openai_api_key:
+        try:
+            response = call_llm(messages, use_openai=True)
+            payload = validate_json(response)
+            if _validate_llm_payload(payload, availability, allowed_tokens):
+                return LLMOutput.model_validate(payload)
+        except Exception as e:
+            print(f"Deep Analysis (OpenAI) failed: {e}. Falling back to default...")
 
     for attempt in range(3):
         try:
-            response = call_pollinations(messages)
+            response = call_llm(messages, use_openai=False)
             payload = validate_json(response)
             if not _validate_llm_payload(payload, availability, allowed_tokens):
                 print(f"Attempt {attempt + 1}: LLM payload failed validation.")
@@ -283,6 +320,13 @@ def generate_llm_output(
             return LLMOutput.model_validate(payload)
         except (ValidationError, json.JSONDecodeError, requests.RequestException) as e:
             print(f"Attempt {attempt + 1} failed: {type(e).__name__}: {str(e)[:100]}")
+            if settings.openai_api_key and attempt == 2: # Last resort
+                print("Final attempt using OpenAI fallback...")
+                try:
+                    response = call_llm(messages, use_openai=True)
+                    payload = validate_json(response)
+                    return LLMOutput.model_validate(payload)
+                except: pass
             continue
 
     return fallback_output(match, metrics, figure_summaries, availability, allowed_evidence)

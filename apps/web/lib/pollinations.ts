@@ -33,7 +33,16 @@ export interface PollinationsResponse {
 }
 
 
-export async function generateText({
+export async function generateText(req: PollinationsRequest): Promise<string> {
+    try {
+        return await generateTextPollinations(req);
+    } catch (error) {
+        console.warn('⚠️ Pollinations AI failed, falling back to OpenAI...', error);
+        return await generateTextOpenAI(req);
+    }
+}
+
+async function generateTextPollinations({
     messages,
     model = 'gemini-fast',
     seed,
@@ -74,10 +83,91 @@ export async function generateText({
 
         const data: PollinationsResponse = await response.json();
         return data.choices?.[0]?.message?.content || '';
+
     } catch (error) {
-        console.error('Error calling Pollinations AI:', error);
         throw error;
     }
+}
+
+async function generateTextOpenAI({
+    messages,
+    jsonMode = false,
+}: PollinationsRequest): Promise<string> {
+    const apiKey = process.env.OPENAI_API_KEY;
+    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+
+    if (!apiKey) {
+        throw new Error('OPENAI_API_KEY is not defined in environment variables.');
+    }
+
+    console.log(`Calling OpenAI API [${model}]...`);
+
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+            model,
+            messages,
+            ...(jsonMode ? { response_format: { type: 'json_object' } } : {}),
+        }),
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`OpenAI API error (${response.status}): ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data.choices?.[0]?.message?.content || '';
+}
+
+/**
+ * Generate an image using Pollinations AI.
+ * Returns the image as a Buffer (binary data).
+ * Requires POLLINATIONS_API_KEY.
+ */
+export async function generateImageBuffer(prompt: string, model: string = 'zimage'): Promise<Buffer> {
+    const apiKey = process.env.POLLINATIONS_API_KEY;
+    if (!apiKey) {
+        throw new Error('POLLINATIONS_API_KEY is required for authenticated image generation.');
+    }
+
+    const width = 1024;
+    const height = 768;
+    const seed = Math.floor(Math.random() * 1000000);
+    const encodedPrompt = encodeURIComponent(prompt);
+
+    const url = `https://gen.pollinations.ai/image/${encodedPrompt}?width=${width}&height=${height}&model=${model}&seed=${seed}&nologo=true`;
+
+    console.log(`   🎨 Calling Pollinations Image Gen [${model}]...`);
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${apiKey}`
+        }
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Pollinations Image error (${response.status}): ${errorText}`);
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    return Buffer.from(arrayBuffer);
+}
+
+/**
+ * Returns the URL (legacy support, but note it might not be viewable without Auth)
+ */
+export function getImageUrl(prompt: string, model: string = 'zimage'): string {
+    const width = 1024;
+    const height = 768;
+    const seed = Math.floor(Math.random() * 1000000);
+    return `https://gen.pollinations.ai/image/${encodeURIComponent(prompt)}?width=${width}&height=${height}&model=${model}&seed=${seed}&nologo=true`;
 }
 
 // Alias for my new API to avoid breaking it
@@ -97,10 +187,15 @@ if (import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/'))) {
                     { role: 'system', content: 'You are a football tactician.' },
                     { role: 'user', content: 'Give me a 1-sentence summary of why high-pressing is effective.' }
                 ],
-                model: 'grok'
+                model: 'nova-fast'
             });
             console.log('\n--- AI Response ---');
             console.log(response);
+
+            console.log('\n🚀 Testing generateImageBuffer...');
+            const buffer = await generateImageBuffer('Liverpool vs Wolves match atmosphere, tactical diagram style', 'zimage');
+            console.log(`✅ Received image buffer: ${buffer.length} bytes`);
+
             console.log('\n✅ Test completed successfully.');
         } catch (error) {
             console.error('\n❌ Test failed!');
