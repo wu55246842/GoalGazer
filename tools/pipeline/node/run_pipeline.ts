@@ -317,10 +317,14 @@ function getArgValue(argsList: string[], flag: string, fallback: string): string
   return fallback;
 }
 
-main().catch((error) => {
-  console.error("❌ Pipeline failed:", error);
-  process.exit(1);
-});
+main()
+  .then(() => {
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error("❌ Pipeline failed:", error);
+    process.exit(1);
+  });
 
 
 
