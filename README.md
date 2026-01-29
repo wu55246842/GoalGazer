@@ -47,7 +47,7 @@ This produces:
 
 - `apps/web/content/matches/{date}_12345.json`
 - `apps/web/content/index.json`
-- `apps/web/public/generated/matches/12345/*.png`
+- `tools/pipeline/.cache/generated/matches/12345/*.png`
 
 ### 4) Run the web app
 
@@ -77,7 +77,7 @@ Handled by `normalize.py`:
 Handled by `plots_*.py` modules using `mplsoccer` + `matplotlib`:
 - **Shot Map**: Visualize all attempts with outcome color-coding.
 - **Pass Network & Formation**: Calculate average player positions and passing frequency links.
-- **Production**: Renders high-resolution PNGs (1600px width, 200 DPI) to `apps/web/public/generated/`.
+- **Production**: Renders high-resolution PNGs (1600px width, 200 DPI) to `tools/pipeline/.cache/generated/` before uploading to R2.
 
 ### 4. AI Tactical Analysis
 Handled by `llm_generate.py`:
@@ -111,14 +111,14 @@ python -m goalgazer --matchId 12345
 The images will be created under:
 
 ```
-apps/web/public/generated/matches/12345/
+tools/pipeline/.cache/generated/matches/12345/
   pass_network_home.png
   pass_network_away.png
   shot_map.png
   touch_heatmap_home.png
 ```
 
-> Note: Images are generated at runtime and are not committed to the repository.
+> Note: Images are generated at runtime, uploaded to R2, and are not committed to the repository.
 
 ## LLM Safety & Compliance
 
@@ -129,7 +129,7 @@ apps/web/public/generated/matches/12345/
 
 ## Automation (GitHub Actions)
 
-A scheduled workflow runs daily at 02:00 UTC and executes the pipeline. The workflow commits new content if changes are detected.
+A scheduled workflow runs hourly and executes the pipeline. Results are stored in the database/R2, so no repository assets are committed.
 
 ## Deployment
 

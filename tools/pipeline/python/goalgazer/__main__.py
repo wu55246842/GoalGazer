@@ -93,7 +93,7 @@ def run_pipeline(match_id: str, league: str) -> None:
         players_payload=players_detailed,
     )
 
-    match_public_dir = settings.web_public_dir / match_id
+    match_public_dir = settings.figure_output_dir / match_id
     figures = []
     if data_provenance["availability"]["has_shot_locations"]:
         figures.append(render_pass_network(match, "home", match_public_dir / "pass_network_home.png"))

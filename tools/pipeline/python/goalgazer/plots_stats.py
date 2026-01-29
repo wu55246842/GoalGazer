@@ -4,6 +4,7 @@ import numpy as np
 from pathlib import Path
 import matplotlib.pyplot as plt
 from .schemas import MatchData, FigureMeta
+from .figure_paths import build_src_relative
 
 def render_stats_comparison(match: MatchData, out_path: Path) -> FigureMeta:
     """Render a bar chart comparing key team statistics."""
@@ -70,7 +71,7 @@ def render_stats_comparison(match: MatchData, out_path: Path) -> FigureMeta:
 
     return FigureMeta(
         id="stats_comparison",
-        src_relative=str(out_path).split("public")[1].replace("\\", "/"),
+        src_relative=build_src_relative(out_path),
         alt=f"Statistical comparison between {home_team.name} and {away_team.name}.",
         caption="Comparison of core team metrics including possession, shots, and accuracy.",
         width=1600,

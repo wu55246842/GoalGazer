@@ -21,9 +21,6 @@ on:
 jobs:
   update-content:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -73,11 +70,3 @@ jobs:
               npm run pipeline -- --league "$LEAGUE" --season "$SEASON_INPUT"
             fi
           done
-
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.name 'GoalGazer Bot'
-          git config --global user.email 'bot@goalgazer.com'
-          git add apps/web/public/generated
-          git diff --staged --quiet || git commit -m "content: update automated match assets $(date +'%Y-%m-%d')"
-          git push

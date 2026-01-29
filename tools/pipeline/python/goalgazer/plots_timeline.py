@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 import matplotlib.pyplot as plt
 from .schemas import MatchData, FigureMeta
+from .figure_paths import build_src_relative
 
 def render_match_timeline(match: MatchData, out_path: Path) -> FigureMeta:
     """Render a vertical timeline of key match events."""
@@ -66,7 +67,7 @@ def render_match_timeline(match: MatchData, out_path: Path) -> FigureMeta:
 
     return FigureMeta(
         id="timeline",
-        src_relative=str(out_path).split("public")[1].replace("\\", "/"),
+        src_relative=build_src_relative(out_path),
         alt=f"Vertical timeline of match events for {match.match.homeTeam['name']} vs {match.match.awayTeam['name']}.",
         caption="Match timeline showing goals, cards, and substitutions.",
         width=1200,
