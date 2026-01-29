@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import SiteHeader from "@/components/SiteHeader";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import {
   buildLocalizedPath,
@@ -78,34 +78,11 @@ export default async function LocaleLayout({
   return (
     <I18nProvider lang={lang} messages={messages}>
       <div className="site-container">
-        <header className="site-header">
-          <div className="container">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "1rem",
-                flexWrap: "wrap",
-              }}
-            >
-              <a href={buildLocalizedPath(lang, "/")} className="logo">
-                <span className="logo-icon">⚽</span>
-                <span className="logo-text">{t("common.brandName")}</span>
-              </a>
-              <div style={{ display: "flex", gap: "1.5rem", alignItems: "center", flexWrap: "wrap" }}>
-                <nav className="nav">
-                  {navLinks.map((link) => (
-                    <a key={link.href} href={buildLocalizedPath(lang, link.href)}>
-                      {link.label}
-                    </a>
-                  ))}
-                </nav>
-                <LanguageSwitcher />
-              </div>
-            </div>
-          </div>
-        </header>
+        <SiteHeader
+          lang={lang}
+          brandName={t("common.brandName")}
+          navLinks={navLinks}
+        />
 
         <main className="site-main">
           <div className="container">{children}</div>
