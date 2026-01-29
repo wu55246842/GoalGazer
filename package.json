@@ -8,6 +8,7 @@
     "web:build": "npm --prefix apps/web run build"
   },
   "devDependencies": {
+    "@types/node": "^25.1.0",
     "tsx": "4.16.2",
     "typescript": "5.5.4"
   },

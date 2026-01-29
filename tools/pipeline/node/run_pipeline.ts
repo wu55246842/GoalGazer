@@ -2,7 +2,6 @@
 import { spawnSync } from "child_process";
 import fs from "fs";
 import path from "path";
-import { ensureMatchContentDir, findMatchContentFile, getGeneratedContentPath, getMatchIllustrationPath } from "./paths";
 import { translateArticle } from "./translate";
 import sql from "./db";
 import { generateImageBuffer } from "../../../apps/web/lib/pollinations";
@@ -13,7 +12,7 @@ function loadEnv() {
   const envPath = path.resolve(process.cwd(), ".env");
   if (fs.existsSync(envPath)) {
     const content = fs.readFileSync(envPath, "utf-8");
-    content.split("\n").forEach(line => {
+    content.split("\n").forEach((line: string) => {
       const trimmed = line.trim();
       if (trimmed && !trimmed.startsWith("#")) {
         const [key, ...rest] = trimmed.split("=");
@@ -119,28 +118,34 @@ function fetchRecentMatches(league: string, season: string, pythonCmd: string, c
 async function processSingleMatch(matchId: string, league: string, season: string, pythonCmd: string, pythonCwd: string) {
   const pythonModule = "goalgazer";
 
-  const checkPath = getGeneratedContentPath(matchId, "en");
-  if (!fs.existsSync(checkPath)) {
-    console.log(`   Generating English content for ${matchId}...`);
-    const pythonArgs = ["-m", pythonModule, "--matchId", matchId, "--league", league];
-    const pythonResult = spawnSync(pythonCmd, pythonArgs, { stdio: "inherit", cwd: pythonCwd });
-    if (pythonResult.status !== 0) {
-      throw new Error(`Python generation failed with code ${pythonResult.status}`);
+  console.log(`   Generating English analysis for ${matchId}...`);
+  const pythonArgs = ["-m", pythonModule, "--matchId", matchId, "--league", league];
+  const pythonResult = spawnSync(pythonCmd, pythonArgs, {
+    cwd: pythonCwd,
+    encoding: "utf-8"
+  });
+
+  if (pythonResult.status !== 0) {
+    console.error(pythonResult.stderr);
+    throw new Error(`Python generation failed with code ${pythonResult.status}`);
+  }
+
+  // 1. Capture English Analysis from stdout
+  let englishPayload: any;
+  try {
+    // Python might print other things, so we find the line that starts with {
+    const lines = pythonResult.stdout.split('\n');
+    console.log(`   Python STDOUT lines: ${lines.length}`);
+    const jsonLine = lines.find((l: string) => l.trim().startsWith('{'));
+    if (!jsonLine) {
+      console.error("Full Python STDOUT:", pythonResult.stdout);
+      throw new Error("No JSON found in Python output");
     }
-  } else {
-    console.log(`   English content exists.`);
+    englishPayload = JSON.parse(jsonLine);
+  } catch (e) {
+    console.error("❌ Failed to parse Python stdout:", pythonResult.stdout);
+    throw new Error(`Unable to parse generated article for matchId ${matchId}.`);
   }
-
-  const englishSourcePath = findMatchContentFile(matchId);
-  const englishContentPath = getGeneratedContentPath(matchId, "en");
-  const englishPayloadPath = englishSourcePath || (fs.existsSync(englishContentPath) ? englishContentPath : null);
-
-  if (!englishPayloadPath) {
-    throw new Error(`Unable to locate generated article for matchId ${matchId}.`);
-  }
-
-  // 1. Generate English Analysis
-  const englishPayload = JSON.parse(fs.readFileSync(englishPayloadPath, "utf-8"));
 
   // 2. Generate AI Match Illustration (English phase)
   console.log(`   🎨 Generating AI illustration for ${matchId}...`);
