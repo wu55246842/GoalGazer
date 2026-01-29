@@ -8,8 +8,8 @@ interface LeaguePageProps {
 }
 
 export async function generateStaticParams() {
-  const entries = await readMatchIndex();
-  const leagues = Array.from(new Set(entries.map((entry) => entry.league)));
+  const { articles } = await readMatchIndex({ limit: 1000 });
+  const leagues = Array.from(new Set(articles.map((entry) => entry.league)));
   return SUPPORTED_LANGS.flatMap((lang) => leagues.map((league) => ({ lang, league })));
 }
 
