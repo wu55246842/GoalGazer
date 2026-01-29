@@ -1,5 +1,6 @@
 name: Update Match Content
 
+
 on:
   workflow_dispatch:
     inputs:
@@ -16,11 +17,16 @@ on:
         required: false
         type: string
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 */2 * * *'   # 每 2 小时一次（开发期）
+
+concurrency:
+  group: update-match-content
+  cancel-in-progress: true
 
 jobs:
   update-content:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
