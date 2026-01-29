@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 from datetime import datetime, timezone
@@ -92,17 +93,17 @@ def run_pipeline(match_id: str, league: str) -> None:
         players_payload=players_detailed,
     )
 
-    # match_public_dir = settings.web_public_dir / match_id
-    # figures = []
-    # if data_provenance["availability"]["has_shot_locations"]:
-    #     figures.append(render_pass_network(match, "home", match_public_dir / "pass_network_home.png"))
-    #     figures.append(render_pass_network(match, "away", match_public_dir / "pass_network_away.png"))
-    #     figures.append(render_shot_map(match, match_public_dir / "shot_map.png"))
-    #     figures.append(render_touch_heatmap(match, "home", match_public_dir / "touch_heatmap_home.png"))
-    # else:
-    #     figures.append(render_shot_proxy(match, match_public_dir / "shot_proxy.png"))
-    # figures.append(render_match_timeline(match, match_public_dir / "goals_timeline.png"))
-    # figures.append(render_stats_comparison(match, match_public_dir / "stats_comparison.png"))
+    match_public_dir = settings.web_public_dir / match_id
+    figures = []
+    if data_provenance["availability"]["has_shot_locations"]:
+        figures.append(render_pass_network(match, "home", match_public_dir / "pass_network_home.png"))
+        figures.append(render_pass_network(match, "away", match_public_dir / "pass_network_away.png"))
+        figures.append(render_shot_map(match, match_public_dir / "shot_map.png"))
+        figures.append(render_touch_heatmap(match, "home", match_public_dir / "touch_heatmap_home.png"))
+    else:
+        figures.append(render_shot_proxy(match, match_public_dir / "shot_proxy.png"))
+    figures.append(render_match_timeline(match, match_public_dir / "goals_timeline.png"))
+    figures.append(render_stats_comparison(match, match_public_dir / "stats_comparison.png"))
 
     metrics = derive_metrics(match, data_provenance["availability"])
     figure_summaries = {
@@ -115,7 +116,7 @@ def run_pipeline(match_id: str, league: str) -> None:
     article = build_article_json(
         match=match,
         llm_output=llm_output,
-        figures=[], # figures,
+        figures=figures,
         data_provenance=data_provenance,
     )
 
