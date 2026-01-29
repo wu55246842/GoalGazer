@@ -101,7 +101,7 @@ async function main() {
   loadEnv();
   const args = process.argv.slice(2);
   const league = getArgValue(args, "--league", "epl");
-  const season = getArgValue(args, "--season", "2023");
+  const season = getArgValue(args, "--season", "2025");
   const matchIdArg = getArgValue(args, "--matchId", "");
 
   // Python environment setup
@@ -266,7 +266,7 @@ async function saveToDatabase(matchId: string, lang: string, article: Record<str
     ) VALUES (
       ${matchId}, 
       ${String(frontmatter.league || 'unknown')}, 
-      ${String(match.season || '2023')}, 
+      ${String(match.season || '2025')}, 
       ${homeTeam}, 
       ${awayTeam}, 
       ${frontmatter.date || new Date().toISOString()}, 
