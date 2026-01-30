@@ -119,7 +119,37 @@
   },
   "leagues": {
     "title": "{league} 試合レビュー",
-    "empty": "このリーグのレビューはまだありません。"
+    "overviewTitle": "リーグ概要",
+    "selectLeague": "リーグを選択して探索",
+    "empty": "このリーグのレビューはまだありません。",
+    "epl": "プレミアリーグ",
+    "liga": "ラ・リーガ",
+    "bundesliga": "ブンデスリーガ",
+    "seriea": "セリエA",
+    "ligue1": "リーグ・アン",
+    "ucl": "チャンピオンズリーグ"
+  },
+  "leagueDashboard": {
+    "fixtures": "試合日程",
+    "standings": "順位表",
+    "topScorers": "得点王",
+    "topAssists": "アシスト王",
+    "cleanSheets": "クリーンシート",
+    "upcoming": "今後の試合",
+    "recent": "最近の試合",
+    "live": "ライブ",
+    "table": {
+      "rank": "順位",
+      "team": "チーム",
+      "played": "試合数",
+      "win": "勝",
+      "draw": "分",
+      "lose": "負",
+      "goals": "得/失",
+      "gd": "得失点",
+      "points": "勝点",
+      "form": "最近の結果"
+    }
   },
   "leagueNames": {
     "all": "全リーグ",

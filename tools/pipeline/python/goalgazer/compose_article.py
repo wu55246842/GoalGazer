@@ -162,6 +162,8 @@ def build_players_output(match: MatchData, availability: Dict[str, bool]) -> Opt
                 "assists": assists_by_player.get(player.id),
                 "yellow": yellow_by_player.get(player.id),
                 "red": red_by_player.get(player.id),
+                "position": player.position,
+                "is_starter": player.is_starter,
                 "rating": safe_float(player.stats.rating),
                 "shots": player.stats.shots,
                 "key_passes": player.stats.key_passes,
@@ -172,7 +174,7 @@ def build_players_output(match: MatchData, availability: Dict[str, bool]) -> Opt
         )
 
     for side in players_by_side:
-        players_by_side[side] = sorted(players_by_side[side], key=lambda p: p["name"])
+        players_by_side[side] = sorted(players_by_side[side], key=lambda p: (not p["is_starter"], p["name"]))
 
     return players_by_side
 

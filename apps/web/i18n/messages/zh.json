@@ -115,11 +115,60 @@
     "kickoff": "开球时间",
     "status": "比赛状态",
     "fullTime": "全场结束",
-    "fallbackNotice": "该语言版本暂不可用，已显示英文内容。"
+    "playerAnalysis": "球员深度解析",
+    "metric": "指标",
+    "positions": {
+      "GK": "门将",
+      "DF": "后卫",
+      "MF": "中场",
+      "FW": "前锋"
+    },
+    "fallbackNotice": "该语言版本暂不可用，已显示英文内容。",
+    "tabs": {
+      "pitch": "球场对阵",
+      "stats": "数据统计",
+      "progression": "比赛进程"
+    },
+    "formation": {
+      "rating": "评分",
+      "goals": "进球",
+      "assists": "助攻",
+      "minutes": "上场时间"
+    }
   },
   "leagues": {
     "title": "{league} 比赛复盘",
-    "empty": "该联赛暂无比赛复盘。"
+    "overviewTitle": "联赛总览",
+    "selectLeague": "选择一个联赛进行探索",
+    "empty": "该联赛暂无比赛复盘。",
+    "epl": "英超",
+    "liga": "西甲",
+    "bundesliga": "德甲",
+    "seriea": "意甲",
+    "ligue1": "法甲",
+    "ucl": "欧冠"
+  },
+  "leagueDashboard": {
+    "fixtures": "赛程",
+    "standings": "积分榜",
+    "topScorers": "射手榜",
+    "topAssists": "助攻榜",
+    "cleanSheets": "零封榜",
+    "upcoming": "未开始",
+    "recent": "近期",
+    "live": "进行中",
+    "table": {
+      "rank": "排名",
+      "team": "球队",
+      "played": "赛",
+      "win": "胜",
+      "draw": "平",
+      "lose": "负",
+      "goals": "进/失",
+      "gd": "净胜",
+      "points": "分",
+      "form": "近况"
+    }
   },
   "leagueNames": {
     "all": "全部联赛",

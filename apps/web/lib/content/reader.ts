@@ -5,10 +5,10 @@ import path from "path";
 import { contentPaths, contentRoot } from "@/lib/paths";
 import { normalizeLang, type Lang } from "@/i18n";
 import sql from "@/lib/db";
-import type { LeagueIndexContent, MatchArticle, MatchIndexEntry, SitePageContent } from "@/lib/content";
+import type { LeagueIndexContent, MatchArticle, MatchIndexEntry, SitePageContent } from "./types";
 
 const R2_PUBLIC_URL =
-  process.env.R2_PUBLIC_URL ?? "https://pub-97ef9c6706fb4d328dd4f5c8ab4f8f1b.r2.dev";
+  process.env.R2_PUBLIC_URL ?? "https://assets.goalgazer.xyz";
 
 async function fileExists(filePath: string): Promise<boolean> {
   try {
@@ -37,10 +37,20 @@ function ensureAbsoluteImageUrl(url?: string | null): string | undefined {
   if (!url) {
     return undefined;
   }
-  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("/")) {
-    return url;
+
+  // Replace old R2 domain with new custom domain if present
+  let normalizedUrl = url;
+  if (normalizedUrl.startsWith("https://pub-97ef9c6706fb4d328dd4f5c8ab4f8f1b.r2.dev")) {
+    normalizedUrl = normalizedUrl.replace(
+      "https://pub-97ef9c6706fb4d328dd4f5c8ab4f8f1b.r2.dev",
+      R2_PUBLIC_URL
+    );
   }
-  return `${R2_PUBLIC_URL.replace(/\/$/, "")}/${url.replace(/^\/+/, "")}`;
+
+  if (normalizedUrl.startsWith("http://") || normalizedUrl.startsWith("https://") || normalizedUrl.startsWith("/")) {
+    return normalizedUrl;
+  }
+  return `${R2_PUBLIC_URL.replace(/\/$/, "")}/${normalizedUrl.replace(/^\/+/, "")}`;
 }
 
 function normalizeArticleImages(article: MatchArticle) {
@@ -199,7 +209,7 @@ export async function readMatchIndex(options: MatchListOptions = {}): Promise<{ 
       description: row.description,
       slug: row.slug,
       teams: [row.home_team, row.away_team],
-      image: row.image
+      image: ensureAbsoluteImageUrl(row.image)
     })) as MatchIndexEntry[];
 
     return { articles, total };

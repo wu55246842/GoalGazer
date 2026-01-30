@@ -12,6 +12,9 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    serverComponentsExternalPackages: ['postgres'],
+  },
 };
 
 export default nextConfig;

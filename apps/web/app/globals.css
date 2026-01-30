@@ -142,7 +142,7 @@ li {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1680px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -202,6 +202,10 @@ li {
 }
 
 .logo-text {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: -0.03em;
   background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -668,6 +672,7 @@ summary {
 summary:hover {
   color: var(--color-primary);
 }
+
 /* ===== League Tabs ===== */
 .match-header {
   display: flex;
@@ -689,13 +694,16 @@ summary:hover {
   gap: 0.5rem;
   overflow-x: auto;
   padding-bottom: 0.5rem;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
   max-width: 100%;
 }
 
 .league-tabs::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
+  /* Chrome/Safari */
 }
 
 .league-tab {

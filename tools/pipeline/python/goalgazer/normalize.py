@@ -221,6 +221,7 @@ def normalize_api_payload(
         homeTeam={"id": str(teams_meta["home"]["id"]), "name": teams_meta["home"]["name"]},
         awayTeam={"id": str(teams_meta["away"]["id"]), "name": teams_meta["away"]["name"]},
         score=score,
+        formation=" / ".join([l.get("formation", "N/A") for l in lineups.get("response", [])]),
         venue=fixture_meta.get("venue", {}).get("name"),
     )
 
@@ -241,6 +242,7 @@ def normalize_api_payload(
                     name=player_info["name"],
                     teamId=team_id,
                     position=player_info.get("pos", ""),
+                    is_starter=True,
                     minutes=90,
                     stats=PlayerStats(),
                 )
@@ -254,6 +256,7 @@ def normalize_api_payload(
                     name=player_info["name"],
                     teamId=team_id,
                     position=player_info.get("pos", ""),
+                    is_starter=False,
                     minutes=0,
                     stats=PlayerStats(),
                 )

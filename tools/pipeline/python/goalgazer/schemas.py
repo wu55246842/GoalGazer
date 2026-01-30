@@ -13,6 +13,7 @@ class MatchInfo(BaseModel):
     homeTeam: Dict[str, Optional[str]]
     awayTeam: Dict[str, Optional[str]]
     score: Dict[str, Optional[int]]
+    formation: Optional[str] = None
     venue: Optional[str] = None
 
 
@@ -44,6 +45,7 @@ class PlayerInfo(BaseModel):
     name: str
     teamId: str
     position: Optional[str] = ""
+    is_starter: bool = False
     minutes: int
     stats: PlayerStats
 

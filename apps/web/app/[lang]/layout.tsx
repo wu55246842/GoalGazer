@@ -69,10 +69,9 @@ export default async function LocaleLayout({
 
   const navLinks = [
     { href: "/", label: t("nav.home") },
+    { href: "/leagues", label: t("leagues.overviewTitle") },
     { href: "/about", label: t("nav.about") },
     { href: "/contact", label: t("nav.contact") },
-    { href: "/privacy", label: t("nav.privacy") },
-    { href: "/terms", label: t("nav.terms") },
   ];
 
   return (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { readMatchIndexLocalized, readMatchIndex } from "@/lib/content";
 import { buildLocalizedPath, getT, normalizeLang } from "@/i18n";
 import { buildCanonicalUrl, buildLanguageAlternates } from "@/lib/seo";
+import AdUnit from "@/components/AdUnit";
 
 const LEAGUES = [
   { id: 'all' },
@@ -177,7 +178,7 @@ export default async function HomePage({ params, searchParams }: HomePageProps) 
                     Select Previous
                   </a>
                 )}
-                <span className="text-text-muted">
+                <span className="text-text-muted" style={{ marginRight: "1.5rem" }}>
                   Page {currentPage} of {totalPages}
                 </span>
                 {currentPage < totalPages && (
@@ -186,7 +187,7 @@ export default async function HomePage({ params, searchParams }: HomePageProps) 
                       ...(currentLeagueId !== 'all' ? { league: currentLeagueId } : {}),
                       page: (currentPage + 1).toString()
                     }).toString()}`}
-                    className="btn btn-outline"
+                    className="btn btn-outline ml-2"
                   >
                     Next
                   </a>
@@ -197,9 +198,7 @@ export default async function HomePage({ params, searchParams }: HomePageProps) 
         )}
       </section>
 
-      <div className="ad-container" style={{ marginTop: "3rem" }}>
-        <div className="ad-placeholder">{t("common.advertisement")}</div>
-      </div>
+      <AdUnit slot="7462283941" />
 
       <section
         className="card text-center"

@@ -4,7 +4,7 @@ const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID;
 const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY;
 const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
 const S3_ENDPOINT = process.env.S3_ENDPOINT;
-const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL || "https://pub-97ef9c6706fb4d328dd4f5c8ab4f8f1b.r2.dev";
+const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL || "https://assets.goalgazer.xyz";
 
 if (!S3_ACCESS_KEY_ID || !S3_SECRET_ACCESS_KEY || !S3_BUCKET_NAME || !S3_ENDPOINT) {
     // We don't throw immediately to allow component discovery, 

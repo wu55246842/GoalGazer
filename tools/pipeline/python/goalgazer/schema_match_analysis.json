@@ -17,97 +17,274 @@
   "properties": {
     "frontmatter": {
       "type": "object",
-      "required": ["title", "description", "date", "matchId", "league", "teams", "tags"],
+      "required": [
+        "title",
+        "description",
+        "date",
+        "matchId",
+        "league",
+        "teams",
+        "tags"
+      ],
       "properties": {
-        "title": {"type": "string"},
-        "description": {"type": "string"},
-        "date": {"type": "string", "format": "date-time"},
-        "matchId": {"type": "string"},
-        "league": {"type": "string"},
-        "teams": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 2},
-        "tags": {"type": "array", "items": {"type": "string"}},
-        "heroImage": {"type": "string"}
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "matchId": {
+          "type": "string"
+        },
+        "league": {
+          "type": "string"
+        },
+        "teams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "heroImage": {
+          "type": "string"
+        }
       }
     },
     "match": {
       "type": "object",
-      "required": ["id", "date_utc", "league", "season", "homeTeam", "awayTeam", "score"],
+      "required": [
+        "id",
+        "date_utc",
+        "league",
+        "season",
+        "homeTeam",
+        "awayTeam",
+        "score"
+      ],
       "properties": {
-        "id": {"type": "string"},
-        "date_utc": {"type": "string", "format": "date-time"},
-        "league": {"type": "string"},
-        "season": {"type": "string"},
-        "round": {"type": "string"},
+        "id": {
+          "type": "string"
+        },
+        "date_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "league": {
+          "type": "string"
+        },
+        "season": {
+          "type": "string"
+        },
+        "round": {
+          "type": "string"
+        },
         "homeTeam": {
           "type": "object",
-          "required": ["name"],
-          "properties": {"id": {"type": "string"}, "name": {"type": "string"}}
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
         },
         "awayTeam": {
           "type": "object",
-          "required": ["name"],
-          "properties": {"id": {"type": "string"}, "name": {"type": "string"}}
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
         },
         "score": {
           "type": "object",
-          "required": ["home", "away"],
+          "required": [
+            "home",
+            "away"
+          ],
           "properties": {
-            "home": {"type": "number"},
-            "away": {"type": "number"},
-            "ht_home": {"type": "number"},
-            "ht_away": {"type": "number"}
+            "home": {
+              "type": "number"
+            },
+            "away": {
+              "type": "number"
+            },
+            "ht_home": {
+              "type": "number"
+            },
+            "ht_away": {
+              "type": "number"
+            }
           }
         },
-        "venue": {"type": "string"}
+        "formation": {
+          "type": "string"
+        },
+        "venue": {
+          "type": "string"
+        }
       }
     },
     "data_provenance": {
       "type": "object",
-      "required": ["provider", "endpoints_used", "fetched_at_utc", "availability"],
+      "required": [
+        "provider",
+        "endpoints_used",
+        "fetched_at_utc",
+        "availability"
+      ],
       "properties": {
-        "provider": {"type": "string", "enum": ["api-football"]},
-        "endpoints_used": {"type": "array", "items": {"type": "string"}},
-        "fetched_at_utc": {"type": "string", "format": "date-time"},
-        "availability": {
-          "type": "object",
-          "required": ["has_events", "has_statistics", "has_lineups", "has_players", "has_xg", "has_shot_locations"],
-          "properties": {
-            "has_events": {"type": "boolean"},
-            "has_statistics": {"type": "boolean"},
-            "has_lineups": {"type": "boolean"},
-            "has_players": {"type": "boolean"},
-            "has_xg": {"type": "boolean"},
-            "has_shot_locations": {"type": "boolean"}
+        "provider": {
+          "type": "string",
+          "enum": [
+            "api-football"
+          ]
+        },
+        "endpoints_used": {
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         },
-        "notes": {"type": "array", "items": {"type": "string"}}
+        "fetched_at_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "availability": {
+          "type": "object",
+          "required": [
+            "has_events",
+            "has_statistics",
+            "has_lineups",
+            "has_players",
+            "has_xg",
+            "has_shot_locations"
+          ],
+          "properties": {
+            "has_events": {
+              "type": "boolean"
+            },
+            "has_statistics": {
+              "type": "boolean"
+            },
+            "has_lineups": {
+              "type": "boolean"
+            },
+            "has_players": {
+              "type": "boolean"
+            },
+            "has_xg": {
+              "type": "boolean"
+            },
+            "has_shot_locations": {
+              "type": "boolean"
+            }
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "timeline": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["minute", "type"],
+        "required": [
+          "minute",
+          "type"
+        ],
         "properties": {
-          "minute": {"type": "number"},
-          "type": {"type": "string", "enum": ["goal", "card", "subst", "var", "other"]},
-          "teamId": {"type": "string"},
-          "teamName": {"type": "string"},
-          "playerId": {"type": "string"},
-          "playerName": {"type": "string"},
-          "assistId": {"type": ["string", "null"]},
-          "assistName": {"type": ["string", "null"]},
-          "detail": {"type": ["string", "null"]},
+          "minute": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "goal",
+              "card",
+              "subst",
+              "var",
+              "other"
+            ]
+          },
+          "teamId": {
+            "type": "string"
+          },
+          "teamName": {
+            "type": "string"
+          },
+          "playerId": {
+            "type": "string"
+          },
+          "playerName": {
+            "type": "string"
+          },
+          "assistId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "assistName": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "detail": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "score_after": {
-            "type": ["object", "null"],
-            "properties": {"home": {"type": "number"}, "away": {"type": "number"}}
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "home": {
+                "type": "number"
+              },
+              "away": {
+                "type": "number"
+              }
+            }
           }
         }
       }
     },
     "team_stats": {
       "type": "object",
-      "required": ["normalized"],
+      "required": [
+        "normalized"
+      ],
       "properties": {
         "raw": {},
         "normalized": {
@@ -115,22 +292,102 @@
           "additionalProperties": {
             "type": "object",
             "properties": {
-              "possession": {"type": ["number", "null"]},
-              "total_shots": {"type": ["number", "null"]},
-              "shots_on_target": {"type": ["number", "null"]},
-              "shots_off_target": {"type": ["number", "null"]},
-              "corners": {"type": ["number", "null"]},
-              "fouls": {"type": ["number", "null"]},
-              "yellow_cards": {"type": ["number", "null"]},
-              "red_cards": {"type": ["number", "null"]},
-              "offsides": {"type": ["number", "null"]},
-              "passes_total": {"type": ["number", "null"]},
-              "pass_accuracy": {"type": ["number", "null"]},
-              "xg": {"type": ["number", "null"]},
-              "gk_saves": {"type": ["number", "null"]},
-              "shots_inside_box": {"type": ["number", "null"]},
-              "shots_outside_box": {"type": ["number", "null"]},
-              "blocked_shots": {"type": ["number", "null"]}
+              "possession": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "total_shots": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "shots_on_target": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "shots_off_target": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "corners": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "fouls": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "yellow_cards": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "red_cards": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "offsides": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "passes_total": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "pass_accuracy": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "xg": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "gk_saves": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "shots_inside_box": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "shots_outside_box": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "blocked_shots": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
             }
           }
         }
@@ -139,23 +396,62 @@
     "players": {
       "type": "object",
       "properties": {
-        "home": {"type": "array", "items": {"$ref": "#/definitions/playerRow"}},
-        "away": {"type": "array", "items": {"$ref": "#/definitions/playerRow"}}
+        "home": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/playerRow"
+          }
+        },
+        "away": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/playerRow"
+          }
+        }
       }
     },
     "figures": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "src", "alt", "caption", "width", "height", "kind"],
+        "required": [
+          "id",
+          "src",
+          "alt",
+          "caption",
+          "width",
+          "height",
+          "kind"
+        ],
         "properties": {
-          "id": {"type": "string"},
-          "src": {"type": "string"},
-          "alt": {"type": "string"},
-          "caption": {"type": "string"},
-          "width": {"type": "number"},
-          "height": {"type": "number"},
-          "kind": {"type": "string", "enum": ["stats_comparison", "timeline", "pass_network", "shot_proxy", "other"]}
+          "id": {
+            "type": "string"
+          },
+          "src": {
+            "type": "string"
+          },
+          "alt": {
+            "type": "string"
+          },
+          "caption": {
+            "type": "string"
+          },
+          "width": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "stats_comparison",
+              "timeline",
+              "pass_network",
+              "shot_proxy",
+              "other"
+            ]
+          }
         }
       }
     },
@@ -163,20 +459,50 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["heading", "paragraphs"],
+        "required": [
+          "heading",
+          "paragraphs"
+        ],
         "properties": {
-          "heading": {"type": "string"},
-          "paragraphs": {"type": "array", "items": {"type": "string"}},
-          "bullets": {"type": "array", "items": {"type": "string"}},
+          "heading": {
+            "type": "string"
+          },
+          "paragraphs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "bullets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "claims": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["claim", "evidence", "confidence"],
+              "required": [
+                "claim",
+                "evidence",
+                "confidence"
+              ],
               "properties": {
-                "claim": {"type": "string"},
-                "evidence": {"type": "array", "items": {"type": "string"}},
-                "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+                "claim": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "confidence": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
               }
             }
           }
@@ -187,37 +513,132 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["player", "team", "summary", "evidence"],
+        "required": [
+          "player",
+          "team",
+          "summary",
+          "evidence"
+        ],
         "properties": {
-          "player": {"type": "string"},
-          "team": {"type": "string"},
-          "summary": {"type": "string"},
-          "evidence": {"type": "array", "items": {"type": "string"}},
-          "rating": {"type": "string"}
+          "player": {
+            "type": "string"
+          },
+          "team": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rating": {
+            "type": "string"
+          }
         }
       }
     },
-    "data_limitations": {"type": "array", "items": {"type": "string"}},
-    "cta": {"type": "string"}
+    "data_limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "cta": {
+      "type": "string"
+    }
   },
   "definitions": {
     "playerRow": {
       "type": "object",
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "properties": {
-        "id": {"type": "string"},
-        "name": {"type": "string"},
-        "minutes": {"type": ["number", "null"]},
-        "goals": {"type": ["number", "null"]},
-        "assists": {"type": ["number", "null"]},
-        "yellow": {"type": ["number", "null"]},
-        "red": {"type": ["number", "null"]},
-        "rating": {"type": ["number", "null"]},
-        "shots": {"type": ["number", "null"]},
-        "key_passes": {"type": ["number", "null"]},
-        "passes": {"type": ["number", "null"]},
-        "tackles": {"type": ["number", "null"]},
-        "duels_won": {"type": ["number", "null"]}
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "position": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "is_starter": {
+          "type": "boolean"
+        },
+        "minutes": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "goals": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "assists": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "yellow": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "red": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "rating": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "shots": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "key_passes": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "passes": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "tackles": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "duels_won": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
       }
     }
   }

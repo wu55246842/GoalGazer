@@ -3,7 +3,7 @@
 const R2_PUBLIC_URL =
   process.env.NEXT_PUBLIC_R2_PUBLIC_URL ??
   process.env.R2_PUBLIC_URL ??
-  "https://pub-97ef9c6706fb4d328dd4f5c8ab4f8f1b.r2.dev";
+  "https://assets.goalgazer.xyz";
 
 interface ChartFigureProps {
   src: string;
@@ -20,10 +20,20 @@ export default function ChartFigure({
   width,
   height,
 }: ChartFigureProps) {
-  const normalizedSrc =
-    src.startsWith("http://") || src.startsWith("https://") || src.startsWith("/")
-      ? src
-      : `${R2_PUBLIC_URL.replace(/\/$/, "")}/${src.replace(/^\/+/, "")}`;
+  const normalizedSrc = (() => {
+    let currentSrc = src;
+    // Replace old R2 domain with new custom domain if present
+    if (currentSrc.startsWith("https://pub-97ef9c6706fb4d328dd4f5c8ab4f8f1b.r2.dev")) {
+      currentSrc = currentSrc.replace(
+        "https://pub-97ef9c6706fb4d328dd4f5c8ab4f8f1b.r2.dev",
+        R2_PUBLIC_URL
+      );
+    }
+
+    return currentSrc.startsWith("http://") || currentSrc.startsWith("https://") || currentSrc.startsWith("/")
+      ? currentSrc
+      : `${R2_PUBLIC_URL.replace(/\/$/, "")}/${currentSrc.replace(/^\/+/, "")}`;
+  })();
 
   return (
     <figure style={{

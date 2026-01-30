@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ArticleLayout from "@/components/ArticleLayout";
-import MatchHeader from "@/components/MatchHeader";
+import MatchTacticalView from "@/components/MatchTacticalView";
 import ChartFigure from "@/components/ChartFigure";
+import FormationPitch from "@/components/FormationPitch";
+import AdUnit from "@/components/AdUnit";
 import { buildArticleMetadata, buildBreadcrumbJsonLd, buildJsonLd } from "@/lib/seo";
 import { listMatchIds, readMatchArticle } from "@/lib/content";
 import { buildLocalizedPath, getT, normalizeLang, SUPPORTED_LANGS } from "@/i18n";
@@ -66,215 +68,144 @@ export default async function MatchPage({ params }: MatchPageProps) {
           </p>
         </div>
       )}
-      {heroImage && (
-        <figure
-          className="card"
-          style={{
-            marginTop: "1.5rem",
-            padding: 0,
-            overflow: "hidden",
-            border: "1px solid var(--color-border)",
-          }}
-        >
-          <img
-            src={heroImage}
-            alt={article.frontmatter.title}
-            loading="lazy"
-            style={{
-              width: "100%",
-              height: "auto",
-              display: "block",
-              borderRadius: "var(--radius-lg)",
-            }}
-          />
-        </figure>
-      )}
-      <MatchHeader
-        homeTeam={
-          typeof article.match.homeTeam === "object"
-            ? (article.match.homeTeam as { name: string }).name
-            : article.match.homeTeam
-        }
-        awayTeam={
-          typeof article.match.awayTeam === "object"
-            ? (article.match.awayTeam as { name: string }).name
-            : article.match.awayTeam
-        }
-        score={
-          typeof article.match.score === "object"
-            ? `${(article.match.score as { home: number; away: number }).home}-${
-                (article.match.score as { home: number; away: number }).away
-              }`
-            : article.match.score
-        }
-        dateUtc={article.match.date_utc}
-        league={article.match.league}
-        round={article.match.round ?? ""}
-        venue={article.match.venue ?? ""}
-        labels={{
-          venue: t("match.venue"),
-          kickoff: t("match.kickoff"),
-          status: t("match.status"),
-          fullTime: t("match.fullTime"),
-        }}
-        locale={messages.formats.locale}
-      />
-      {(article.figures || []).length > 0 && (
-        <section style={{ marginTop: "2rem" }}>
-          <h2>{t("match.matchVisuals")}</h2>
-          {(article.figures || []).map((figure) => (
-            <ChartFigure key={figure.src} {...figure} />
-          ))}
-        </section>
-      )}
-      {(article.sections || []).map((section) => (
-        <section key={section.heading} style={{ marginTop: "2rem" }}>
-          <h2>{section.heading}</h2>
-          {section.bullets && (
-            <ul>
-              {section.bullets.map((bullet) => (
-                <li key={bullet}>{bullet}</li>
-              ))}
-            </ul>
-          )}
-          {(section.paragraphs || []).map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-          {(section.figures || []).map((figure) => (
-            <ChartFigure key={figure.src} {...figure} />
-          ))}
-          {(section.claims || []).map((claim) => (
-            <details key={claim.claim} style={{ marginTop: "1rem" }}>
-              <summary>{claim.claim}</summary>
-              <p>
-                {t("match.confidence")}: {Math.round(claim.confidence * 100)}%
-              </p>
-              <ul>
-                {(claim.evidence || []).map((evidence) => (
-                  <li key={evidence}>{evidence}</li>
-                ))}
-              </ul>
-            </details>
-          ))}
-        </section>
-      ))}
 
-      {(article.player_notes || []).length > 0 && (
-        <section style={{ marginTop: "4rem" }}>
-          <h2 style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)", marginBottom: "2rem" }}>
-            {t("match.playerPerformances")}
-          </h2>
-          <div className="grid grid-2">
-            {(article.player_notes || []).map((note) => {
-              const rating = parseFloat(note.rating ?? "0");
-              const isHome = article.match.homeTeam === note.team;
-              const ratingColor =
-                rating >= 7.5
-                  ? "var(--color-success)"
-                  : rating >= 6.5
-                    ? "var(--color-accent)"
-                    : "var(--color-text-muted)";
+      {/* Tactical Analysis Section (Shot Map, Stats, Timing) */}
+      <MatchTacticalView
+        article={article}
+        lang={lang}
+        labels={{
+          tabs: {
+            pitch: t("match.tabs.pitch"),
+            stats: t("match.tabs.stats"),
+            progression: t("match.tabs.progression"),
+          },
+          formation: {
+            rating: t("match.formation.rating"),
+            goals: t("match.formation.goals"),
+            assists: t("match.formation.assists"),
+            minutes: t("match.formation.minutes"),
+          },
+          metric: t("match.metric"),
+          positions: {
+            GK: t("match.positions.GK"),
+            DF: t("match.positions.DF"),
+            MF: t("match.positions.MF"),
+            FW: t("match.positions.FW"),
+          }
+        }}
+      />
+
+      <section style={{ marginTop: "2rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2rem" }}>
+          {article.figures!
+            .filter((f) => f.kind !== "shot_proxy" && f.kind !== "shot_map" && f.kind !== "timeline")
+            .map((fig) => (
+              <ChartFigure key={fig.id} {...fig} />
+            ))}
+
+          {/* Replaced Timeline Chart with Interactive Formation Pitch */}
+          <div className="card" style={{ padding: "0", overflow: "hidden", minHeight: "450px" }}>
+            {(() => {
+              const m = article.match;
+              const homeId = typeof m.homeTeam === 'object' ? m.homeTeam.id : 'home';
+              const awayId = typeof m.awayTeam === 'object' ? m.awayTeam.id : 'away';
+
+              let scoreObj = { home: 0, away: 0 };
+              if (typeof m.score === 'string') {
+                const parts = m.score.split(' - ');
+                if (parts.length === 2) {
+                  scoreObj = { home: parseInt(parts[0]) || 0, away: parseInt(parts[1]) || 0 };
+                }
+              } else if (m.score) {
+                scoreObj = m.score as { home: number; away: number };
+              }
 
               return (
-                <div
-                  key={note.player}
-                  className="card"
-                  style={{
-                    background: "linear-gradient(135deg, white 0%, var(--color-bg-alt) 100%)",
-                    borderLeft: `4px solid ${isHome ? "var(--color-primary)" : "var(--color-secondary)"}`,
+                <FormationPitch
+                  score={scoreObj}
+                  homeXG={article.team_stats?.normalized?.[homeId!]?.xg || "0.00"}
+                  awayXG={article.team_stats?.normalized?.[awayId!]?.xg || "0.00"}
+                  homeFormation={m.formation?.includes(' / ') ? m.formation.split(' / ')[0] : (m.formation || "4-4-2")}
+                  awayFormation={m.formation?.includes(' / ') ? m.formation.split(' / ')[1] : (m.formation || "4-4-2")}
+                  homePlayers={article.players?.home || []}
+                  awayPlayers={article.players?.away || []}
+                  labels={{
+                    rating: t("match.formation.rating"),
+                    goals: t("match.formation.goals"),
+                    assists: t("match.formation.assists"),
+                    minutes: t("match.formation.minutes"),
+                    positions: {
+                      GK: t("match.positions.GK"),
+                      DF: t("match.positions.DF"),
+                      MF: t("match.positions.MF"),
+                      FW: t("match.positions.FW"),
+                    }
                   }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "flex-start",
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    <div>
-                      <h3 style={{ margin: 0, fontSize: "1.25rem", fontWeight: 700 }}>{note.player}</h3>
-                      <p
-                        style={{
-                          margin: "0.25rem 0 0 0",
-                          color: "var(--color-text-muted)",
-                          fontSize: "0.9375rem",
-                        }}
-                      >
-                        {note.team}
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        padding: "0.5rem 1rem",
-                        background: ratingColor,
-                        color: "white",
-                        borderRadius: "var(--radius-lg)",
-                        fontWeight: 700,
-                        fontSize: "1.125rem",
-                      }}
-                    >
-                      {note.rating}
-                    </div>
-                  </div>
-                  <p style={{ marginBottom: "1rem", fontSize: "1.0625rem", lineHeight: 1.8 }}>
-                    {note.summary}
-                  </p>
-                  <ul style={{ margin: 0, paddingLeft: "1.5rem" }}>
-                    {(note.evidence || []).map((evidence) => (
-                      <li key={evidence} style={{ marginBottom: "0.5rem", color: "var(--color-text-muted)" }}>
-                        {evidence}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                />
               );
-            })}
+            })()}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {(article.data_limitations || []).length > 0 && (
-        <section style={{ marginTop: "4rem" }}>
-          <div
-            className="card"
-            style={{ background: "var(--color-bg-alt)", borderLeft: "4px solid var(--color-text-muted)" }}
-          >
-            <h2 style={{ marginTop: 0, display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <span>⚠️</span> {t("match.dataLimitations")}
-            </h2>
-            <ul style={{ marginBottom: 0 }}>
-              {(article.data_limitations || []).map((limitation) => (
-                <li key={limitation}>{limitation}</li>
+      {article.sections && article.sections.length > 0 && (
+        <div className="article-content" style={{ marginTop: "3rem" }}>
+          {article.sections.map((section, idx) => (
+            <section key={idx} style={{ marginBottom: "2.5rem" }}>
+              <h2 style={{ fontSize: "1.75rem", marginBottom: "1.25rem", color: "var(--color-text)" }}>
+                {section.heading}
+              </h2>
+              {section.paragraphs.map((p, pIdx) => (
+                <p key={pIdx} style={{ marginBottom: "1.25rem", lineHeight: "1.8", color: "var(--color-text-dim)" }}>
+                  {p}
+                </p>
               ))}
-            </ul>
+              {section.bullets && section.bullets.length > 0 && (
+                <ul style={{ marginBottom: "1.25rem", paddingLeft: "1.5rem" }}>
+                  {section.bullets.map((b, bIdx) => (
+                    <li key={bIdx} style={{ marginBottom: "0.5rem", color: "var(--color-text-dim)" }}>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+        </div>
+      )}
+
+      {article.player_notes && article.player_notes.length > 0 && (
+        <section style={{ marginTop: "4rem" }}>
+          <h2 style={{ marginBottom: "1.5rem" }}>{t("match.playerAnalysis")}</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1.5rem" }}>
+            {article.player_notes.map((note, idx) => (
+              <div key={idx} className="card" style={{ padding: "1.5rem" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.5rem" }}>
+                  <h3 style={{ margin: 0 }}>{note.player}</h3>
+                  <span style={{ fontSize: "0.85rem", opacity: 0.6 }}>{note.team}</span>
+                </div>
+                {note.rating && (
+                  <div style={{ fontSize: "0.9rem", color: "var(--color-primary)", fontWeight: "bold", marginBottom: "0.75rem" }}>
+                    {t("match.formation.rating")}: {note.rating}
+                  </div>
+                )}
+                <p style={{ fontSize: "0.95rem", color: "var(--color-text-dim)", lineHeight: "1.6" }}>{note.summary}</p>
+              </div>
+            ))}
           </div>
         </section>
       )}
 
-      <footer style={{ marginTop: "4rem", paddingTop: "2rem", borderTop: "2px solid var(--color-border)" }}>
-        <p style={{ fontSize: "1.125rem", fontWeight: 600, marginBottom: "1rem" }}>{article.cta}</p>
-        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-          <a href={buildLocalizedPath(lang, "/")} className="btn btn-outline">
-            {t("match.backToMatches")}
-          </a>
-          <a href={buildLocalizedPath(lang, "/about")} className="btn btn-ghost">
-            {t("match.learnProcess")}
-          </a>
-        </div>
-        <div style={{ marginTop: "2rem" }}>
-          <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", fontWeight: 600 }}>
-            {t("match.dataCitations")}:
-          </p>
-          <ul style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
-            {(article.data_citations || []).map((citation) => (
-              <li key={citation}>{citation}</li>
-            ))}
-          </ul>
-        </div>
-      </footer>
+      <AdUnit slot="8273645192" />
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <div style={{ marginTop: "4rem", paddingTop: "2rem", borderTop: "1px solid var(--color-border)" }}>
+        <p style={{ fontSize: "0.85rem", color: "var(--color-text-muted)" }}>{article.cta}</p>
+      </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
