@@ -100,7 +100,7 @@ export default async function HomePage({ params, searchParams }: HomePageProps) 
               {articles.map((article, index) => (
                 <a
                   key={article.matchId}
-                  href={buildLocalizedPath(lang, `/matches/${article.matchId}`)}
+                  href={buildLocalizedPath(lang, `/matches/${article.slug}`)}
                   className="card card-interactive fade-in"
                   style={{
                     animationDelay: `${index * 100}ms`,

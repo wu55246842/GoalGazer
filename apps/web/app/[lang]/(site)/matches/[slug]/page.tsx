@@ -10,17 +10,17 @@ import { listMatchIds, readMatchArticle } from "@/lib/content";
 import { buildLocalizedPath, getT, normalizeLang, SUPPORTED_LANGS } from "@/i18n";
 
 interface MatchPageProps {
-  params: { lang: string; matchId: string };
+  params: { lang: string; slug: string };
 }
 
 export async function generateStaticParams() {
-  const matchIds = await listMatchIds();
-  return SUPPORTED_LANGS.flatMap((lang) => matchIds.map((matchId) => ({ lang, matchId })));
+  const slugs = await listMatchIds();
+  return SUPPORTED_LANGS.flatMap((lang) => slugs.map((slug) => ({ lang, slug })));
 }
 
 export async function generateMetadata({ params }: MatchPageProps): Promise<Metadata> {
   const lang = normalizeLang(params.lang);
-  const { article } = await readMatchArticle(params.matchId, lang);
+  const { article } = await readMatchArticle(params.slug, lang);
   if (!article) {
     return {};
   }
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: MatchPageProps): Promise<Meta
 export default async function MatchPage({ params }: MatchPageProps) {
   const lang = normalizeLang(params.lang);
   const { t, messages } = await getT(lang);
-  const { article, fallback } = await readMatchArticle(params.matchId, lang);
+  const { article, fallback } = await readMatchArticle(params.slug, lang);
   const showFallbackNotice = fallback && lang !== "en";
   const shareLinks = [
     { href: "https://x.com/intent/tweet", label: messages.match.shareLinks.x },

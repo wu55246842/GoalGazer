@@ -87,23 +87,24 @@ function normalizeArticleImages(article: MatchArticle) {
 // And helpers readMatchFile, readLegacyMatchFile which are now obsolete.
 
 export async function readMatchArticle(
-  matchId: string,
+  matchSlugOrId: string,
   lang: string
 ): Promise<{ article: MatchArticle | null; resolvedLang: Lang; fallback: boolean }> {
   const normalizedLang = normalizeLang(lang);
 
   try {
-    // Try requested language
+    // Try requested language - Check slug first, then match_id
     const rows = await sql`
-      SELECT mc.content, m.image 
+      SELECT mc.content, mc.slug, m.image 
       FROM match_content mc
       JOIN matches m ON mc.match_id = m.match_id
-      WHERE mc.match_id = ${matchId} AND mc.lang = ${normalizedLang}
+      WHERE (mc.slug = ${matchSlugOrId} OR mc.match_id = ${matchSlugOrId}) AND mc.lang = ${normalizedLang}
       LIMIT 1
     `;
 
     if (rows.length > 0) {
       const article = rows[0].content as MatchArticle;
+      article.frontmatter.slug = rows[0].slug;
       if (rows[0].image) {
         article.frontmatter = {
           ...article.frontmatter,
@@ -122,14 +123,15 @@ export async function readMatchArticle(
     // Fallback to English
     if (normalizedLang !== "en") {
       const fallbackRows = await sql`
-        SELECT mc.content, m.image 
+        SELECT mc.content, mc.slug, m.image 
         FROM match_content mc
         JOIN matches m ON mc.match_id = m.match_id
-        WHERE mc.match_id = ${matchId} AND mc.lang = 'en'
+        WHERE (mc.slug = ${matchSlugOrId} OR mc.match_id = ${matchSlugOrId}) AND mc.lang = 'en'
         LIMIT 1
       `;
       if (fallbackRows.length > 0) {
         const article = fallbackRows[0].content as MatchArticle;
+        article.frontmatter.slug = fallbackRows[0].slug;
         if (fallbackRows[0].image) {
           article.frontmatter = {
             ...article.frontmatter,
@@ -146,7 +148,7 @@ export async function readMatchArticle(
       }
     }
   } catch (e) {
-    console.error(`DB Error reading match ${matchId}:`, e);
+    console.error(`DB Error reading match ${matchSlugOrId}:`, e);
   }
 
   return { article: null, resolvedLang: "en", fallback: true };
@@ -286,8 +288,8 @@ export async function readLeagueIndex(
 
 export async function listMatchIds(): Promise<string[]> {
   try {
-    const rows = await sql`SELECT match_id FROM matches ORDER BY date_utc DESC`;
-    return rows.map(r => r.match_id);
+    const rows = await sql`SELECT DISTINCT slug FROM match_content WHERE slug IS NOT NULL`;
+    return rows.map(r => r.slug);
   } catch (e) {
     console.warn("DB Error listing matches:", e);
     return [];

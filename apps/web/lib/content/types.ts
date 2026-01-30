@@ -29,6 +29,7 @@ export interface MatchArticle {
         league: string;
         teams: string[];
         tags: string[];
+        slug?: string;
         heroImage?: string | null;
         image?: string;
     };

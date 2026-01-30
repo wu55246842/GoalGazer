@@ -24,14 +24,15 @@ export function buildArticleMetadata(article: MatchArticle, lang: Lang): Metadat
   const title = article.frontmatter.title;
   const description = article.frontmatter.description;
   const image = article.frontmatter.heroImage ?? article.sections?.[0]?.figures?.[0]?.src;
-  const canonical = buildCanonicalUrl(lang, `/matches/${article.frontmatter.matchId}`);
+  const matchPath = article.frontmatter.slug ? `/matches/${article.frontmatter.slug}` : `/matches/${article.frontmatter.matchId}`;
+  const canonical = buildCanonicalUrl(lang, matchPath);
 
   return {
     title,
     description,
     alternates: {
       canonical,
-      languages: buildLanguageAlternates(`/matches/${article.frontmatter.matchId}`),
+      languages: buildLanguageAlternates(matchPath),
     },
     openGraph: {
       title,
@@ -50,19 +51,65 @@ export function buildArticleMetadata(article: MatchArticle, lang: Lang): Metadat
 }
 
 export function buildJsonLd(article: MatchArticle, lang: Lang) {
-  const url = buildCanonicalUrl(lang, `/matches/${article.frontmatter.matchId}`);
+  const matchPath = article.frontmatter.slug ? `/matches/${article.frontmatter.slug}` : `/matches/${article.frontmatter.matchId}`;
+  const url = buildCanonicalUrl(lang, matchPath);
+
+  const getTeamName = (team: any) => {
+    if (typeof team === 'string') return team;
+    return team?.name || "Team";
+  };
+
+  const homeName = getTeamName(article.match?.homeTeam) || article.frontmatter.teams?.[0] || "Home Team";
+  const awayName = getTeamName(article.match?.awayTeam) || article.frontmatter.teams?.[1] || "Away Team";
+
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: article.frontmatter.title,
-    description: article.frontmatter.description,
-    datePublished: article.frontmatter.date,
-    mainEntityOfPage: url,
-    inLanguage: lang,
-    author: {
-      "@type": "Organization",
-      name: "GoalGazer",
-    },
+    "@graph": [
+      {
+        "@type": "Article",
+        "@id": `${url}#article`,
+        "headline": article.frontmatter.title,
+        "description": article.frontmatter.description,
+        "datePublished": article.frontmatter.date,
+        "inLanguage": lang,
+        "author": {
+          "@type": "Organization",
+          "name": "GoalGazer"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "GoalGazer",
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${baseUrl}/logo.png`
+          }
+        },
+        "mainEntityOfPage": url,
+        "about": { "@id": `${url}#event` }
+      },
+      {
+        "@type": "SportsEvent",
+        "@id": `${url}#event`,
+        "name": `${homeName} vs ${awayName}`,
+        "description": `Tactical analysis and match statistics for ${homeName} vs ${awayName}`,
+        "startDate": article.frontmatter.date,
+        "location": {
+          "@type": "Place",
+          "name": article.match?.venue || "Stadium"
+        },
+        "competitor": [
+          {
+            "@type": "SportsTeam",
+            "name": homeName
+          },
+          {
+            "@type": "SportsTeam",
+            "name": awayName
+          }
+        ],
+        "sport": "Soccer"
+      }
+    ]
   };
 }
 
@@ -91,7 +138,7 @@ export function buildBreadcrumbJsonLd(
         "@type": "ListItem",
         position: 3,
         name: article.frontmatter.title,
-        item: buildCanonicalUrl(lang, `/matches/${article.frontmatter.matchId}`),
+        item: buildCanonicalUrl(lang, article.frontmatter.slug ? `/matches/${article.frontmatter.slug}` : `/matches/${article.frontmatter.matchId}`),
       },
     ],
   };

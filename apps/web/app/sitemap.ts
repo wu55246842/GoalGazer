@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const matchEntries = SUPPORTED_LANGS.flatMap((lang) =>
     entries.map((entry) => ({
-      url: new URL(buildLocalizedPath(lang, `/matches/${entry.matchId}`), baseUrl).toString(),
+      url: new URL(buildLocalizedPath(lang, `/matches/${entry.slug}`), baseUrl).toString(),
       lastModified: new Date(entry.date),
     }))
   );
