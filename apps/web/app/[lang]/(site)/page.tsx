@@ -53,11 +53,11 @@ export default async function HomePage({ params, searchParams }: HomePageProps) 
         <h1>{t("home.heroTitle")}</h1>
         <p>{t("home.heroDescription")}</p>
         <div className="flex justify-center gap-md" style={{ marginTop: "2rem" }}>
-          <a href="#matches" className="btn btn-primary">
-            {t("home.viewLatestMatches")}
+          <a href={buildLocalizedPath(lang, "/daily")} className="btn btn-primary" style={{ background: 'linear-gradient(to right, #10b981, #3b82f6)', border: 'none' }}>
+            {t("nav.daily")}
           </a>
-          <a href={buildLocalizedPath(lang, "/about")} className="btn btn-outline">
-            {t("home.learnMore")}
+          <a href="#matches" className="btn btn-outline">
+            {t("home.viewLatestMatches")}
           </a>
         </div>
       </section>

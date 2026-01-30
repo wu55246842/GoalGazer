@@ -58,7 +58,8 @@
     "privacy": "Privacy",
     "terms": "Terms",
     "sources": "Data Sources",
-    "editorialPolicy": "Editorial Policy"
+    "editorialPolicy": "Editorial Policy",
+    "daily": "Tactical Gazette"
   },
   "common": {
     "brandName": "GoalGazer",
@@ -320,5 +321,16 @@
   "league": {
     "title": "League",
     "season": "Season"
+  },
+  "Daily": {
+    "exclusive_analysis": "Exclusive Tactical Analysis",
+    "tactical_comic": "Tactical Comic Illustration",
+    "financial_pulse": "Financial Pulse",
+    "value_fluctuations": "Value Fluctuations",
+    "about_edition": "About This Edition",
+    "production_notice": "Automated tactical interpretation of the day's high-stakes football drama.",
+    "ticker_notice": "Market values are currently reflecting the tactical dominance seen in the high-press efficiency charts.",
+    "about_desc": "Each Tactical Gazette edition is synthesized using real-time match data and deep-learning tactical interpretation. Values are calculated based on performance impact coefficients.",
+    "exclusive_production": "Exclusive Production"
   }
 }

@@ -58,7 +58,8 @@
     "privacy": "プライバシー",
     "terms": "利用規約",
     "sources": "データソース",
-    "editorialPolicy": "編集方針"
+    "editorialPolicy": "編集方針",
+    "daily": "戦術ガゼット"
   },
   "common": {
     "brandName": "GoalGazer",
@@ -298,5 +299,16 @@
   "league": {
     "title": "リーグ",
     "season": "シーズン"
+  },
+  "Daily": {
+    "exclusive_analysis": "独占戦術分析",
+    "tactical_comic": "戦術コミックイラスト",
+    "financial_pulse": "ファイナンシャル・パルス",
+    "value_fluctuations": "価値の変動",
+    "about_edition": "今号について",
+    "production_notice": "今日のハイステークスなサッカーのドラマの自動化された戦術的解釈。",
+    "ticker_notice": "市場価値は現在、ハイプレス効率チャートに見られる戦術的な優位性を反映しています。",
+    "about_desc": "タクティカル・ガゼットの各エディションは、リアルタイムの試合データとディープラーニングの戦術的解釈を使用して合成されます。値はパフォーマンス影響係数に基づいて計算されます。",
+    "exclusive_production": "独占制作"
   }
 }

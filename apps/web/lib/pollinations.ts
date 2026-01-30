@@ -117,13 +117,17 @@ async function generateTextPollinations({
             messages,
             model,
             seed,
-            json: !jsonMode, // Pollinations specific if not jsonMode
+            json: jsonMode, // Use simple json: true for Pollinations
             ...(jsonMode ? { response_format: { type: 'json_object' } } : {}),
         }),
     });
 
     if (!response.ok) {
         const errorText = await response.text();
+        // If gemini-fast fails, try openai
+        if (model === 'gemini-fast' && response.status === 400) {
+            throw new Error(`Status 400 (Likely Gemini Payload Error): ${errorText}`);
+        }
         throw new Error(`Status ${response.status}: ${errorText}`);
     }
 
@@ -131,6 +135,7 @@ async function generateTextPollinations({
     const text = await response.text();
     try {
         const data = JSON.parse(text);
+        // Standard OpenAI format or Pollinations legacy
         return data.choices?.[0]?.message?.content || data.content || text;
     } catch {
         return text;

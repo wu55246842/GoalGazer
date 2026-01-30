@@ -15,6 +15,16 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['postgres'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'assets.goalgazer.xyz',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

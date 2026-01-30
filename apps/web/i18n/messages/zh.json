@@ -58,7 +58,8 @@
     "privacy": "隐私",
     "terms": "条款",
     "sources": "数据来源",
-    "editorialPolicy": "编辑政策"
+    "editorialPolicy": "编辑政策",
+    "daily": "战术画报"
   },
   "common": {
     "brandName": "GoalGazer",
@@ -316,5 +317,16 @@
   "league": {
     "title": "联赛",
     "season": "赛季"
+  },
+  "Daily": {
+    "exclusive_analysis": "独家战术分析",
+    "tactical_comic": "战术漫画插图",
+    "financial_pulse": "财务脉搏",
+    "value_fluctuations": "价值波动",
+    "about_edition": "关于本期",
+    "production_notice": "关于高风险足球戏剧的自动化战术解读。",
+    "ticker_notice": "市场价值目前反映了高压效率图表中所体现的战术占优情况。",
+    "about_desc": "每一期《战术画报》均整合实时比赛数据与深度学习战术解读。球员价值基于表现影响系数计算。",
+    "exclusive_production": "独家制作"
   }
 }

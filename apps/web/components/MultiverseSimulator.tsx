@@ -100,7 +100,7 @@ const MultiverseSimulator: React.FC<MultiverseSimulatorProps> = ({ data, lang })
                                 }}>
                                     {isZh ? "现实" : "Reality"}
                                 </span>
-                                <span style={{ fontWeight: 700, fontSize: "0.9rem" }}>{pivot.reality.event}</span>
+                                <span style={{ color: "white", fontWeight: 700, fontSize: "0.9rem" }}>{pivot.reality.event}</span>
                             </div>
                             <div style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "var(--color-text-light)" }}>
                                 <strong>{isZh ? "结果：" : "Outcome: "}</strong> {pivot.reality.outcome}

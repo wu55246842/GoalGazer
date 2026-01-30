@@ -9,6 +9,8 @@ import { buildArticleMetadata, buildBreadcrumbJsonLd, buildJsonLd } from "@/lib/
 import { listMatchIds, readMatchArticle } from "@/lib/content";
 import { buildLocalizedPath, getT, normalizeLang, SUPPORTED_LANGS } from "@/i18n";
 
+import SocialShare from "@/components/SocialShare";
+
 interface MatchPageProps {
   params: { lang: string; slug: string };
 }
@@ -32,10 +34,6 @@ export default async function MatchPage({ params }: MatchPageProps) {
   const { t, messages } = await getT(lang);
   const { article, fallback } = await readMatchArticle(params.slug, lang);
   const showFallbackNotice = fallback && lang !== "en";
-  const shareLinks = [
-    { href: "https://x.com/intent/tweet", label: messages.match.shareLinks.x },
-    { href: "https://www.linkedin.com/shareArticle", label: messages.match.shareLinks.linkedIn },
-  ];
 
   if (!article) {
     notFound();
@@ -51,8 +49,14 @@ export default async function MatchPage({ params }: MatchPageProps) {
       description={article.frontmatter.description}
       tagLabel={t("match.tagLabel")}
       shareLabel={t("match.shareLabel")}
-      shareLinks={shareLinks}
+      shareLinks={[]} // Pass empty to hide default if needed, or modify ArticleLayout
     >
+      <div className="mb-8 flex justify-end">
+        <SocialShare
+          url={`https://goalgazer.xyz/${lang}/matches/${params.slug}`}
+          title={article.frontmatter.title}
+        />
+      </div>
       {showFallbackNotice && (
         <div
           className="card"
