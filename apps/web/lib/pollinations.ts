@@ -1,4 +1,4 @@
-import Replicate from "replicate";
+import type ReplicateClient from "replicate";
 
 /**
  * Pollinations AI API client for text generation.
@@ -296,6 +296,7 @@ async function generateImageReplicate(prompt: string, aspectRatio: string = '16:
 
     console.log(`   🎨 Calling Replicate [flux-schnell]...`);
 
+    const Replicate = (await import("replicate")).default as typeof ReplicateClient;
     const replicate = new Replicate({
         auth: apiKey,
     });
