@@ -78,7 +78,7 @@
     "dataNotice": "所有比赛数据与统计来自授权数据提供方。可视化与分析为原创内容。",
     "social": {
       "twitter": "Twitter",
-      "github": "GitHub"
+      "facebook": "Facebook"
     }
   },
   "home": {
@@ -127,7 +127,8 @@
     "tabs": {
       "pitch": "球场对阵",
       "stats": "数据统计",
-      "progression": "比赛进程"
+      "progression": "比赛进程",
+      "multiverse": "多重宇宙"
     },
     "formation": {
       "rating": "评分",

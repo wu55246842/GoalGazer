@@ -3,12 +3,13 @@
 import React, { useState } from "react";
 import type { MatchArticle, PlayerRow } from "@/lib/content/types";
 import ChartFigure from "./ChartFigure";
+import MultiverseSimulator from "./MultiverseSimulator";
 
 interface MatchTacticalViewProps {
     article: MatchArticle;
     lang: string;
     labels: {
-        tabs: { pitch: string; stats: string; progression: string };
+        tabs: { pitch: string; stats: string; progression: string; multiverse?: string };
         formation: { rating: string; goals: string; assists: string; minutes: string };
         metric: string;
         positions: Record<string, string>;
@@ -16,7 +17,7 @@ interface MatchTacticalViewProps {
 }
 
 const MatchTacticalView: React.FC<MatchTacticalViewProps> = ({ article, lang, labels }) => {
-    const [activeTab, setActiveTab] = useState<"field" | "stats" | "timing">("field");
+    const [activeTab, setActiveTab] = useState<"field" | "stats" | "timing" | "multiverse">("field");
     const [showTimelineModal, setShowTimelineModal] = useState(false);
     const { match, players, team_stats, timeline } = article;
 
@@ -166,39 +167,45 @@ const MatchTacticalView: React.FC<MatchTacticalViewProps> = ({ article, lang, la
                         width: "fit-content",
                         margin: "0 auto 2rem auto"
                     }}>
-                        {(["field", "timing", "stats"] as const).map(tab => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                style={{
-                                    padding: "0.6rem 1.5rem",
-                                    background: activeTab === tab ? "var(--color-card-bg)" : "transparent",
-                                    border: "none",
-                                    borderRadius: "var(--radius-full)",
-                                    color: activeTab === tab ? "var(--color-text)" : "var(--color-text-muted)",
-                                    cursor: "pointer",
-                                    fontWeight: 700,
-                                    fontSize: "0.85rem",
-                                    textTransform: "uppercase",
-                                    letterSpacing: "0.05em",
-                                    boxShadow: activeTab === tab ? "var(--shadow-sm)" : "none"
-                                }}
-                            >
-                                {tab === "field" ? labels.tabs.pitch : tab === "timing" ? labels.tabs.progression : labels.tabs.stats}
-                            </button>
-                        ))}
+                        {(["field", "timing", "stats", "multiverse"] as const)
+                            .filter(tab => tab !== "multiverse" || article.multiverse)
+                            .map(tab => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setActiveTab(tab)}
+                                    style={{
+                                        padding: "0.6rem 1.5rem",
+                                        background: activeTab === tab ? "var(--color-card-bg)" : "transparent",
+                                        border: "none",
+                                        borderRadius: "var(--radius-full)",
+                                        color: activeTab === tab ? "var(--color-text)" : "var(--color-text-muted)",
+                                        cursor: "pointer",
+                                        fontWeight: 700,
+                                        fontSize: "0.85rem",
+                                        textTransform: "uppercase",
+                                        letterSpacing: "0.05em",
+                                        boxShadow: activeTab === tab ? "var(--shadow-sm)" : "none"
+                                    }}
+                                >
+                                    {tab === "field" ? labels.tabs.pitch : tab === "timing" ? labels.tabs.progression : tab === "stats" ? labels.tabs.stats : labels.tabs.multiverse}
+                                </button>
+                            ))}
                     </div>
 
-                    <div style={{
-                        background: "#0a0a0a",
-                        borderRadius: "var(--radius-2xl)",
-                        padding: activeTab === "field" ? "0" : "2rem",
-                        minHeight: "500px",
-                        position: "relative",
-                        overflow: "hidden",
-                        boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
-                        border: "1px solid rgba(255,255,255,0.05)"
-                    }}>
+                    <div
+                        className="pulse-bg"
+                        style={{
+                            borderRadius: "var(--radius-2xl)",
+                            padding: activeTab === "field" ? "0" : "2rem",
+                            minHeight: "500px",
+                            position: "relative",
+                            overflow: "hidden",
+                            border: "1px solid rgba(255,255,255,0.05)",
+                            // Calculate pulse speed: more events = faster pulse
+                            // @ts-ignore
+                            "--pulse-speed": `${Math.max(1.2, 5 - (timeline?.length || 0) / 10)}s`
+                        }}
+                    >
                         {activeTab === "field" && (
                             <div style={{ position: "relative", zIndex: 1 }}>
                                 {/* Score/xG Overlay for Pitch */}
@@ -377,6 +384,10 @@ const MatchTacticalView: React.FC<MatchTacticalViewProps> = ({ article, lang, la
                                     onClick={(e) => e.stopPropagation()}
                                 />
                             </div>
+                        )}
+
+                        {activeTab === "multiverse" && article.multiverse && (
+                            <MultiverseSimulator data={article.multiverse} lang={lang} />
                         )}
                     </div>
                     <div style={{ textAlign: "right", opacity: 0.1, fontSize: "0.7rem", marginTop: "1rem", fontWeight: 700 }}>GOALGAZER.XYZ</div>

@@ -78,7 +78,7 @@
     "dataNotice": "試合データと統計はライセンス済み提供元から取得。可視化と分析はオリジナルです。",
     "social": {
       "twitter": "Twitter",
-      "github": "GitHub"
+      "facebook": "Facebook"
     }
   },
   "home": {
@@ -148,6 +148,8 @@
       "goals": "得/失",
       "gd": "得失点",
       "points": "勝点",
+      "progression": "試合展開",
+      "multiverse": "マルチバース",
       "form": "最近の結果"
     }
   },

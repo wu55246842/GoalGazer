@@ -49,6 +49,10 @@ export async function generateMetadata({
       canonical: buildCanonicalUrl(lang, "/"),
       languages: buildLanguageAlternates("/"),
     },
+    icons: {
+      icon: "/favicon-raw.png",
+      apple: "/favicon-raw.png",
+    },
   };
 }
 
@@ -149,7 +153,7 @@ export default async function LocaleLayout({
                     {t("footer.social.twitter")}
                   </a>
                   <a href="#" className="social-link">
-                    {t("footer.social.github")}
+                    {t("footer.social.facebook")}
                   </a>
                 </div>
               </div>

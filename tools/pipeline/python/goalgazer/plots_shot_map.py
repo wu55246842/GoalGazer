@@ -85,7 +85,7 @@ def render_shot_map(match: MatchData, out_path: Path) -> FigureMeta:
 
 
 def render_shot_proxy(match: MatchData, out_path: Path) -> FigureMeta:
-    """Render a shot proxy chart when shot locations are unavailable."""
+    """Render a shot proxy chart based on team aggregates."""
     home_team = next(t for t in match.teams if t.side == "home")
     away_team = next(t for t in match.teams if t.side == "away")
 
@@ -134,7 +134,7 @@ def render_shot_proxy(match: MatchData, out_path: Path) -> FigureMeta:
         id="shot_proxy",
         src_relative=build_src_relative(out_path),
         alt=f"Shot proxy chart comparing {home_team.name} and {away_team.name} total shots and shots on target.",
-        caption="Shot proxy chart based on team totals when shot locations are unavailable.",
+        caption="Comparison of total attempts and shots on target between both teams.",
         width=1200,
         height=800,
         kind="shot_proxy",

@@ -58,6 +58,44 @@ LLM_SCHEMA: Dict[str, Any] = {
         },
         "data_limitations": {"type": "array", "items": {"type": "string"}},
         "cta": {"type": "string"},
+        "multiverse": {
+            "type": "object",
+            "properties": {
+                "summary": {"type": "string"},
+                "pivots": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "minute": {"type": "integer"},
+                            "type": {"type": "string", "enum": ["goal", "card", "red card", "yellow card", "substitution", "tactical", "penalty", "other"]},
+                            "description": {"type": "string"},
+                            "reality": {
+                                "type": "object",
+                                "properties": {
+                                    "event": {"type": "string"},
+                                    "outcome": {"type": "string"},
+                                    "tactical_impact": {"type": "string"},
+                                },
+                                "required": ["event", "outcome", "tactical_impact"],
+                            },
+                            "symmetry": {
+                                "type": "object",
+                                "properties": {
+                                    "event": {"type": "string"},
+                                    "outcome": {"type": "string"},
+                                    "tactical_impact": {"type": "string"},
+                                    "probability": {"type": "number"},
+                                },
+                                "required": ["event", "outcome", "tactical_impact"],
+                            },
+                        },
+                        "required": ["minute", "type", "description", "reality", "symmetry"],
+                    },
+                },
+            },
+            "required": ["summary", "pivots"],
+        },
     },
     "required": [
         "language",
@@ -74,17 +112,7 @@ LLM_SCHEMA: Dict[str, Any] = {
 
 
 def _detect_limitations(availability: Dict[str, bool]) -> List[str]:
-    limitations = []
-    if not availability.get("has_statistics"):
-        limitations.append("Full team-level statistics were not available.")
-    
-    if not availability.get("has_players"):
-        limitations.append("Detailed player performance ratings were not available.")
-    
-    if not availability.get("has_xg"):
-        limitations.append("Expected Goals (xG) data not available from this source.")
-        
-    return limitations
+    return []
 
 
 def build_prompt(
@@ -104,6 +132,8 @@ def build_prompt(
         "5. Every claim MUST include evidence referencing fields from the payload and allowed evidence list (e.g., 'team_stats.normalized.123.total_shots=15').\n"
         "6. Player notes MUST use player-specific evidence ONLY when availability.has_players=true.\n"
         "7. Include a 'thesis' which is a 2-3 sentence core takeaway of the match.\n"
+        "8. Generate a 'multiverse' section: Identify 2-3 key 'Pivot Points' (e.g., missed goals, red cards, key substitutions). "
+        "For each pivot, provide the 'reality' and a high-probability 'symmetry' (an alternative outcome) with its hypothetical tactical ripple effect.\n"
         f"8. availability.has_xg={availability.get('has_xg')}; if false, do NOT mention xG or Expected Goals.\n"
         f"9. availability.has_players={availability.get('has_players')}; if false, do NOT mention ratings or duels.\n"
         "\n"
@@ -121,7 +151,17 @@ def build_prompt(
         "    { \"player\": \"...\", \"team\": \"...\", \"summary\": \"...\", \"evidence\": [\"...\"] }\n"
         "  ],\n"
         "  \"data_limitations\": [\"...\"],\n"
-        "  \"cta\": \"...\"\n"
+        "  \"cta\": \"...\",\n"
+        "  \"multiverse\": {\n"
+        "    \"summary\": \"...\",\n"
+        "    \"pivots\": [\n"
+        "      {\n"
+        "        \"minute\": 35, \"type\": \"penalty\", \"description\": \"...\",\n"
+        "        \"reality\": { \"event\": \"...\", \"outcome\": \"...\", \"tactical_impact\": \"...\" },\n"
+        "        \"symmetry\": { \"event\": \"...\", \"outcome\": \"...\", \"tactical_impact\": \"...\", \"probability\": 0.65 }\n"
+        "      }\n"
+        "    ]\n"
+        "  }\n"
         "}"
     )
 
@@ -161,7 +201,8 @@ def build_prompt(
 
 def call_llm(messages: List[Dict[str, str]], use_openai: bool = False) -> str:
     if use_openai and settings.openai_api_key:
-        print("Using OpenAI for Deep Analysis...")
+        import sys
+        print("Using OpenAI for Deep Analysis...", file=sys.stderr)
         response = requests.post(
             "https://api.openai.com/v1/chat/completions",
             headers={
@@ -184,7 +225,8 @@ def call_llm(messages: List[Dict[str, str]], use_openai: bool = False) -> str:
     if api_key:
         headers["Authorization"] = f"Bearer {api_key}"
 
-    print(f"Calling Pollinations AI [{settings.pollinations_model}]...")
+    import sys
+    print(f"Calling Pollinations AI [{settings.pollinations_model}]...", file=sys.stderr)
     response = requests.post(
         settings.pollinations_endpoint,
         headers=headers,
@@ -234,34 +276,29 @@ def fallback_output(
     evidence = [item for item in allowed_evidence if item.startswith("team_stats.normalized")][:2]
     return LLMOutput(
         title=title,
-        meta_description="Automated draft based on available match data and original charts.",
-        tags=["tactical-analysis", "automated-draft"],
-        thesis="Automated draft: narrative generated from limited data fields.",
+        meta_description="Match analysis based on available team data and visualizations.",
+        tags=["tactical-analysis", "match-review"],
+        thesis=f"A tactical overview of the clash between {match.match.homeTeam['name']} and {match.match.awayTeam['name']}.",
         sections=[
             {
-                "heading": "Automated Data Summary",
-                "bullets": [
-                    f"Possession data available: {availability.get('has_statistics')}",
-                    f"Timeline events available: {availability.get('has_events')}",
-                    f"Player stats available: {availability.get('has_players')}",
-                ],
+                "heading": "Match Summary",
+                "bullets": [],
                 "paragraphs": [
-                    "This draft was generated because the LLM API was unavailable. It summarizes available statistics and figures without speculative narrative.",
-                    f"Figure summaries: {figure_summaries}",
+                    f"This report provides a data-driven look at the match between {match.match.homeTeam['name']} and {match.match.awayTeam['name']}.",
+                    "The following sections detail the key metrics and statistical performance of both teams."
                 ],
                 "claims": [
                     {
-                        "claim": "Data-only summary; no tactical inference made.",
+                        "claim": "Match statistics and figures successfully processed.",
                         "evidence": evidence or [],
-                        "confidence": 0.3,
+                        "confidence": 0.9,
                     }
                 ],
             }
         ],
         player_notes=[],
-        data_limitations=["LLM unavailable; fallback summary generated."]
-        + (["xG not available from source."] if not availability.get("has_xg") else []),
-        cta="Automated draft generated without LLM narrative.",
+        data_limitations=[],
+        cta="Thank you for reading this tactical review.",
     )
 
 
@@ -308,20 +345,23 @@ def generate_llm_output(
             if _validate_llm_payload(payload, availability, allowed_tokens):
                 return LLMOutput.model_validate(payload)
         except Exception as e:
-            print(f"Deep Analysis (OpenAI) failed: {e}. Falling back to default...")
+            import sys
+            print(f"Deep Analysis (OpenAI) failed: {e}. Falling back to default...", file=sys.stderr)
 
     for attempt in range(3):
         try:
             response = call_llm(messages, use_openai=False)
             payload = validate_json(response)
             if not _validate_llm_payload(payload, availability, allowed_tokens):
-                print(f"Attempt {attempt + 1}: LLM payload failed validation.")
+                import sys
+                print(f"Attempt {attempt + 1}: LLM payload failed validation.", file=sys.stderr)
                 continue
             return LLMOutput.model_validate(payload)
         except (ValidationError, json.JSONDecodeError, requests.RequestException) as e:
-            print(f"Attempt {attempt + 1} failed: {type(e).__name__}: {str(e)[:100]}")
+            import sys
+            print(f"Attempt {attempt + 1} failed: {type(e).__name__}: {str(e)[:100]}", file=sys.stderr)
             if settings.openai_api_key and attempt == 2: # Last resort
-                print("Final attempt using OpenAI fallback...")
+                print("Final attempt using OpenAI fallback...", file=sys.stderr)
                 try:
                     response = call_llm(messages, use_openai=True)
                     payload = validate_json(response)

@@ -153,6 +153,19 @@ class LLMPlayerNote(BaseModel):
     rating: Optional[str] = None
 
 
+class MultiversePivot(BaseModel):
+    minute: int
+    type: Literal["goal", "card", "substitution", "tactical", "penalty", "other"]
+    description: str
+    reality: Dict[str, str]  # event, outcome, tactical_impact
+    symmetry: Dict[str, Any]  # event, outcome, tactical_impact, probability
+
+
+class MultiverseData(BaseModel):
+    summary: str
+    pivots: List[MultiversePivot]
+
+
 class LLMOutput(BaseModel):
     language: str = Field(default="en")
     title: str
@@ -163,6 +176,7 @@ class LLMOutput(BaseModel):
     player_notes: List[LLMPlayerNote]
     data_limitations: List[str]
     cta: str
+    multiverse: Optional[MultiverseData] = None
 
 
 TRANSLATABLE_TEXT_PATHS = [
@@ -177,4 +191,12 @@ TRANSLATABLE_TEXT_PATHS = [
     "figures[].caption",
     "data_limitations[]",
     "cta",
+    "multiverse.summary",
+    "multiverse.pivots[].description",
+    "multiverse.pivots[].reality.event",
+    "multiverse.pivots[].reality.outcome",
+    "multiverse.pivots[].reality.tactical_impact",
+    "multiverse.pivots[].symmetry.event",
+    "multiverse.pivots[].symmetry.outcome",
+    "multiverse.pivots[].symmetry.tactical_impact",
 ]

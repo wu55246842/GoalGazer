@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { buildLocalizedPath } from "@/i18n";
+import { buildLocalizedPath, Lang } from "@/i18n";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 interface NavLink {
@@ -10,7 +10,7 @@ interface NavLink {
 }
 
 interface SiteHeaderProps {
-    lang: string;
+    lang: Lang;
     brandName: string;
     navLinks: NavLink[];
 }
@@ -39,8 +39,11 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ lang, brandName, navLinks }) =>
             <div className="container">
                 <div className="header-wrapper">
                     <a href={buildLocalizedPath(lang, "/")} className="logo" onClick={closeMenu}>
-                        <span className="logo-icon">⚽</span>
-                        <span className="logo-text">{brandName}</span>
+                        <img
+                            src="/cropped-image-1769761610675.png"
+                            alt={brandName}
+                            style={{ height: "55px", width: "auto" }}
+                        />
                     </a>
 
                     <div className="header-actions">

@@ -201,17 +201,21 @@ async function processSingleMatch(matchId: string, league: string, season: strin
   // 1. Capture English Analysis from stdout
   let englishPayload: any;
   try {
-    // Python might print other things, so we find the line that starts with {
-    const lines = pythonResult.stdout.split('\n');
-    console.log(`   Python STDOUT lines: ${lines.length}`);
-    const jsonLine = lines.find((l: string) => l.trim().startsWith('{'));
-    if (!jsonLine) {
-      console.error("Full Python STDOUT:", pythonResult.stdout);
-      throw new Error("No JSON found in Python output");
+    const stdout = pythonResult.stdout;
+    // Find the first '{' and the last '}' to extract the potential JSON block
+    const firstBrace = stdout.indexOf('{');
+    const lastBrace = stdout.lastIndexOf('}');
+
+    if (firstBrace === -1 || lastBrace === -1 || lastBrace < firstBrace) {
+      console.error("Full Python STDOUT:", stdout);
+      throw new Error("No JSON block found in Python output");
     }
-    englishPayload = JSON.parse(jsonLine);
+
+    const jsonString = stdout.substring(firstBrace, lastBrace + 1);
+    englishPayload = JSON.parse(jsonString);
   } catch (e) {
-    console.error("❌ Failed to parse Python stdout:", pythonResult.stdout);
+    console.error("❌ Failed to parse Python stdout:", (e as Error).message);
+    console.error("Partial STDOUT (last 500 chars):", pythonResult.stdout.slice(-500));
     throw new Error(`Unable to parse generated article for matchId ${matchId}.`);
   }
 
@@ -310,10 +314,32 @@ async function saveToDatabase(matchId: string, lang: string, article: Record<str
 
 
 function getArgValue(argsList: string[], flag: string, fallback: string): string {
+  // 1. Try traditional --flag value
   const idx = argsList.indexOf(flag);
   if (idx !== -1 && argsList[idx + 1]) {
     return argsList[idx + 1];
   }
+
+  // 2. Try flag=value (more robust in some shells)
+  const cleanFlag = flag.replace(/^--/, '');
+  const equalPattern = `${cleanFlag}=`;
+  const equalArg = argsList.find(a => a.startsWith(equalPattern) || a.startsWith(`--${equalPattern}`));
+  if (equalArg) {
+    return equalArg.split('=')[1];
+  }
+
+  // 3. Smart Positional Fallback (if flag is league or season)
+  if (cleanFlag === 'league') {
+    const knownLeagues = ['epl', 'liga', 'bundesliga', 'seriea', 'ligue1', 'all'];
+    const found = argsList.find(a => knownLeagues.includes(a.toLowerCase()));
+    if (found) return found.toLowerCase();
+  }
+
+  if (cleanFlag === 'season') {
+    const found = argsList.find(a => /^\d{4}$/.test(a));
+    if (found) return found;
+  }
+
   return fallback;
 }
 

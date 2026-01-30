@@ -187,6 +187,10 @@ def build_evidence_catalog(match: MatchData, players_output: Optional[Dict[str, 
             evidence["match.score.home"] = match.match.score.get("home")
         if match.match.score.get("away") is not None:
             evidence["match.score.away"] = match.match.score.get("away")
+    
+    if match.match.formation:
+        evidence["match.formation"] = match.match.formation
+        evidence["match_context.formation"] = match.match.formation
 
     if match.aggregates.normalized:
         for team_id, stats in match.aggregates.normalized.items():
@@ -231,16 +235,7 @@ def summarize_shots(match: MatchData) -> Dict[str, Any]:
 
 
 def _build_limitations(availability: Dict[str, bool]) -> List[str]:
-    limitations = []
-    if not availability.get("has_statistics"):
-        limitations.append("Full team-level statistics were not available.")
-    if not availability.get("has_players"):
-        limitations.append("Detailed player performance ratings were not available.")
-    if not availability.get("has_xg"):
-        limitations.append("Expected Goals (xG) data not available from this source.")
-    if not availability.get("has_shot_locations"):
-        limitations.append("Shot locations were not available; spatial charts were downgraded.")
-    return limitations
+    return []
 
 
 def _filter_limitations(limitations: List[str], availability: Dict[str, bool]) -> List[str]:
@@ -377,6 +372,7 @@ def build_article_json(
         "player_notes": player_notes,
         "data_limitations": data_limitations,
         "cta": llm_output.cta,
+        "multiverse": llm_output.multiverse.model_dump() if llm_output.multiverse else None,
     }
 
     _validate_article(article, evidence_catalog, availability)

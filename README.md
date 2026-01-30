@@ -143,4 +143,6 @@ The site ships with About, Privacy, Contact, Data Sources, and Editorial Policy 
 npx tsx tools/pipeline/node/init_db.ts    
 
 ## pipline execute
+npm run pipeline
 npm run pipeline -- --league epl --season 2025
+npm run pipeline -- "league=seriea" "season=2025"

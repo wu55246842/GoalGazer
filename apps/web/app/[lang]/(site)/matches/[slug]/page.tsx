@@ -78,6 +78,7 @@ export default async function MatchPage({ params }: MatchPageProps) {
             pitch: t("match.tabs.pitch"),
             stats: t("match.tabs.stats"),
             progression: t("match.tabs.progression"),
+            multiverse: t("match.tabs.multiverse"),
           },
           formation: {
             rating: t("match.formation.rating"),

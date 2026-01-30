@@ -28,6 +28,10 @@ Hard rules:
    - sections[*].bullets[*]
    - sections[*].claims[*].claim   (IMPORTANT: keep claims[*].evidence unchanged)
    - player_notes[*].summary, player_notes[*].player, player_notes[*].team (NOTE: if these are team/player proper nouns, keep as-is)
+   - multiverse.summary
+   - multiverse.pivots[*].description
+   - multiverse.pivots[*].reality.event, multiverse.pivots[*].reality.outcome, multiverse.pivots[*].reality.tactical_impact
+   - multiverse.pivots[*].symmetry.event, multiverse.pivots[*].symmetry.outcome, multiverse.pivots[*].symmetry.tactical_impact
    - data_limitations[*], cta
    - timeline[*].detail can be translated if it is a descriptive phrase like "Red Card", "Yellow Card", "Substitution", but KEEP timeline[*].type unchanged.
 5) Keep diacritics/case for proper nouns if you keep them as-is (e.g., "Nélson Semedo").
@@ -54,6 +58,10 @@ Hard rules:
    - sections[*].bullets[*]
    - sections[*].claims[*].claim   (IMPORTANT: keep claims[*].evidence unchanged)
    - player_notes[*].summary, data_limitations[*], cta
+   - multiverse.summary
+   - multiverse.pivots[*].description
+   - multiverse.pivots[*].reality.event, multiverse.pivots[*].reality.outcome, multiverse.pivots[*].reality.tactical_impact
+   - multiverse.pivots[*].symmetry.event, multiverse.pivots[*].symmetry.outcome, multiverse.pivots[*].symmetry.tactical_impact
    - timeline[*].detail may be translated when it is a descriptive phrase like "Red Card", "Yellow Card", "Substitution", but KEEP timeline[*].type unchanged.
 5) Output must be valid JSON and preserve all original non-translated values.`
 };
@@ -64,8 +72,9 @@ export async function translateArticle(
   englishArticle: Record<string, unknown>,
   targetLanguage: SupportedLanguage
 ): Promise<Record<string, unknown>> {
-  const attemptLimit = 2;
+  const attemptLimit = 4; // Increased from 2 to be more robust
   let lastError: Error | null = null;
+
   for (let attempt = 1; attempt <= attemptLimit; attempt += 1) {
     try {
       const payload = await requestTranslation(englishArticle, targetLanguage, attempt);
@@ -74,7 +83,8 @@ export async function translateArticle(
     } catch (error) {
       lastError = error as Error;
       if (attempt < attemptLimit) {
-        console.warn(`⚠️ Translation validation failed. Retrying (${attempt}/${attemptLimit})... Error: ${error.message}`);
+        console.warn(`⚠️ Translation validation failed. Retrying (${attempt}/${attemptLimit}) in 5 seconds... Error: ${(error as any).message}`);
+        await new Promise(resolve => setTimeout(resolve, 5000)); // Mandatory 5s interval
       }
     }
   }

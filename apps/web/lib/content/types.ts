@@ -20,6 +20,28 @@ export interface ArticleSection {
     }[];
 }
 
+export interface MultiversePivot {
+    minute: number;
+    type: "goal" | "card" | "substitution" | "tactical" | "penalty" | "other";
+    description: string;
+    reality: {
+        event: string;
+        outcome: string;
+        tactical_impact: string;
+    };
+    symmetry: {
+        event: string;
+        outcome: string;
+        tactical_impact: string;
+        probability?: number;
+    };
+}
+
+export interface MultiverseData {
+    summary: string;
+    pivots: MultiversePivot[];
+}
+
 export interface MatchArticle {
     frontmatter: {
         title: string;
@@ -67,6 +89,7 @@ export interface MatchArticle {
     cta?: string;
     data_citations?: string[];
     data_provenance?: Record<string, any>;
+    multiverse?: MultiverseData;
 }
 
 export interface PlayerRow {

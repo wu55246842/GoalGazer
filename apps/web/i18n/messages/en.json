@@ -78,7 +78,7 @@
     "dataNotice": "All match data and statistics are sourced from licensed providers. Visualizations and analysis are original content.",
     "social": {
       "twitter": "Twitter",
-      "github": "GitHub"
+      "facebook": "Facebook"
     }
   },
   "home": {
@@ -127,7 +127,8 @@
     "tabs": {
       "pitch": "Formation",
       "stats": "Statistics",
-      "progression": "Progression"
+      "progression": "Progression",
+      "multiverse": "Multi-Verse"
     },
     "formation": {
       "rating": "Rating",

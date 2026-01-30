@@ -67,16 +67,31 @@ const FormationPitch: React.FC<FormationPitchProps> = ({
     const homePos = getPositions(homeFormation, false);
     const awayPos = getPositions(awayFormation, true);
 
+    const [selectedPlayer, setSelectedPlayer] = React.useState<string | null>(null);
+
     const renderPlayer = (p: PlayerRow, pos: { x: number; y: number }, isHome: boolean) => (
-        <div key={p.id || p.name} className="player-marker-wrapper" style={{
-            position: "absolute", left: `${pos.x}%`, top: `${pos.y}%`,
-            transform: "translate(-50%, -50%)", zIndex: 100
-        }}>
+        <div
+            key={p.id || p.name}
+            className={`player-marker-wrapper ${selectedPlayer === p.id ? 'selected' : ''}`}
+            style={{
+                position: "absolute", left: `${pos.x}%`, top: `${pos.y}%`,
+                transform: "translate(-50%, -50%)", zIndex: 100
+            }}
+            onClick={(e) => {
+                e.stopPropagation();
+                setSelectedPlayer(selectedPlayer === p.id ? null : (p.id || p.name));
+            }}
+        >
             <div className="player-dot" style={{
                 width: "14px", height: "14px", borderRadius: "50%",
                 background: isHome ? "var(--color-primary)" : "var(--color-secondary)",
                 border: "2px solid white", boxShadow: "0 0 10px rgba(0,0,0,0.5)",
                 cursor: "pointer", transition: "all 0.2s"
+            }} />
+            <div className="influence-ring" style={{
+                // Scale influence ring based on rating
+                // @ts-ignore
+                "--influence-scale": (parseFloat(p.rating || "6.0") / 6).toString()
             }} />
             <div className="player-tooltip">
                 <div style={{ fontWeight: 800, marginBottom: "4px", whiteSpace: "nowrap" }}>{p.name}</div>
@@ -91,12 +106,16 @@ const FormationPitch: React.FC<FormationPitchProps> = ({
     );
 
     return (
-        <div className="formation-pitch" style={{
-            position: "relative", width: "100%", height: "450px",
-            background: "repeating-linear-gradient(90deg, #2e7d32 0px, #2e7d32 60px, #388e3c 60px, #388e3c 120px)",
-            borderRadius: "var(--radius-xl)", overflow: "hidden", border: "4px solid #1b5e20",
-            boxShadow: "var(--shadow-lg)"
-        }}>
+        <div
+            className="formation-pitch"
+            onClick={() => setSelectedPlayer(null)}
+            style={{
+                position: "relative", width: "100%", height: "450px",
+                background: "repeating-linear-gradient(90deg, #2e7d32 0px, #2e7d32 60px, #388e3c 60px, #388e3c 120px)",
+                borderRadius: "var(--radius-xl)", overflow: "hidden", border: "4px solid #1b5e20",
+                boxShadow: "var(--shadow-lg)"
+            }}
+        >
             {/* Markings */}
             <div style={{ position: "absolute", top: 15, left: 15, right: 15, bottom: 15, border: "2px solid rgba(255,255,255,0.4)", pointerEvents: "none" }}>
                 {/* Center line */}

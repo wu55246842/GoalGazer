@@ -44,7 +44,7 @@ def render_match_timeline(match: MatchData, out_path: Path) -> FigureMeta:
             # Event icon/type emoji-like text
             icons = {"goal": "⚽", "card": "🟨", "subst": "🔄", "var": "🖥️"}
             icon = icons.get(event.type, "•")
-            if "Red Card" in event.detail: icon = "🟥"
+            if event.detail and "Red Card" in event.detail: icon = "🟥"
             
             detail = event.detail or ""
             player_name = event.playerName or "Unknown"
