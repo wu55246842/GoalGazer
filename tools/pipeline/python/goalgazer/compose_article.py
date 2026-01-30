@@ -334,11 +334,22 @@ def build_article_json(
     combined_limitations = llm_output.data_limitations + _build_limitations(availability)
     data_limitations = list(dict.fromkeys(_filter_limitations(combined_limitations, availability)))
 
+    def _slugify(text: str) -> str:
+        text = str(text).lower()
+        text = re.sub(r'[^a-z0-9]+', '-', text)
+        return text.strip('-')
+
+    home_slug = _slugify(match.match.homeTeam["name"])
+    away_slug = _slugify(match.match.awayTeam["name"])
+    league_slug = _slugify(match.match.league)
+    slug = f"{home_slug}-vs-{away_slug}-{league_slug}-tactical-analysis"
+
     frontmatter = {
         "title": llm_output.title,
         "description": llm_output.meta_description,
         "date": match.match.date_utc,
         "matchId": match.match.id,
+        "slug": slug,
         "league": match.match.league.lower().replace(" ", "-"),
         "teams": [match.match.homeTeam["name"], match.match.awayTeam["name"]],
         "tags": llm_output.tags,
