@@ -341,8 +341,9 @@ def build_article_json(
 
     home_slug = _slugify(match.match.homeTeam["name"])
     away_slug = _slugify(match.match.awayTeam["name"])
-    league_slug = _slugify(match.match.league)
-    slug = f"{home_slug}-vs-{away_slug}-{league_slug}-tactical-analysis"
+    # Slug format: team-a-vs-team-b-{match_id}
+    # Uniqueness guarantees > keyword density for recurring events
+    slug = f"{home_slug}-vs-{away_slug}-{match.match.id}"
 
     frontmatter = {
         "title": llm_output.title,
