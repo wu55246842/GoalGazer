@@ -1,4 +1,4 @@
-import type ReplicateClient from "replicate";
+
 
 /**
  * Pollinations AI API client for text generation.
@@ -294,22 +294,39 @@ async function generateImageReplicate(prompt: string, aspectRatio: string = '16:
         throw new Error('REPLICATE_API_TOKEN is not configured.');
     }
 
-    console.log(`   🎨 Calling Replicate [flux-schnell]...`);
+    console.log(`   🎨 Calling Replicate [flux-schnell] via Fetch...`);
 
-    const Replicate = (await import("replicate")).default as typeof ReplicateClient;
-    const replicate = new Replicate({
-        auth: apiKey,
+    const apiResponse = await fetch("https://api.replicate.com/v1/models/black-forest-labs/flux-schnell/predictions", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+            "Prefer": "wait"
+        },
+        body: JSON.stringify({
+            input: {
+                prompt,
+                aspect_ratio: aspectRatio,
+                disable_safety_checker: true,
+                output_format: "jpg",
+                go_fast: true
+            }
+        })
     });
 
-    const input = {
-        prompt,
-        aspect_ratio: aspectRatio,
-        disable_safety_checker: true,
-        output_format: 'jpg',
-        go_fast: true
-    };
+    if (!apiResponse.ok) {
+        const errorText = await apiResponse.text();
+        throw new Error(`Replicate API Error (${apiResponse.status}): ${errorText}`);
+    }
 
-    const output = await replicate.run("black-forest-labs/flux-schnell", { input });
+    const data = await apiResponse.json();
+
+    // Check if the prediction succeeded
+    if (data.status !== "succeeded") {
+        throw new Error(`Replicate prediction failed with status: ${data.status}`);
+    }
+
+    const output = data.output;
     let imageUrl: string;
 
     if (Array.isArray(output) && output.length > 0) {

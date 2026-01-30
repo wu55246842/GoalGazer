@@ -101,3 +101,25 @@ jobs:
           else
             echo "⏭️  Skipping $MATRIX_LEAGUE (Not requested in input)"
           fi
+
+      - name: Generate Daily Digest
+        env:
+            DATABASE_URL: ${{ secrets.DATABASE_URL }}
+            OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+            POLLINATIONS_API_KEY: ${{ secrets.POLLINATIONS_API_KEY }}
+            R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+            R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+            R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+            R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+            R2_PUBLIC_URL: ${{ secrets.R2_PUBLIC_URL }}
+        run: |
+          # Only run daily digest once (e.g. for one specific league in the matrix, or using a separate job)
+          # Since matrix runs in parallel, we want to avoid 5 runs of daily digest.
+          # We check if matrix.league == 'epl' (or any single one) to run it only once.
+          
+          if [ "${{ matrix.league }}" = "epl" ]; then
+             echo "🌞 Running Daily Digest Generation for today..."
+             npx tsx tools/pipeline/node/generate_daily_digest.ts
+          else
+             echo "⏭️  Skipping Daily Digest (Handle by 'epl' job to avoid duplicates)"
+          fi

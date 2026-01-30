@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "../globals.css";
 import SiteHeader from "../../components/SiteHeader";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import {

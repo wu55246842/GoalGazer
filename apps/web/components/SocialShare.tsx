@@ -58,7 +58,7 @@ const SocialShare: React.FC<SocialShareProps> = ({ url, title }) => {
     return (
         <div className="flex items-center gap-2 flex-wrap">
             <span className="text-white/40 text-xs font-medium uppercase tracking-wider mr-2 hidden sm:inline">Share:</span>
-            <div className="flex items-center gap-1 bg-white/5 backdrop-blur-md rounded-full p-1 border border-white/10 shadow-xl">
+            <div className="flex items-center gap-3 bg-white/5 backdrop-blur-md rounded-full p-1 border border-white/10 shadow-xl">
                 {shareLinks.map((link) => (
                     <a
                         key={link.name}

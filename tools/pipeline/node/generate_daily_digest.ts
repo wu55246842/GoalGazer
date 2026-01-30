@@ -22,8 +22,20 @@ function loadEnv() {
     }
 }
 
-async function generateDailyDigestForLang(dateStr: string, lang: string) {
+async function generateDailyDigestForLang(dateStr: string, lang: string, existingComicUrl?: string): Promise<string | undefined> {
     console.log(`🌞 Generating Daily Digest for ${dateStr} (${lang})...`);
+
+    // 0. Check if digest already exists
+    const [existing] = await sql`
+        SELECT id FROM daily_digests 
+        WHERE date_str = ${dateStr} AND lang = ${lang}
+        LIMIT 1
+    `;
+
+    if (existing) {
+        console.log(`⏭️  Daily Digest for ${dateStr} (${lang}) already exists. Skipping.`);
+        return;
+    }
 
     // 1. Fetch matches for that date
     const matches = await sql`
@@ -62,6 +74,9 @@ async function generateDailyDigestForLang(dateStr: string, lang: string) {
           "summary": "1-2 paragraphs of sharp, tactical editorial covering the day's trends.",
           "comic_prompt": "Description for a tactical comic illustration based on the day's main drama. No text in image."
         }
+        
+        IMPORTANT: You MUST write the 'title', 'headline', and 'summary' in the language: ${lang}.
+        If lang is 'zh', use Simplified Chinese. If lang is 'ja', use Japanese.
     `;
 
     console.log('   Calling Pollinations AI [openai]...');
@@ -75,14 +90,23 @@ async function generateDailyDigestForLang(dateStr: string, lang: string) {
     }
 
     // 4. Generate Comic Illustration
-    console.log('🎨 Generating Tactical Comic...');
-    const imagePrompt = `Football tactical comic illustration, editorial cartoon style, clean lines, professional colors, ${aiContent.comic_prompt}, no text, no logos, high quality`;
-    const imageBuffer = await generateImageBuffer(imagePrompt, 'zimage');
+    // 4. Generate Comic Illustration (or reuse existing)
+    let comicUrl = existingComicUrl;
 
-    // 5. Upload to R2
-    const fileName = `daily/comic-${dateStr}-${lang}.webp`;
-    const comicUrl = await uploadToR2(fileName, imageBuffer, 'image/webp');
-    console.log(`✅ Image uploaded: ${comicUrl}`);
+    if (comicUrl) {
+        console.log(`♻️  Reusing existing comic URL: ${comicUrl}`);
+    } else {
+        console.log('🎨 Generating Tactical Comic...');
+        const imagePrompt = `Football tactical comic illustration, editorial cartoon style, clean lines, professional colors, ${aiContent.comic_prompt}, no text, no logos, high quality`;
+        const imageBuffer = await generateImageBuffer(imagePrompt, 'zimage');
+
+        // 5. Upload to R2 (Use 'multi' or 'en' as language code to indicate shared? Or just keep original lang code, doesn't matter much)
+        // keeping original lang code for uniqueness per generation attempt, or we can use just 'en' if we are reusing.
+        // But since we are generating it now, we use the current lang code.
+        const fileName = `daily/comic-${dateStr}-${lang}.webp`;
+        comicUrl = await uploadToR2(fileName, imageBuffer, 'image/webp');
+        console.log(`✅ Image uploaded: ${comicUrl}`);
+    }
 
     // 6. Calculate Financial Value Fluctuations
     // Simulating logic based on player ratings from match content
@@ -126,22 +150,29 @@ async function generateDailyDigestForLang(dateStr: string, lang: string) {
     `;
 
     console.log(`🎉 Daily Digest for ${dateStr} (${lang}) saved!`);
+    return comicUrl;
 }
 
 async function run() {
     loadEnv();
     const args = process.argv.slice(2);
-    const dateArg = args.find(a => /^\d{4}-\d{2}-\d{2}$/.test(a));
+    let dateArg = args.find(a => /^\d{4}-\d{2}-\d{2}$/.test(a));
 
     if (!dateArg) {
-        console.error('❌ Please provide a date in YYYY-MM-DD format.');
-        process.exit(1);
+        const today = new Date();
+        dateArg = today.toISOString().split('T')[0];
+        console.log(`📅 No date provided. Defaulting to today: ${dateArg}`);
     }
 
     const langs = ['en', 'zh', 'ja'];
+    let sharedComicUrl: string | undefined;
+
     for (const lang of langs) {
         try {
-            await generateDailyDigestForLang(dateArg, lang);
+            const generatedUrl = await generateDailyDigestForLang(dateArg, lang, sharedComicUrl);
+            if (generatedUrl && !sharedComicUrl) {
+                sharedComicUrl = generatedUrl;
+            }
         } catch (e) {
             console.error(`❌ Error generating ${lang} digest:`, e);
         }

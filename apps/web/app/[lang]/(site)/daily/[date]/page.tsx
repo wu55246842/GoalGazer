@@ -59,22 +59,44 @@ export default async function DailyPage({ params: { lang, date } }: Props) {
     const { t } = await getT(normalizedLang);
 
     return (
-        <main className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-[#050505]">
-            <div className="max-w-7xl mx-auto">
-                {/* Header Section */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 border-b border-white/10 pb-8">
-                    <div>
-                        <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-2">
-                            THE <span className="text-emerald-500">TACTICAL</span> GAZETTE
+        <main className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-[#1a1a1a] bg-[url('/bg-newspaper-dark.png')] bg-repeat bg-fixed bg-contain relative">
+            <div className="absolute inset-0 bg-black/40 pointer-events-none mix-blend-multiply" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 pointer-events-none" />
+            <div className="max-w-7xl mx-auto relative z-10">
+                {/* Newspaper Masthead */}
+                <header className="mb-16 flex flex-col items-center">
+                    {/* Top Meta Bar */}
+                    <div className="w-full border-b-2 border-white/20 pb-2 mb-2 flex justify-between items-center font-mono text-xs uppercase tracking-[0.2em] text-white/50">
+                        <span>Vol. 1</span>
+                        <span>{date}</span>
+                        <span>{t("Daily.exclusive_analysis")}</span>
+                    </div>
+
+                    {/* Main Title */}
+                    <div className="py-8 text-center relative w-full">
+                        <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter font-serif leading-none">
+                            THE GAZETTE
                         </h1>
-                        <p className="text-white/60 font-mono text-sm uppercase tracking-widest">
-                            {date} • {t("Daily.exclusive_analysis")}
-                        </p>
+                        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-10 pointer-events-none">
+                            <span className="text-[10rem] font-serif italic text-emerald-500/20 mix-blend-overlay">Tactical</span>
+                        </div>
                     </div>
-                    <div className="mt-6 md:mt-0">
+
+                    {/* Bottom Meta Bar (Double Border) */}
+                    <div className="w-full border-t border-b-4 border-double border-white/20 py-3 flex justify-between items-center md:px-12">
+                        <div className="flex items-center gap-4 text-white/60 text-xs font-serif italic">
+                            <span>Since 2026</span>
+                            <span className="w-1 h-1 bg-white/20 rounded-full" />
+                            <span>Daily Edition</span>
+                        </div>
+
                         <SocialShare url={`https://goalgazer.xyz/${lang}/daily/${date}`} title={digest.title} />
+
+                        <div className="flex items-center gap-4 text-emerald-500 text-xs font-bold uppercase tracking-wider">
+                            GoalGazer Originals
+                        </div>
                     </div>
-                </div>
+                </header>
 
                 <DailyDigestView
                     digest={digest as any}

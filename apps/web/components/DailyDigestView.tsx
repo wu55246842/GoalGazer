@@ -31,139 +31,113 @@ interface Props {
 
 const DailyDigestView: React.FC<Props> = ({ digest, lang, t, matchHighlights = [] }) => {
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            {/* Front Page Headline & Main Story */}
-            <div className="lg:col-span-8 flex flex-col gap-8">
-                <div className="p-8 bg-white/[0.02] border border-white/10 rounded-3xl relative overflow-hidden group shadow-2xl">
-                    {/* Headline */}
-                    <div className="relative z-10">
-                        <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight group-hover:text-emerald-400 transition-colors duration-500">
-                            {digest.headline}
-                        </h2>
-
-                        <div className="prose prose-invert prose-emerald max-w-none">
-                            <p className="text-lg md:text-xl text-white/80 leading-relaxed font-serif first-letter:text-5xl first-letter:font-black first-letter:text-emerald-500 first-letter:mr-3 first-letter:float-left">
-                                {digest.summary}
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Glassmorphism background effect */}
-                    <div className="absolute -top-24 -right-24 w-64 h-64 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none group-hover:bg-emerald-500/20 transition-all duration-700" />
+        <div className="flex flex-col gap-16 font-serif text-white">
+            {/* HEADLINE SECTION */}
+            <section className="text-center space-y-8 border-b border-white/10 pb-12">
+                <h2 className="text-white text-6xl md:text-8xl font-black leading-[0.9] tracking-tighter uppercase font-serif hover:text-emerald-500 transition-colors duration-500">
+                    {digest.headline}
+                </h2>
+                <div className="flex justify-center items-center gap-4 text-sm font-mono tracking-widest text-white/60 uppercase">
+                    <span>Exclusive Report</span>
+                    <span className="w-1 h-1 bg-emerald-500 rounded-full" />
+                    <span>Tactical Deep Dive</span>
                 </div>
+            </section>
 
-                {/* Tactical Comic Illustration */}
-                {digest.comic_image_url && (
-                    <div className="flex flex-col gap-4">
-                        <div className="flex items-center gap-2 text-white/40 mb-2">
-                            <BookOpen className="w-4 h-4" />
-                            <span className="text-xs font-mono uppercase tracking-widest font-semibold">{t('Daily.tactical_comic')}</span>
-                        </div>
-                        <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
+            {/* MAIN CONTENT: Image + Columns */}
+            <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+                {/* Main Visual (Comic) - Spans 7 cols */}
+                <div className="lg:col-span-7 flex flex-col gap-4">
+                    {digest.comic_image_url && (
+                        <div className="group relative aspect-video w-full overflow-hidden border-4 border-white/10 bg-white/5">
                             <Image
                                 src={digest.comic_image_url}
-                                alt="Tactical Comic"
+                                alt="Tactical Editorial"
                                 fill
-                                className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
                                 priority
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
-                            <div className="absolute bottom-6 left-6 right-6">
-                                <span className="px-3 py-1 bg-emerald-500 text-black text-[10px] font-black rounded-full uppercase tracking-tighter">
-                                    {t('Daily.exclusive_production')}
-                                </span>
+                            <div className="absolute bottom-0 left-0 bg-black/80 px-4 py-2 text-xs font-mono text-emerald-500 border-t border-r border-emerald-500/30">
+                                FIG 1.0 — {t('Daily.tactical_comic')}
                             </div>
                         </div>
-                        <p className="text-white/40 text-xs italic text-center px-4 mt-2">
-                            {t('Daily.production_notice')}
+                    )}
+                    <p className="text-xs font-mono text-white/40 text-center uppercase tracking-widest border-t border-white/10 pt-4 mt-2">
+                        {t('Daily.production_notice')}
+                    </p>
+                </div>
+
+                {/* Editorial Columns - Spans 5 cols */}
+                <div className="lg:col-span-5 flex flex-col justify-between h-full">
+                    <div className="prose prose-lg max-w-none text-justify prose-headings:text-white prose-p:text-white/90 prose-strong:text-white prose-li:text-white/80">
+                        <p className="font-serif text-xl leading-relaxed text-white/90 first-letter:text-7xl first-letter:font-black first-letter:text-emerald-500 first-letter:mr-3 first-letter:float-left first-letter:leading-[0.8]">
+                            {digest.summary}
                         </p>
                     </div>
-                )}
 
-                {/* Match Highlights Gallery */}
-                {matchHighlights.length > 0 && (
-                    <div className="mt-12">
-                        <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-8 flex items-center gap-3">
-                            <span className="w-8 h-[2px] bg-emerald-500" />
-                            Featured Analysis
-                            <span className="w-8 h-[2px] bg-emerald-500" />
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {matchHighlights.map((match) => (
-                                <a
-                                    key={match.match_id}
-                                    href={`/${lang}/matches/${match.slug}`}
-                                    className="group relative h-48 rounded-2xl overflow-hidden border border-white/10 hover:border-emerald-500/50 transition-all duration-500 shadow-xl"
-                                >
+                    {/* Financial Ticker Box */}
+                    <div className="mt-12 p-6 border-y-2 border-white/10 bg-white/[0.02]">
+                        <div className="flex items-center justify-between mb-4 font-mono text-xs text-white/50 uppercase tracking-widest">
+                            <span>{t('Daily.financial_pulse')}</span>
+                            <span className="animate-pulse text-emerald-500">● LIVE</span>
+                        </div>
+                        <div className="divide-y divide-white/10">
+                            {digest.financial_movements?.map((move, i) => (
+                                <div key={i} className="flex justify-between items-center py-2 text-sm">
+                                    <span className="font-bold text-white/80">{move.player}</span>
+                                    <span className={`font-mono font-bold ${move.direction === 'up' ? 'text-emerald-500' : 'text-rose-500'}`}>
+                                        {move.direction === 'up' ? '▲' : '▼'} {move.change}%
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* SPORTS SECTION (Highlights Ribbon) */}
+            {matchHighlights.length > 0 && (
+                <section className="border-t-4 border-black border-double pt-12 mt-12">
+                    <div className="flex items-center gap-4 mb-8">
+                        <div className="bg-white text-black font-black px-4 py-1 text-xl uppercase tracking-tighter transform -rotate-2">
+                            Sports Section
+                        </div>
+                        <div className="h-px bg-white/20 flex-grow" />
+                        <span className="font-mono text-xs text-white/40 uppercase tracking-widest">Featured Matches</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {matchHighlights.map((match) => (
+                            <a
+                                key={match.match_id}
+                                href={`/${lang}/matches/${match.slug}`}
+                                className="group block space-y-4"
+                            >
+                                <div className="relative h-64 border border-white/20 overflow-hidden bg-white/5 grayscale group-hover:grayscale-0 transition-all duration-500">
                                     <Image
                                         src={match.image || '/placeholder-match.jpg'}
                                         alt={match.title}
                                         fill
-                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        className="object-cover"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                                    <div className="absolute bottom-4 left-4 right-4 text-left">
-                                        <div className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest mb-1">
-                                            {match.home_team} vs {match.away_team}
-                                        </div>
-                                        <h4 className="text-white font-bold text-sm leading-tight line-clamp-2">
-                                            {match.title}
-                                        </h4>
-                                    </div>
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
-
-            {/* Sidebar: Financials & Highlights */}
-            <div className="lg:col-span-4 flex flex-col gap-8">
-                {/* Financial Market Ticker */}
-                <section className="p-6 bg-white/[0.03] border border-white/10 rounded-2xl backdrop-blur-sm shadow-xl">
-                    <div className="flex items-center justify-between mb-6">
-                        <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-                            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                            {t('Daily.financial_pulse')}
-                        </h3>
-                        <span className="text-[10px] text-white/40 font-mono uppercase">{t('Daily.value_fluctuations')}</span>
-                    </div>
-
-                    <div className="space-y-4">
-                        {digest.financial_movements?.map((move, i) => (
-                            <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors group">
-                                <div className="flex flex-col text-left">
-                                    <span className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors uppercase tracking-tight">{move.player}</span>
-                                    <span className="text-[10px] text-white/40 uppercase tracking-widest">{move.team}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <div className={`flex items-center gap-1 font-mono font-black text-sm ${move.direction === 'up' ? 'text-emerald-400' : 'text-rose-500'}`}>
-                                        {move.direction === 'up' ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                                        +{move.change}%
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                                        <span className="text-emerald-400 font-mono text-xs uppercase underline underline-offset-4">Read Full Analysis &rarr;</span>
                                     </div>
                                 </div>
-                            </div>
+                                <div>
+                                    <div className="text-[10px] font-mono text-white/50 mb-1 border-b border-white/10 pb-1 inline-block">
+                                        {match.home_team} VS {match.away_team}
+                                    </div>
+                                    <h4 className="text-xl font-bold font-serif leading-tight text-white group-hover:text-emerald-400 transition-colors">
+                                        {match.title}
+                                    </h4>
+                                </div>
+                            </a>
                         ))}
                     </div>
-
-                    <div className="mt-6 pt-6 border-t border-white/5">
-                        <div className="flex items-start gap-3 bg-white/5 rounded-2xl p-4 italic text-sm text-white/60">
-                            <Quote className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-                            <p className="leading-relaxed">
-                                "{t('Daily.ticker_notice')}"
-                            </p>
-                        </div>
-                    </div>
                 </section>
-
-                {/* Legend / Info */}
-                <section className="p-6 border border-white/10 rounded-2xl">
-                    <h4 className="text-xs font-mono text-white/40 uppercase tracking-widest mb-4">{t('Daily.about_edition')}</h4>
-                    <p className="text-xs leading-relaxed text-white/40">
-                        {t('Daily.about_desc')}
-                    </p>
-                </section>
-            </div>
+            )}
         </div>
     );
 };
