@@ -52,7 +52,7 @@ export default async function TermsPage({ params }: TermsPageProps) {
       ))}
       <div style={{ marginTop: "2rem" }}>
         <p>
-          <strong>{t("terms.contactEmailLabel")}</strong> editorial@goalgazer.example
+          <strong>{t("terms.contactEmailLabel")}</strong> wuliangtech0118@gmail.com
         </p>
         <p>
           <strong>{t("terms.questionsTitle")}</strong> {t("terms.questionsBody")}

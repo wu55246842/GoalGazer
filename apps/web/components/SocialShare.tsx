@@ -57,8 +57,8 @@ const SocialShare: React.FC<SocialShareProps> = ({ url, title }) => {
 
     return (
         <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-white/40 text-xs font-medium uppercase tracking-wider mr-2 hidden sm:inline">Share:</span>
-            <div className="flex items-center gap-3 bg-white/5 backdrop-blur-md rounded-full p-1 border border-white/10 shadow-xl">
+            <span className="text-gray-500 text-xs font-medium uppercase tracking-wider mr-2 hidden sm:inline">Share:</span>
+            <div className="flex items-center gap-3 bg-neutral-900 text-white rounded-full p-1.5 border border-neutral-200/20 shadow-sm">
                 {shareLinks.map((link) => (
                     <a
                         key={link.name}
@@ -66,14 +66,14 @@ const SocialShare: React.FC<SocialShareProps> = ({ url, title }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         title={link.name}
-                        className={`p-2 rounded-full text-white/70 ${link.color} hover:text-white transition-all duration-300 hover:scale-110 active:scale-95`}
+                        className={`p-1.5 rounded-full text-white/80 ${link.color} hover:text-white transition-all duration-300 hover:scale-110 active:scale-95`}
                     >
                         {link.icon}
                     </a>
                 ))}
                 <button
                     onClick={copyToClipboard}
-                    className="p-2 rounded-full text-white/70 hover:bg-white/10 hover:text-white transition-all duration-300 hover:scale-110 active:scale-95"
+                    className="p-1 rounded-full text-white/80 hover:bg-white/10 hover:text-white transition-all duration-300 hover:scale-110 active:scale-95"
                     title="Copy Link"
                 >
                     {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <LinkIcon className="w-4 h-4" />}

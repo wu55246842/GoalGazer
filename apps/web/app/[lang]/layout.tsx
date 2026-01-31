@@ -10,6 +10,7 @@ import {
   SUPPORTED_LANGS,
 } from "@/i18n";
 import { buildCanonicalUrl, buildLanguageAlternates } from "@/lib/seo";
+import CookieConsent from "../../components/CookieConsent";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.goalgazer.example";
 
@@ -171,6 +172,7 @@ export default async function LocaleLayout({
             </div>
           </div>
         </footer>
+        <CookieConsent />
       </div>
     </I18nProvider>
   );

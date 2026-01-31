@@ -36,7 +36,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
       <h1>{t("contact.title")}</h1>
       <p>
         {t("contact.intro")}
-        <a href="mailto:editorial@goalgazer.example">editorial@goalgazer.example</a>
+        <a href="mailto:wuliangtech0118@gmail.com">wuliangtech0118@gmail.com</a>
         {t("contact.introSuffix")}
       </p>
       <p>{t("contact.outro")}</p>
