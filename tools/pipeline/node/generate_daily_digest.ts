@@ -53,12 +53,12 @@ async function generateDailyDigestForLang(dateStr: string, lang: string, league:
     // The CLI passes "epl". We need a map.
 
     const leagueMap: Record<string, string> = {
-        'epl': 'Premier League',
-        'liga': 'La Liga',
-        'bundesliga': 'Bundesliga',
-        'seriea': 'Serie A',
-        'ligue1': 'Ligue 1',
-        'ucl': 'UEFA Champions League'
+        'epl': 'premier-league',
+        'liga': 'la-liga',
+        'bundesliga': 'bundesliga',
+        'seriea': 'serie-a',
+        'ligue1': 'ligue-1',
+        'ucl': 'uefa-champions-league'
     };
 
     const dbLeagueName = leagueMap[league] || league;

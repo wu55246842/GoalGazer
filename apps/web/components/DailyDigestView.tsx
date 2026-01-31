@@ -28,7 +28,7 @@ interface Props {
     lang: string;
     t: TFunction;
     matchHighlights?: any[];
-    availableLeagues?: { league: string }[];
+    availableLeagues?: { league: string; comic_image_url?: string; headline?: string }[];
 }
 
 const DailyDigestView: React.FC<Props> = ({ digest, lang, t, matchHighlights = [], availableLeagues = [] }) => {
@@ -103,35 +103,11 @@ const DailyDigestView: React.FC<Props> = ({ digest, lang, t, matchHighlights = [
                 </div>
             </section>
 
-            {/* LEAGUE SWITCHER / GLOBAL EDITIONS */}
-            {availableLeagues.length > 0 && (
-                <section className="border-t-4 border-black border-double pt-12 mt-4">
-                    <div className="flex items-center gap-4 mb-6">
-                        <div className="bg-white text-black font-black px-4 py-1 text-xl uppercase tracking-tighter transform -rotate-1">
-                            Global Editions
-                        </div>
-                        <div className="h-px bg-white/20 flex-grow" />
-                        <span className="font-mono text-xs text-white/40 uppercase tracking-widest">Switch League</span>
-                    </div>
-                    <div className="flex flex-wrap gap-4">
-                        {availableLeagues.map((l) => (
-                            <a
-                                key={l.league}
-                                href={`/${lang}/daily/${digest.date_str}?league=${l.league}`}
-                                className={`px-6 py-3 border border-white/20 hover:bg-white/10 transition-colors uppercase font-mono text-sm tracking-widest ${l.league === digest.league ? 'bg-white text-black border-white' : 'text-white'}`}
-                            >
-                                {l.league === 'epl' ? 'Premier League' : l.league}
-                            </a>
-                        ))}
-                    </div>
-                </section>
-            )}
-
             {/* SPORTS SECTION (Highlights Ribbon) */}
-            {matchHighlights.length > 0 && (
-                <section className="border-t border-white/10 pt-12 mt-12">
+            {/* {matchHighlights.length > 0 && (
+                <section className="border-t-4 border-black border-double pt-12 mt-12">
                     <div className="flex items-center gap-4 mb-8">
-                        <div className="bg-transparent border border-white/20 text-white px-4 py-1 text-lg uppercase tracking-widest font-mono">
+                        <div className="bg-white text-black font-black px-4 py-1 text-xl uppercase tracking-tighter transform -rotate-2">
                             Sports Section
                         </div>
                         <div className="h-px bg-white/20 flex-grow" />
@@ -163,6 +139,51 @@ const DailyDigestView: React.FC<Props> = ({ digest, lang, t, matchHighlights = [
                                     <h4 className="text-xl font-bold font-serif leading-tight text-white group-hover:text-emerald-400 transition-colors">
                                         {match.title}
                                     </h4>
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            )} */}
+
+            {/* LEAGUE SWITCHER / GLOBAL EDITIONS (Now at Bottom with Images) */}
+            {availableLeagues.length > 0 && (
+                <section className="border-t border-white/10 pt-12 mt-4 pb-12">
+                    <div className="flex items-center gap-4 mb-8">
+                        <div className="bg-transparent border border-white/20 text-white px-4 py-1 text-lg uppercase tracking-widest font-mono">
+                            Global Editions
+                        </div>
+                        <div className="h-px bg-white/20 flex-grow" />
+                        <span className="font-mono text-xs text-white/40 uppercase tracking-widest">Other Leagues Today</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        {availableLeagues.map((l) => (
+                            <a
+                                key={l.league}
+                                href={`/${lang}/daily/${digest.date_str}?league=${l.league}`}
+                                className={`group relative aspect-[3/4] border border-white/20 bg-white/5 overflow-hidden block ${l.league === digest.league ? 'ring-2 ring-emerald-500' : ''}`}
+                            >
+                                {/* Image Background */}
+                                <Image
+                                    src={l.comic_image_url || '/placeholder-match.jpg'} // Fallback if no comic
+                                    alt={l.headline || l.league}
+                                    fill
+                                    className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                                />
+                                {/* Overlay Gradient */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
+
+                                {/* Top Left Badge (League Name) */}
+                                <div className="absolute top-0 left-0 bg-black/80 text-white text-[10px] font-mono uppercase tracking-widest px-2 py-1 border-b border-r border-white/20">
+                                    {l.league === 'epl' ? 'Premier League' : l.league}
+                                </div>
+
+                                {/* Active Indicator or Hover Text */}
+                                <div className="absolute bottom-0 left-0 w-full p-3 text-center transition-transform duration-300 transform translate-y-2 group-hover:translate-y-0">
+                                    <span className="inline-block text-emerald-400 text-xs uppercase font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-b border-emerald-400 pb-0.5">
+                                        Read Issue
+                                    </span>
                                 </div>
                             </a>
                         ))}

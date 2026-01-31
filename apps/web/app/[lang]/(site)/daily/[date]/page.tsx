@@ -60,7 +60,7 @@ export default async function DailyPage({ params: { lang, date }, searchParams }
 
     // 3. Fetch all available leagues for this date to build the switcher
     const availableLeagues = await sql`
-        SELECT league 
+        SELECT league, comic_image_url, headline
         FROM daily_digests 
         WHERE date_str = ${date} AND lang = ${normalizedLang}
     `;
