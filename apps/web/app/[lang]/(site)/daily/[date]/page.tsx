@@ -32,18 +32,38 @@ export async function generateMetadata({ params: { lang, date } }: Props): Promi
     };
 }
 
-export default async function DailyPage({ params: { lang, date } }: Props) {
+export default async function DailyPage({ params: { lang, date }, searchParams }: Props & { searchParams: { league?: string } }) {
     const normalizedLang = normalizeLang(lang);
-    const [digest] = await sql`
-    SELECT * 
-    FROM daily_digests 
-    WHERE date_str = ${date} AND lang = ${normalizedLang}
-    LIMIT 1
-  `;
+    const requestedLeague = searchParams.league || 'epl';
+
+    // 1. Try to fetch the requested league digest
+    let [digest] = await sql`
+        SELECT * 
+        FROM daily_digests 
+        WHERE date_str = ${date} AND lang = ${normalizedLang} AND league = ${requestedLeague}
+        LIMIT 1
+    `;
+
+    // 2. If requested league (specifically EPL default) not found, try ANY digest for that date
+    if (!digest && requestedLeague === 'epl') {
+        [digest] = await sql`
+            SELECT * 
+            FROM daily_digests 
+            WHERE date_str = ${date} AND lang = ${normalizedLang}
+            LIMIT 1
+        `;
+    }
 
     if (!digest) {
         notFound();
     }
+
+    // 3. Fetch all available leagues for this date to build the switcher
+    const availableLeagues = await sql`
+        SELECT league 
+        FROM daily_digests 
+        WHERE date_str = ${date} AND lang = ${normalizedLang}
+    `;
 
     // Fetch details for the matches included in this digest
     let matchHighlights: any[] = [];
@@ -103,6 +123,7 @@ export default async function DailyPage({ params: { lang, date } }: Props) {
                     lang={normalizedLang}
                     t={t}
                     matchHighlights={matchHighlights}
+                    availableLeagues={availableLeagues as any}
                 />
             </div>
         </main>

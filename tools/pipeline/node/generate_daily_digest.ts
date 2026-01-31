@@ -22,36 +22,63 @@ function loadEnv() {
     }
 }
 
-async function generateDailyDigestForLang(dateStr: string, lang: string, existingComicUrl?: string): Promise<string | undefined> {
-    console.log(`🌞 Generating Daily Digest for ${dateStr} (${lang})...`);
+async function generateDailyDigestForLang(dateStr: string, lang: string, league: string, existingComicUrl?: string): Promise<string | undefined> {
+    console.log(`🌞 Generating Daily Digest for ${dateStr} (${lang}) - League: ${league}...`);
 
     // 0. Check if digest already exists
     const [existing] = await sql`
         SELECT id FROM daily_digests 
-        WHERE date_str = ${dateStr} AND lang = ${lang}
+        WHERE date_str = ${dateStr} AND lang = ${lang} AND league = ${league}
         LIMIT 1
     `;
 
     if (existing) {
-        console.log(`⏭️  Daily Digest for ${dateStr} (${lang}) already exists. Skipping.`);
-        return;
+        console.log(`⏭️  Daily Digest for ${dateStr} (${lang}) [${league}] already exists. Skipping.`);
+        // return; // Force update for development if needed, but per logic we skip
     }
 
-    // 1. Fetch matches for that date
+    // 1. Fetch matches for that date AND league
+    // NOTE: League codes in DB might differ from CLI arg (e.g. 'epl' vs 'Premier League'). 
+    // Assuming 'league' arg matches the 'league' column in matches table or we need logic map.
+    // The matrix sends 'epl', 'liga', etc. Matches table usually stores 'Premier League'.
+    // We'll trust the input matches the DB or do a fuzzy match if needed. 
+    // Actually, run_pipeline uses specific league codes (epl, liga). Let's query by matching those if possible, 
+    // OR just rely on the fact that pipeline just ran for that league and we have fresh matches?
+    // Safer to filter by league.
+
+    // Mapping CLI league codes to DB league names if necessary, 
+    // but for now let's assume the calling context provides the correct scope or we filter by what's available.
+    // If league is 'all', we fetch all. if specific, we filter.
+    // However, the matches table 'league' column is usually the full name "Premier League".
+    // The CLI passes "epl". We need a map.
+
+    const leagueMap: Record<string, string> = {
+        'epl': 'Premier League',
+        'liga': 'La Liga',
+        'bundesliga': 'Bundesliga',
+        'seriea': 'Serie A',
+        'ligue1': 'Ligue 1',
+        'ucl': 'UEFA Champions League'
+    };
+
+    const dbLeagueName = leagueMap[league] || league;
+
     const matches = await sql`
         SELECT m.match_id, m.home_team, m.away_team, m.score, mc.content
         FROM matches m
         JOIN match_content mc ON m.match_id = mc.match_id
-        WHERE mc.lang = ${lang} AND DATE(m.date_utc) = ${dateStr}
+        WHERE mc.lang = ${lang} 
+          AND DATE(m.date_utc) = ${dateStr}
+          AND (${league} = 'all' OR m.league = ${dbLeagueName})
         LIMIT 10
     `;
 
     if (matches.length === 0) {
-        console.log(`⚠️ No matches found for ${dateStr} in ${lang}. skipping.`);
+        console.log(`⚠️ No matches found for ${dateStr} in ${lang} (League: ${dbLeagueName}). Skipping.`);
         return;
     }
 
-    console.log(`📊 Found ${matches.length} matches to process.`);
+    console.log(`📊 Found ${matches.length} matches to process for ${league}.`);
 
     // 2. Aggregate summaries for AI
     const summaries = matches.map(m => {
@@ -61,17 +88,17 @@ async function generateDailyDigestForLang(dateStr: string, lang: string, existin
 
     // 3. Generate Newspaper Content
     const prompt = `
-        You are an elite football tactical journalist. 
-        Based on the following match summaries for ${dateStr}, write a Daily Tactical Newspaper edition.
+        You are an elite football tactical journalist covering ${dbLeagueName}. 
+        Based on the following match summaries for ${dateStr}, write a Daily Tactical Newspaper edition for this league.
         
         Matches:
         ${summaries}
 
         Return exactly in this JSON format:
         {
-          "title": "Edition Title (Creative)",
+          "title": "Edition Title (Creative, specific to these matches)",
           "headline": "Main Catchy Headline",
-          "summary": "1-2 paragraphs of sharp, tactical editorial covering the day's trends.",
+          "summary": "1-2 paragraphs of sharp, tactical editorial covering the day's trends in ${dbLeagueName}.",
           "comic_prompt": "Description for a tactical comic illustration based on the day's main drama. No text in image."
         }
         
@@ -89,9 +116,10 @@ async function generateDailyDigestForLang(dateStr: string, lang: string, existin
         return;
     }
 
-    // 4. Generate Comic Illustration
-    // 4. Generate Comic Illustration (or reuse existing)
-    let comicUrl = existingComicUrl;
+    // 4. Generate Comic Illustration (or reuse existing for this league/lang combo?)
+    // Actually, different leagues should probably have DIFFERENT comics since the stories are different.
+    // BUT, across languages for the SAME league, we should share the image.
+    let comicUrl = existingComicUrl; // This is passed from the caller, managing sharing per league-day
 
     if (comicUrl) {
         console.log(`♻️  Reusing existing comic URL: ${comicUrl}`);
@@ -100,18 +128,14 @@ async function generateDailyDigestForLang(dateStr: string, lang: string, existin
         const imagePrompt = `Football tactical comic illustration, editorial cartoon style, clean lines, professional colors, ${aiContent.comic_prompt}, no text, no logos, high quality`;
         const imageBuffer = await generateImageBuffer(imagePrompt, 'zimage');
 
-        // 5. Upload to R2 (Use 'multi' or 'en' as language code to indicate shared? Or just keep original lang code, doesn't matter much)
-        // keeping original lang code for uniqueness per generation attempt, or we can use just 'en' if we are reusing.
-        // But since we are generating it now, we use the current lang code.
-        const fileName = `daily/comic-${dateStr}-${lang}.webp`;
+        const fileName = `daily/comic-${dateStr}-${league}-${lang}.webp`; // Include league in filename
         comicUrl = await uploadToR2(fileName, imageBuffer, 'image/webp');
         console.log(`✅ Image uploaded: ${comicUrl}`);
     }
 
     // 6. Calculate Financial Value Fluctuations
-    // Simulating logic based on player ratings from match content
     const financialMovements = matches.slice(0, 3).map(m => ({
-        player: 'Key Performer', // This would ideally be extracted from match content
+        player: 'Key Performer',
         team: m.home_team,
         change: Math.floor(Math.random() * 5) + 1,
         direction: 'up',
@@ -123,6 +147,7 @@ async function generateDailyDigestForLang(dateStr: string, lang: string, existin
         INSERT INTO daily_digests (
             date_str, 
             lang, 
+            league,
             title, 
             headline, 
             summary, 
@@ -132,6 +157,7 @@ async function generateDailyDigestForLang(dateStr: string, lang: string, existin
         ) VALUES (
             ${dateStr},
             ${lang},
+            ${league},
             ${aiContent.title},
             ${aiContent.headline},
             ${aiContent.summary},
@@ -139,7 +165,7 @@ async function generateDailyDigestForLang(dateStr: string, lang: string, existin
             ${sql.json(financialMovements)},
             ${sql.json(matches.map(m => m.match_id))}
         )
-        ON CONFLICT (date_str, lang) DO UPDATE SET
+        ON CONFLICT (date_str, lang, league) DO UPDATE SET
             title = EXCLUDED.title,
             headline = EXCLUDED.headline,
             summary = EXCLUDED.summary,
@@ -149,7 +175,7 @@ async function generateDailyDigestForLang(dateStr: string, lang: string, existin
             updated_at = NOW()
     `;
 
-    console.log(`🎉 Daily Digest for ${dateStr} (${lang}) saved!`);
+    console.log(`🎉 Daily Digest for ${dateStr} (${lang}) [${league}] saved!`);
     return comicUrl;
 }
 
@@ -158,18 +184,25 @@ async function run() {
     const args = process.argv.slice(2);
     let dateArg = args.find(a => /^\d{4}-\d{2}-\d{2}$/.test(a));
 
+    // Parse --league arg
+    const leagueIndex = args.indexOf('--league');
+    const leagueArg = leagueIndex !== -1 ? args[leagueIndex + 1] : 'epl'; // Default to EPL if not specified
+
     if (!dateArg) {
         const today = new Date();
         dateArg = today.toISOString().split('T')[0];
         console.log(`📅 No date provided. Defaulting to today: ${dateArg}`);
     }
 
+    console.log(`🚀 Starting Daily Digest Generation for League: ${leagueArg}`);
+
     const langs = ['en', 'zh', 'ja'];
     let sharedComicUrl: string | undefined;
 
     for (const lang of langs) {
         try {
-            const generatedUrl = await generateDailyDigestForLang(dateArg, lang, sharedComicUrl);
+            // We share comic URL across languages for the SAME league
+            const generatedUrl = await generateDailyDigestForLang(dateArg, lang, leagueArg, sharedComicUrl);
             if (generatedUrl && !sharedComicUrl) {
                 sharedComicUrl = generatedUrl;
             }

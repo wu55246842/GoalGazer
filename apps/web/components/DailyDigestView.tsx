@@ -15,6 +15,7 @@ interface DailyDigest {
     id: number;
     date_str: string;
     lang: string;
+    league: string; // Added league
     title: string;
     headline: string;
     summary: string;
@@ -27,13 +28,19 @@ interface Props {
     lang: string;
     t: TFunction;
     matchHighlights?: any[];
+    availableLeagues?: { league: string }[];
 }
 
-const DailyDigestView: React.FC<Props> = ({ digest, lang, t, matchHighlights = [] }) => {
+const DailyDigestView: React.FC<Props> = ({ digest, lang, t, matchHighlights = [], availableLeagues = [] }) => {
     return (
         <div className="flex flex-col gap-16 font-serif text-white">
             {/* HEADLINE SECTION */}
             <section className="text-center space-y-8 border-b border-white/10 pb-12">
+                <div className="flex justify-center mb-4">
+                    <span className="bg-emerald-900/50 text-emerald-400 border border-emerald-500/30 px-3 py-1 text-xs font-mono uppercase tracking-widest rounded-full">
+                        {digest.league === 'epl' ? 'Premier League' : digest.league} Edition
+                    </span>
+                </div>
                 <h2 className="text-white text-6xl md:text-8xl font-black leading-[0.9] tracking-tighter uppercase font-serif hover:text-emerald-500 transition-colors duration-500">
                     {digest.headline}
                 </h2>
@@ -96,15 +103,39 @@ const DailyDigestView: React.FC<Props> = ({ digest, lang, t, matchHighlights = [
                 </div>
             </section>
 
+            {/* LEAGUE SWITCHER / GLOBAL EDITIONS */}
+            {availableLeagues.length > 0 && (
+                <section className="border-t-4 border-black border-double pt-12 mt-4">
+                    <div className="flex items-center gap-4 mb-6">
+                        <div className="bg-white text-black font-black px-4 py-1 text-xl uppercase tracking-tighter transform -rotate-1">
+                            Global Editions
+                        </div>
+                        <div className="h-px bg-white/20 flex-grow" />
+                        <span className="font-mono text-xs text-white/40 uppercase tracking-widest">Switch League</span>
+                    </div>
+                    <div className="flex flex-wrap gap-4">
+                        {availableLeagues.map((l) => (
+                            <a
+                                key={l.league}
+                                href={`/${lang}/daily/${digest.date_str}?league=${l.league}`}
+                                className={`px-6 py-3 border border-white/20 hover:bg-white/10 transition-colors uppercase font-mono text-sm tracking-widest ${l.league === digest.league ? 'bg-white text-black border-white' : 'text-white'}`}
+                            >
+                                {l.league === 'epl' ? 'Premier League' : l.league}
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            )}
+
             {/* SPORTS SECTION (Highlights Ribbon) */}
             {matchHighlights.length > 0 && (
-                <section className="border-t-4 border-black border-double pt-12 mt-12">
+                <section className="border-t border-white/10 pt-12 mt-12">
                     <div className="flex items-center gap-4 mb-8">
-                        <div className="bg-white text-black font-black px-4 py-1 text-xl uppercase tracking-tighter transform -rotate-2">
+                        <div className="bg-transparent border border-white/20 text-white px-4 py-1 text-lg uppercase tracking-widest font-mono">
                             Sports Section
                         </div>
                         <div className="h-px bg-white/20 flex-grow" />
-                        <span className="font-mono text-xs text-white/40 uppercase tracking-widest">Featured Matches</span>
+                        <span className="font-mono text-xs text-white/40 uppercase tracking-widest">Matches in this Issue</span>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

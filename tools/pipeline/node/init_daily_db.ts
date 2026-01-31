@@ -13,6 +13,7 @@ async function initDailyDb() {
         id SERIAL PRIMARY KEY,
         date_str VARCHAR(20) NOT NULL, -- e.g. "2024-01-30"
         lang VARCHAR(10) NOT NULL,
+        league VARCHAR(50) NOT NULL DEFAULT 'epl',
         title TEXT,
         headline TEXT,
         summary TEXT,
@@ -21,7 +22,7 @@ async function initDailyDb() {
         match_ids JSONB,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-        UNIQUE(date_str, lang)
+        UNIQUE(date_str, lang, league)
       );
     `;
 

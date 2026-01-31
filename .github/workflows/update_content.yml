@@ -117,9 +117,6 @@ jobs:
           # Since matrix runs in parallel, we want to avoid 5 runs of daily digest.
           # We check if matrix.league == 'epl' (or any single one) to run it only once.
           
-          if [ "${{ matrix.league }}" = "epl" ]; then
-             echo "🌞 Running Daily Digest Generation for today..."
-             npx tsx tools/pipeline/node/generate_daily_digest.ts
-          else
-             echo "⏭️  Skipping Daily Digest (Handle by 'epl' job to avoid duplicates)"
-          fi
+          # Run daily digest for the current league in the matrix
+          echo "🌞 Running Daily Digest Generation for ${{ matrix.league }}..."
+          npx tsx tools/pipeline/node/generate_daily_digest.ts --league ${{ matrix.league }}

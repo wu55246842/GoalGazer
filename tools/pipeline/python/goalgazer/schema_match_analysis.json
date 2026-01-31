@@ -234,16 +234,28 @@
             ]
           },
           "teamId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "teamName": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "playerId": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "playerName": {
-            "type": "string"
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "assistId": {
             "type": [
