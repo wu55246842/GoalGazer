@@ -9,23 +9,52 @@ interface Props {
     params: { lang: string; date: string };
 }
 
-export async function generateMetadata({ params: { lang, date } }: Props): Promise<Metadata> {
+export async function generateMetadata({ params: { lang, date }, searchParams }: Props & { searchParams: { league?: string } }): Promise<Metadata> {
     const normalizedLang = normalizeLang(lang);
-    const [digest] = await sql`
-    SELECT title, headline, summary 
-    FROM daily_digests 
-    WHERE date_str = ${date} AND lang = ${normalizedLang}
-    LIMIT 1
-  `;
+    const requestedLeague = searchParams.league || 'epl';
 
-    if (!digest) return { title: "Daily Tactics" };
+    // 1. Fetch digest with match_ids
+    let [digest] = await sql`
+        SELECT title, headline, summary, match_ids
+        FROM daily_digests 
+        WHERE date_str = ${date} AND lang = ${normalizedLang} AND league = ${requestedLeague}
+        LIMIT 1
+    `;
+
+    // Fallback logic for metadata matching page logic
+    if (!digest && requestedLeague === 'epl') {
+        [digest] = await sql`
+            SELECT title, headline, summary, match_ids
+            FROM daily_digests 
+            WHERE date_str = ${date} AND lang = ${normalizedLang}
+            LIMIT 1
+        `;
+    }
+
+    if (!digest) return { title: `Football Tactics Daily - ${date}` };
+
+    // 2. Fetch match names for SEO keywords
+    let matchKeywords = "";
+    if (digest.match_ids && Array.isArray(digest.match_ids) && digest.match_ids.length > 0) {
+        const matches = await sql`
+            SELECT home_team, away_team
+            FROM matches
+            WHERE match_id IN ${sql(digest.match_ids)}
+        `;
+        const matchNames = matches.map(m => `${m.home_team} vs ${m.away_team}`).join(", ");
+        matchKeywords = matchNames;
+    }
+
+    const fullTitle = `${digest.title}: ${matchKeywords} | GoalGazer`;
+    const description = `${digest.headline}. Tactical analysis for ${matchKeywords}. ${digest.summary.slice(0, 100)}...`;
 
     return {
-        title: `${digest.title} - GoalGazer ${date}`,
-        description: digest.headline,
+        title: fullTitle.slice(0, 60), // SEO optimal length
+        description: description.slice(0, 160), // SEO optimal length
+        keywords: [requestedLeague, "football tactics", "match analysis", ...matchKeywords.split(/[ ,]+/)].filter(Boolean),
         openGraph: {
-            title: digest.title,
-            description: digest.headline,
+            title: fullTitle,
+            description: description,
             type: "article",
             publishedTime: date,
         },
@@ -78,8 +107,34 @@ export default async function DailyPage({ params: { lang, date }, searchParams }
 
     const { t } = await getT(normalizedLang);
 
+    // 4. Construct JSON-LD for SEO
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": digest.headline,
+        "image": [digest.comic_image_url],
+        "datePublished": date,
+        "dateModified": digest.updated_at,
+        "author": [{
+            "@type": "Organization",
+            "name": "GoalGazer AI",
+            "url": "https://goalgazer.xyz"
+        }],
+        "about": matchHighlights.map(match => ({
+            "@type": "SportsEvent",
+            "name": `${match.home_team} vs ${match.away_team}`,
+            "homeTeam": { "@type": "SportsTeam", "name": match.home_team },
+            "awayTeam": { "@type": "SportsTeam", "name": match.away_team },
+            "sport": "Football"
+        }))
+    };
+
     return (
         <main className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 bg-[#1a1a1a] bg-[url('/bg-newspaper-dark.png')] bg-repeat bg-fixed bg-contain relative">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <div className="absolute inset-0 bg-black/40 pointer-events-none mix-blend-multiply" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 pointer-events-none" />
             <div className="max-w-7xl mx-auto relative z-10">
