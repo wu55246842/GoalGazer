@@ -104,6 +104,13 @@ export async function readMatchArticle(
 
     if (rows.length > 0) {
       const article = rows[0].content as MatchArticle;
+
+      // Ensure article has valid structure
+      if (!article || !article.frontmatter) {
+        console.error(`Malformed article data for ${matchSlugOrId}`);
+        return { article: null, resolvedLang: normalizedLang, fallback: false };
+      }
+
       article.frontmatter.slug = rows[0].slug;
       if (rows[0].image) {
         article.frontmatter = {
@@ -131,6 +138,13 @@ export async function readMatchArticle(
       `;
       if (fallbackRows.length > 0) {
         const article = fallbackRows[0].content as MatchArticle;
+
+        // Ensure article has valid structure
+        if (!article || !article.frontmatter) {
+          console.error(`Malformed fallback article data for ${matchSlugOrId}`);
+          return { article: null, resolvedLang: "en", fallback: true };
+        }
+
         article.frontmatter.slug = fallbackRows[0].slug;
         if (fallbackRows[0].image) {
           article.frontmatter = {
@@ -190,7 +204,15 @@ export async function readMatchIndex(options: MatchListOptions = {}): Promise<{ 
         m.image,
         COALESCE(mc.title, m.home_team || ' vs ' || m.away_team) as title,
         COALESCE(mc.description, '') as description,
-        COALESCE(mc.slug, m.match_id) as slug
+        COALESCE(
+          mc.slug, 
+          LOWER(
+            REGEXP_REPLACE(
+              REGEXP_REPLACE(m.home_team || '-vs-' || m.away_team || '-' || m.match_id, '[^a-zA-Z0-9-]', '-', 'g'),
+              '-+', '-', 'g'
+            )
+          )
+        ) as slug
       FROM matches m
       LEFT JOIN match_content mc ON m.match_id = mc.match_id AND mc.lang = ${normalizedLang}
     `;

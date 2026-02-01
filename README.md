@@ -148,4 +148,7 @@ npm run pipeline -- --league epl --season 2025
 npm run pipeline -- "league=seriea" "season=2025"
 
 # generate daily digest
-npx tsx tools/pipeline/node/generate_daily_digest.ts 2026-01-28
+npx tsx tools/pipeline/node/generate_daily_digest.ts 2026-01-31
+npx tsx tools/pipeline/node/generate_daily_digest.ts 2026-01-31 --league liga
+
+npm run web:dev

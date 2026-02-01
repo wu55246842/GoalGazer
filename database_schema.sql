@@ -25,7 +25,9 @@ CREATE TABLE IF NOT EXISTS matches (
     -- 比分（如 '2-1'）
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     -- 记录创建时间
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() -- 记录更新时间
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    -- 记录更新时间
+    image TEXT
 );
 -- 为match_id创建唯一索引（已通过UNIQUE约束实现）
 -- 为league和season创建复合索引以优化查询
