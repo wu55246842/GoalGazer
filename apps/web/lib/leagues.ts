@@ -16,7 +16,7 @@ export const SUPPORTED_LEAGUES: Record<string, LeagueConfig> = {
         country: "England",
         logo: "https://media.api-sports.io/football/leagues/39.png",
         flag: "https://media.api-sports.io/flags/gb.svg",
-        season: 2023,
+        season: 2025,
     },
     liga: {
         id: 140,
@@ -25,7 +25,7 @@ export const SUPPORTED_LEAGUES: Record<string, LeagueConfig> = {
         country: "Spain",
         logo: "https://media.api-sports.io/football/leagues/140.png",
         flag: "https://media.api-sports.io/flags/es.svg",
-        season: 2023,
+        season: 2025,
     },
     bundesliga: {
         id: 78,
@@ -34,7 +34,7 @@ export const SUPPORTED_LEAGUES: Record<string, LeagueConfig> = {
         country: "Germany",
         logo: "https://media.api-sports.io/football/leagues/78.png",
         flag: "https://media.api-sports.io/flags/de.svg",
-        season: 2023,
+        season: 2025,
     },
     seriea: {
         id: 135,
@@ -43,7 +43,7 @@ export const SUPPORTED_LEAGUES: Record<string, LeagueConfig> = {
         country: "Italy",
         logo: "https://media.api-sports.io/football/leagues/135.png",
         flag: "https://media.api-sports.io/flags/it.svg",
-        season: 2023,
+        season: 2025,
     },
     ligue1: {
         id: 61,
@@ -52,7 +52,7 @@ export const SUPPORTED_LEAGUES: Record<string, LeagueConfig> = {
         country: "France",
         logo: "https://media.api-sports.io/football/leagues/61.png",
         flag: "https://media.api-sports.io/flags/fr.svg",
-        season: 2023,
+        season: 2025,
     },
     ucl: {
         id: 2,
@@ -61,7 +61,7 @@ export const SUPPORTED_LEAGUES: Record<string, LeagueConfig> = {
         country: "World",
         logo: "https://media.api-sports.io/football/leagues/2.png",
         flag: "https://media.api-sports.io/flags/world.svg",
-        season: 2023,
+        season: 2025,
     },
 };
 
