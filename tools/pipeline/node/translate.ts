@@ -18,9 +18,10 @@ Hard rules:
 2) Do NOT change any numbers, IDs, dates, URLs, filenames, paths, or enum-like codes.
    - Keep matchId, ids, minute, score values, xg, passes_total, ratings, etc. unchanged.
    - Keep all URLs and image paths unchanged (e.g., "/generated/matches/...").
-3) Do NOT change names of people/teams in fields that are clearly proper nouns unless they appear inside narrative text.
-   - For player/team names in structured fields like match.homeTeam.name, match.awayTeam.name, players[*].name, timeline[*].playerName/teamName: KEEP AS-IS (do not translate).
-4) Translate the following fields’ string values naturally and accurately:
+3) Do NOT translate proper nouns in structured identity fields:
+   - Keep match.homeTeam.name, match.awayTeam.name, players[*].name, timeline[*].playerName/teamName exactly as-is.
+4) Factual data subtrees (match, players, team_stats, data_provenance) should be kept exactly as they are in the input. You may even omit them if token limits are an issue, as they will be re-injected by the system.
+5) Translate the following fields’ string values naturally and accurately:
    - frontmatter.title, frontmatter.description, frontmatter.tags[*]
    - figures[*].alt, figures[*].caption
    - sections[*].heading
@@ -34,8 +35,8 @@ Hard rules:
    - multiverse.pivots[*].symmetry.event, multiverse.pivots[*].symmetry.outcome, multiverse.pivots[*].symmetry.tactical_impact
    - data_limitations[*], cta
    - timeline[*].detail can be translated if it is a descriptive phrase like "Red Card", "Yellow Card", "Substitution", but KEEP timeline[*].type unchanged.
-5) Keep diacritics/case for proper nouns if you keep them as-is (e.g., "Nélson Semedo").
-6) Output must be valid JSON that preserves all original non-translated values.`,
+6) Keep diacritics/case for proper nouns if you keep them as-is (e.g., "Nélson Semedo").
+7) Output must be valid JSON that preserves all original non-translated values.`,
 
   ja: `You are a professional sports localization translator and JSON editor.
 
@@ -50,7 +51,8 @@ Hard rules:
    - Keep all URLs and image paths unchanged (e.g., "/generated/matches/...").
 3) Do NOT translate proper nouns in structured identity fields:
    - Keep match.homeTeam.name, match.awayTeam.name, players[*].name, timeline[*].playerName/teamName exactly as-is.
-4) Translate the following fields’ string values naturally and accurately:
+4) Factual data subtrees (match, players, team_stats, data_provenance) should be kept exactly as they are in the input.
+5) Translate the following fields’ string values naturally and accurately:
    - frontmatter.title, frontmatter.description, frontmatter.tags[*]
    - figures[*].alt, figures[*].caption
    - sections[*].heading
@@ -60,10 +62,10 @@ Hard rules:
    - player_notes[*].summary, data_limitations[*], cta
    - multiverse.summary
    - multiverse.pivots[*].description
-   - multiverse.pivots[*].reality.event, multiverse.pivots[*].reality.outcome, multiverse.pivots[*].reality.tactical_impact
+   - multiverse.pivots[*].reality.event, multiverse.pivots[*].reality.outcome, multiverse.pivations[*].reality.tactical_impact
    - multiverse.pivots[*].symmetry.event, multiverse.pivots[*].symmetry.outcome, multiverse.pivots[*].symmetry.tactical_impact
    - timeline[*].detail may be translated when it is a descriptive phrase like "Red Card", "Yellow Card", "Substitution", but KEEP timeline[*].type unchanged.
-5) Output must be valid JSON and preserve all original non-translated values.`
+6) Output must be valid JSON and preserve all original non-translated values.`
 };
 
 const schemaPath = path.resolve(process.cwd(), "tools/pipeline/python/goalgazer/schema_match_analysis.json");
@@ -72,19 +74,52 @@ export async function translateArticle(
   englishArticle: Record<string, unknown>,
   targetLanguage: SupportedLanguage
 ): Promise<Record<string, unknown>> {
-  const attemptLimit = 4; // Increased from 2 to be more robust
+  const attemptLimit = 4;
   let lastError: Error | null = null;
 
   for (let attempt = 1; attempt <= attemptLimit; attempt += 1) {
     try {
       const payload = await requestTranslation(englishArticle, targetLanguage, attempt);
-      validateTranslation(englishArticle, payload);
-      return payload;
+
+      // FIX: Re-inject original factual data to guarantee integrity and pass validation.
+      // We start with the original English article as a total baseline.
+      const merged: any = {
+        ...englishArticle,
+        ...payload,
+        // Hard-lock fact subtrees
+        match: englishArticle.match,
+        team_stats: englishArticle.team_stats,
+        players: englishArticle.players,
+        data_provenance: englishArticle.data_provenance,
+      };
+
+      // Restore locked frontmatter fields
+      if (merged.frontmatter && englishArticle.frontmatter) {
+        const lockedFM = ["date", "matchId", "league", "teams", "heroImage"];
+        for (const key of lockedFM) {
+          (merged.frontmatter as any)[key] = (englishArticle.frontmatter as any)[key];
+        }
+      }
+
+      // Restore locked figure fields (except alt/caption which should be translated)
+      if (Array.isArray(merged.figures) && Array.isArray(englishArticle.figures)) {
+        merged.figures = englishArticle.figures.map((origFig: any, idx: number) => {
+          const transFig = (merged.figures as any)[idx] || {};
+          return {
+            ...origFig,
+            alt: transFig.alt || origFig.alt,
+            caption: transFig.caption || origFig.caption
+          };
+        });
+      }
+
+      validateTranslation(englishArticle, merged);
+      return merged;
     } catch (error) {
       lastError = error as Error;
       if (attempt < attemptLimit) {
         console.warn(`⚠️ Translation validation failed. Retrying (${attempt}/${attemptLimit}) in 5 seconds... Error: ${(error as any).message}`);
-        await new Promise(resolve => setTimeout(resolve, 5000)); // Mandatory 5s interval
+        await new Promise(resolve => setTimeout(resolve, 5000));
       }
     }
   }

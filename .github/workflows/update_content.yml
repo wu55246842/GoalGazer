@@ -29,6 +29,7 @@ jobs:
     timeout-minutes: 110
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         league: [epl, liga, bundesliga, seriea, ligue1]
     steps:
