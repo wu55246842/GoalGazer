@@ -152,12 +152,7 @@ export default async function LocaleLayout({
                   {t("footer.followDescription")}
                 </p>
                 <div style={{ display: "flex", gap: "0.75rem" }}>
-                  <a href="#" className="social-link">
-                    {t("footer.social.twitter")}
-                  </a>
-                  <a href="#" className="social-link">
-                    {t("footer.social.facebook")}
-                  </a>
+                  {/* Social links removed until real accounts are provided to avoid "Broken Navigation" policy violations */}
                 </div>
               </div>
             </div>

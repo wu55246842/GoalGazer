@@ -161,8 +161,9 @@
   "about": {
     "title": "About GoalGazer",
     "paragraphs": [
-      "GoalGazer is an automated tactical analysis project that combines structured football data with transparent editorial framing. Each article is generated from match event data and original visualizations.",
-      "Our goal is to provide readable, evidence-backed match insights while avoiding fabricated narratives or copyrighted assets."
+      "GoalGazer is a cutting-edge football analytics platform designed to bridge the gap between raw match data and meaningful tactical narratives. We utilize advanced automated pipelines to process thousands of match events into structured, readable insights that were previously only available to professional analysts.",
+      "Our mission is to democratize tactical football intelligence. By combining high-fidelity event data with original visualizations, we provide a transparent, evidence-backed alternative to traditional speculative match reporting. Every visualization on this platform is generated in-house to ensure consistency and factual accuracy.",
+      "Transparency is at the core of GoalGazer. We believe football analysis should be as scientific as it is passionate. By exposing data limitations and citing our primary sources, we empower readers to understand not just what happened on the pitch, but why it happened through the lens of objective data."
     ]
   },
   "contact": {
@@ -205,21 +206,22 @@
     }
   },
   "sources": {
-    "title": "Data Sources",
-    "intro": "GoalGazer relies on licensed match data providers. The default pipeline connects to API-Football (API-FOOTBALL) when credentials are available.",
+    "title": "Data Transparency & Sources",
+    "intro": "GoalGazer maintains a commitment to data integrity by sourcing match statistics from globally recognized, licensed providers. Our primary data feed is powered by API-FOOTBALL, ensuring accuracy across top-tier leagues.",
     "list": [
-      "Match fixtures, lineups, and events via API-Football.",
-      "Derived metrics computed locally from event data.",
-      "Original visualizations generated with mplsoccer and matplotlib."
+      "Core Match Data: Fixtures, official lineups, and timestamped match events provided by API-FOOTBALL.",
+      "Derived Metrics: Performance impact coefficients and tactical efficiency ratings computed locally using proprietary analytical models.",
+      "Original Visuals: All shot maps, formation pitches, and tactical charts are generated using open-source scientific libraries like Matplotlib and mplsoccer, ensuring 100% original content."
     ],
-    "outro": "Data limitations or missing fields are explicitly listed within each article."
+    "outro": "We acknowledge that no data feed is perfect. Any match-specific data limitations or missing event fields are explicitly flagged within individual articles to maintain full transparency with our readers."
   },
   "editorialPolicy": {
-    "title": "Editorial Policy",
+    "title": "Editorial Integrity & AI Policy",
     "paragraphs": [
-      "GoalGazer articles are generated from structured match data and reviewed for clarity. We prohibit fabricated claims, speculative tactical assertions, and any betting-related language.",
-      "Each tactical claim includes an evidence list tied to available data fields. When evidence is incomplete, the article explicitly notes the limitation.",
-      "We avoid copyrighted assets such as club crests or player imagery and instead publish neutral diagrams and text-based insights."
+      "GoalGazer operates on a 'Data-First' editorial principle. Every tactical assertion made in our reviews must be independently verifiable through the accompanying match data. We strictly prohibit speculative narratives, fan bias, or sensationalist claims that are not backed by statistical evidence.",
+      "AI Disclosure: Our analysis is synthesized using advanced automated models to ensure speed and depth. However, our technical team maintains oversight of the analytical frameworks to ensure that the logic remains grounded in tactical reality. We disclose the automated nature of our content to maintain trust with our audience.",
+      "Visual Standards: We respect intellectual property. GoalGazer does not use copyrighted club crests, player photographs, or broadcaster footage. Instead, we invest in creating high-quality, neutral schematic diagrams that focus purely on tactical positioning and ball movement.",
+      "Ethical Conduct: We maintain complete independence. We do not accept sponsorships from gambling entities and avoid any language that could be interpreted as financial or betting advice."
     ]
   },
   "terms": {

@@ -152,3 +152,6 @@ npx tsx tools/pipeline/node/generate_daily_digest.ts 2026-01-31
 npx tsx tools/pipeline/node/generate_daily_digest.ts 2026-01-31 --league liga
 
 npm run web:dev
+
+# backup all the data to SQL format  
+npx tsx tools/backup_database.ts --format sql
