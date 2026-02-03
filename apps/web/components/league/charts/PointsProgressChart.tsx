@@ -1,5 +1,6 @@
 import React from "react";
 import { Standing } from "@/lib/apiFootball";
+import TeamBadge from "@/components/TeamBadge";
 
 interface PointsProgressChartProps {
     standings: Standing[];
@@ -16,8 +17,7 @@ const PointsProgressChart: React.FC<PointsProgressChartProps> = ({ standings, ti
 
     const chartData = topTeams.map(t => ({
         name: t.team.name,
-        points: getPointsFromForm(t.form || ""),
-        logo: t.team.logo
+        points: getPointsFromForm(t.form || "")
     })).sort((a, b) => b.points - a.points);
 
     const maxPoints = 15; // 5 games max points
@@ -28,7 +28,7 @@ const PointsProgressChart: React.FC<PointsProgressChartProps> = ({ standings, ti
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                 {chartData.map((d, i) => (
                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                        <img src={d.logo} alt="" style={{ width: "20px", height: "20px", objectFit: "contain" }} />
+                        <TeamBadge label={d.name} size={20} />
                         <div style={{ flex: 1, position: "relative", height: "14px", background: "rgba(255,255,255,0.02)", borderRadius: "4px" }}>
                             <div style={{
                                 width: `${(d.points / maxPoints) * 100}%`,

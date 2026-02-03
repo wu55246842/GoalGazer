@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Fixture } from "@/lib/apiFootball";
+import TeamBadge from "@/components/TeamBadge";
 
 interface FixturesPanelProps {
     fixtures: Fixture[];
@@ -82,7 +83,7 @@ const FixturesPanel: React.FC<FixturesPanelProps> = ({ fixtures, lang, labels })
 
                             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", justifyContent: "flex-end", textAlign: "right" }}>
                                 <span style={{ fontWeight: 700 }}>{f.teams.home.name}</span>
-                                <img src={f.teams.home.logo} alt="" style={{ width: "24px", height: "24px", objectFit: "contain" }} />
+                                <TeamBadge label={f.teams.home.name} size={24} />
                             </div>
 
                             <div style={{
@@ -99,7 +100,7 @@ const FixturesPanel: React.FC<FixturesPanelProps> = ({ fixtures, lang, labels })
                             </div>
 
                             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                                <img src={f.teams.away.logo} alt="" style={{ width: "24px", height: "24px", objectFit: "contain" }} />
+                                <TeamBadge label={f.teams.away.name} size={24} />
                                 <span style={{ fontWeight: 700 }}>{f.teams.away.name}</span>
                             </div>
 

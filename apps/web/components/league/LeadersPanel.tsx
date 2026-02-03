@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { PlayerStat } from "@/lib/apiFootball";
+import TeamBadge from "@/components/TeamBadge";
 
 interface LeadersPanelProps {
     topScorers: PlayerStat[];
@@ -68,7 +69,7 @@ const LeadersPanel: React.FC<LeadersPanelProps> = ({ topScorers, topAssists, lab
                     return (
                         <div key={p.player.id} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                             <div style={{ width: "30px", fontSize: "1.2rem", fontWeight: 900, opacity: 0.2 }}>{idx + 1}</div>
-                            <img src={p.player.photo} alt="" style={{ width: "48px", height: "48px", borderRadius: "50%", background: "var(--color-bg-alt)", border: "2px solid rgba(255,255,255,0.05)" }} />
+                            <TeamBadge label={p.player.name} size={48} />
 
                             <div style={{ flex: 1 }}>
                                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "0.3rem" }}>
@@ -76,7 +77,7 @@ const LeadersPanel: React.FC<LeadersPanelProps> = ({ topScorers, topAssists, lab
                                     <div style={{ fontWeight: 900, color: "var(--color-primary)", fontSize: "1.1rem" }}>{value}</div>
                                 </div>
                                 <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem" }}>
-                                    <img src={stat.team.logo} alt="" style={{ width: "16px", height: "16px", objectFit: "contain" }} />
+                                    <TeamBadge label={stat.team.name} size={16} />
                                     <span style={{ fontSize: "0.75rem", color: "var(--color-text-dim)" }}>{stat.team.name} • {stat.games.appearences} {labels.appearances}</span>
                                 </div>
                                 <div style={{ width: "100%", height: "4px", background: "rgba(255,255,255,0.05)", borderRadius: "2px", overflow: "hidden" }}>

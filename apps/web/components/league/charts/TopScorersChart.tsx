@@ -1,5 +1,6 @@
 import React from "react";
 import { PlayerStat } from "@/lib/apiFootball";
+import TeamBadge from "@/components/TeamBadge";
 
 interface TopScorersChartProps {
     data: PlayerStat[];
@@ -10,7 +11,7 @@ const TopScorersChart: React.FC<TopScorersChartProps> = ({ data, title }) => {
     const chartData = data.slice(0, 5).map(p => ({
         name: p.player.name.split(' ').pop() || p.player.name,
         goals: p.statistics[0].goals.total || 0,
-        logo: p.statistics[0].team.logo
+        team: p.statistics[0].team.name
     }));
 
     const maxGoals = Math.max(...chartData.map(d => d.goals), 1);
@@ -36,8 +37,8 @@ const TopScorersChart: React.FC<TopScorersChartProps> = ({ data, title }) => {
                                 position: "relative",
                                 transition: "height 1s ease-out"
                             }}>
-                                <div style={{ position: "absolute", bottom: "-25px", left: "50%", transform: "translateX(-50%)", width: "20px", height: "20px" }}>
-                                    <img src={d.logo} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                                <div style={{ position: "absolute", bottom: "-25px", left: "50%", transform: "translateX(-50%)" }}>
+                                    <TeamBadge label={d.team} size={20} />
                                 </div>
                             </div>
                             <div style={{ marginTop: "30px", fontSize: "0.75rem", fontWeight: 600, color: "var(--color-text-dim)", whiteSpace: "nowrap" }}>{d.name}</div>
