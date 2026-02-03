@@ -224,8 +224,9 @@ async function processSingleMatch(matchId: string, league: string, season: strin
 }
 
 async function saveToDatabase(matchId: string, lang: string, article: Record<string, any>, imageUrl: string = "") {
-    const frontmatter = article.frontmatter || {};
-    const match = article.match || {};
+    const sanitizedArticle = sanitizeForDatabase(article);
+    const frontmatter = sanitizedArticle.frontmatter || {};
+    const match = sanitizedArticle.match || {};
     const teams = frontmatter.teams || [];
     const homeTeam = teams[0] || (match.homeTeam && match.homeTeam.name) || "Unknown Home";
     const awayTeam = teams[1] || (match.awayTeam && match.awayTeam.name) || "Unknown Away";
@@ -276,7 +277,7 @@ async function saveToDatabase(matchId: string, lang: string, article: Record<str
         ${frontmatter.title || ""},
         ${frontmatter.description || ""},
         ${frontmatter.slug || matchId},
-        ${sql.json(article)},
+        ${sql.json(sanitizedArticle)},
         NOW()
       )
       ON CONFLICT (match_id, lang) DO UPDATE SET
@@ -291,6 +292,23 @@ async function saveToDatabase(matchId: string, lang: string, article: Record<str
         log(`   ❌ DB Error for ${matchId} (${lang}):`, err);
         throw err;
     }
+}
+
+function sanitizeForDatabase<T>(value: T): T {
+    if (typeof value === "string") {
+        return value.replace(/\u0000/g, "") as T;
+    }
+    if (Array.isArray(value)) {
+        return value.map((entry) => sanitizeForDatabase(entry)) as T;
+    }
+    if (value && typeof value === "object") {
+        const output: Record<string, unknown> = {};
+        for (const [key, entry] of Object.entries(value)) {
+            output[key] = sanitizeForDatabase(entry);
+        }
+        return output as T;
+    }
+    return value;
 }
 
 function getArgValue(argsList: string[], flag: string, fallback: string): string {
