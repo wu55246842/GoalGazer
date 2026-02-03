@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "pipeline": "tsx tools/pipeline/node/run_pipeline.ts",
+    "pipeline:overwrite": "tsx tools/pipeline/node/run_pipeline_overwrite.ts",
     "web:dev": "npm --prefix apps/web run dev",
     "web:build": "npm --prefix apps/web run build"
   },

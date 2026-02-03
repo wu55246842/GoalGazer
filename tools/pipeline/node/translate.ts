@@ -147,7 +147,7 @@ async function requestTranslation(
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },
     ],
-    model: "gemini-fast",
+    model: "openai",
     jsonMode: true,
   });
 

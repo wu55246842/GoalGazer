@@ -155,7 +155,7 @@ class LLMPlayerNote(BaseModel):
 
 class MultiversePivot(BaseModel):
     minute: int
-    type: Literal["goal", "card", "substitution", "tactical", "penalty", "other"]
+    type: Literal["goal", "card", "red card", "yellow card", "substitution", "tactical", "penalty", "other"]
     description: str
     reality: Dict[str, str]  # event, outcome, tactical_impact
     symmetry: Dict[str, Any]  # event, outcome, tactical_impact, probability

@@ -58,7 +58,7 @@ export async function generateText(req: PollinationsRequest): Promise<string> {
     // 1. Pollinations (Priority 1 - 3 Retries)
     const pollinationsResult = await tryWithRetries("Pollinations", async () => {
         return await generateTextPollinations(req);
-    }, 3);
+    }, 2);
     if (pollinationsResult) return pollinationsResult;
 
     // 2. Poixe (Priority 2 - 3 Retries)
@@ -66,7 +66,7 @@ export async function generateText(req: PollinationsRequest): Promise<string> {
         console.log("Fallback: Switching to Poixe API...");
         const poixeResult = await tryWithRetries("Poixe", async () => {
             return await generateTextPoixe(req);
-        }, 3);
+        }, 2);
         if (poixeResult) return poixeResult;
     }
 
@@ -75,7 +75,7 @@ export async function generateText(req: PollinationsRequest): Promise<string> {
         console.log("Fallback: Switching to OpenRouter API...");
         const openRouterResult = await tryWithRetries("OpenRouter", async () => {
             return await generateTextOpenRouter(req);
-        }, 3);
+        }, 2);
         if (openRouterResult) return openRouterResult;
     }
 
@@ -94,7 +94,7 @@ export async function generateText(req: PollinationsRequest): Promise<string> {
 
 async function generateTextPollinations({
     messages,
-    model = 'gemini-fast',
+    model = 'openai',
     seed,
     jsonMode = false,
 }: PollinationsRequest): Promise<string> {
@@ -124,9 +124,8 @@ async function generateTextPollinations({
 
     if (!response.ok) {
         const errorText = await response.text();
-        // If gemini-fast fails, try openai
-        if (model === 'gemini-fast' && response.status === 400) {
-            throw new Error(`Status 400 (Likely Gemini Payload Error): ${errorText}`);
+        if (model === 'openai' && response.status === 400) {
+            throw new Error(`Status 400 (Likely Payload Error): ${errorText}`);
         }
         throw new Error(`Status ${response.status}: ${errorText}`);
     }

@@ -155,3 +155,6 @@ npm run web:dev
 
 # backup all the data to SQL format  
 npx tsx tools/backup_database.ts --format sql
+
+# overwrite a match
+npx tsx tools/pipeline/node/run_pipeline_overwrite.ts --matchId=1391029
