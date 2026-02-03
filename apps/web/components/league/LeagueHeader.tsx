@@ -1,5 +1,6 @@
 import React from "react";
 import { LeagueConfig } from "@/lib/leagues";
+import TeamBadge from "@/components/TeamBadge";
 
 interface LeagueHeaderProps {
     league: LeagueConfig;
@@ -35,12 +36,11 @@ const LeagueHeader: React.FC<LeagueHeaderProps> = ({ league, labels }) => {
                 justifyContent: "center",
                 boxShadow: "var(--shadow-sm)"
             }}>
-                <img src={league.logo} alt={league.name} style={{ width: "100%", height: "auto", objectFit: "contain" }} />
+                <TeamBadge label={league.name} size={64} />
             </div>
 
             <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "0.5rem" }}>
-                    <img src={league.flag} alt={league.country} style={{ width: "24px", height: "auto", borderRadius: "2px" }} />
                     <span style={{ fontSize: "0.9rem", color: "var(--color-text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em" }}>
                         {league.country}
                     </span>

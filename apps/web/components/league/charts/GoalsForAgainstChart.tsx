@@ -1,5 +1,6 @@
 import React from "react";
 import { Standing } from "@/lib/apiFootball";
+import TeamBadge from "@/components/TeamBadge";
 
 interface GoalsForAgainstChartProps {
     standings: Standing[];
@@ -20,7 +21,7 @@ const GoalsForAgainstChart: React.FC<GoalsForAgainstChartProps> = ({ standings, 
 
                     return (
                         <div key={t.team.id} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                            <img src={t.team.logo} alt="" style={{ width: "24px", height: "24px", objectFit: "contain" }} />
+                            <TeamBadge label={t.team.name} size={24} />
                             <div style={{ flex: 1 }}>
                                 <div style={{ height: "12px", width: "100%", background: "rgba(255,b,b,0.05)", borderRadius: "6px", overflow: "hidden", marginBottom: "4px", display: "flex" }}>
                                     <div style={{ width: `${forPercent}%`, height: "100%", background: "var(--color-primary)", borderRadius: "6px" }} />

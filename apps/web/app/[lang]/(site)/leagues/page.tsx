@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAllLeagues } from "@/lib/leagues";
 import { getT, normalizeLang } from "@/i18n";
 import { Metadata } from "next";
+import TeamBadge from "@/components/TeamBadge";
 
 export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
     const lang = normalizeLang(params.lang);
@@ -65,14 +66,13 @@ export default async function LeaguesPage({ params }: { params: { lang: string }
                             marginBottom: "1.5rem",
                             boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
                         }}>
-                            <img src={league.logo} alt={league.name} style={{ width: "80%", height: "auto", objectFit: "contain" }} />
+                            <TeamBadge label={league.name} size={72} />
                         </div>
 
                         <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--color-text)", margin: "0 0 0.5rem 0" }}>
                             {t(`leagues.${league.slug}` as any)}
                         </h2>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}>
-                            <img src={league.flag} alt="" style={{ width: "16px", height: "auto" }} />
                             <span style={{ fontSize: "0.85rem", color: "var(--color-text-muted)", fontWeight: 600 }}>{league.country}</span>
                         </div>
                     </Link>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Standing } from "@/lib/apiFootball";
+import TeamBadge from "@/components/TeamBadge";
 
 interface StandingsTableProps {
     standings: Standing[];
@@ -47,7 +48,7 @@ const StandingsTable: React.FC<StandingsTableProps> = ({ standings, labels }) =>
                                 </td>
                                 <td style={{ padding: "1rem" }}>
                                     <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                                        <img src={s.team.logo} alt="" style={{ width: "32px", height: "32px", objectFit: "contain" }} />
+                                        <TeamBadge label={s.team.name} size={32} />
                                         <span style={{ fontWeight: 700 }}>{s.team.name}</span>
                                     </div>
                                 </td>
