@@ -123,7 +123,8 @@ async function main() {
     if (!matchId) {
         console.error("❌ Error: --matchId is mandatory.");
         log("❌ Error: --matchId is mandatory. Pipeline aborted.");
-        process.exit(1);
+        process.exitCode = 1;
+        return;
     }
 
     log(`🎯 Targeted Overwrite for Match: ${matchId}`);
@@ -142,7 +143,14 @@ async function main() {
         log("✅ Overwrite Pipeline Finished Successfully.");
     } catch (error) {
         log("❌ Pipeline Failed:", error);
-        process.exit(1);
+        process.exitCode = 1;
+    } finally {
+        try {
+            await sql.end({ timeout: 5 });
+            log("🔌 Database connection closed.");
+        } catch (closeError) {
+            log("⚠️ Failed to close database connection:", closeError);
+        }
     }
 }
 
@@ -340,4 +348,7 @@ function getArgValue(argsList: string[], flag: string, fallback: string): string
     return fallback;
 }
 
-main();
+main().catch((error) => {
+    log("❌ Unhandled pipeline error:", error);
+    process.exitCode = 1;
+});
